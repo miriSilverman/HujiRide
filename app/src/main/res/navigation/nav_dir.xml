@@ -30,6 +30,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_log_2_to_log_1"
+            app:destination="@id/log_1"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/scan"
@@ -43,10 +50,21 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_scan_to_log_2"
+            app:destination="@id/log_2"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/successful_log"
         android:name="huji.postpc.year2021.hujiride.successful_log"
         android:label="fragment_successful_log"
-        tools:layout="@layout/fragment_successful_log" />
+        tools:layout="@layout/fragment_successful_log" >
+        <action
+            android:id="@+id/action_successful_log_self"
+            app:destination="@id/successful_log" />
+    </fragment>
 </navigation>
