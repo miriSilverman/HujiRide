@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 
 
 /**
@@ -22,7 +26,19 @@ class successful_log : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_successful_log, container, false)
+        val view =  inflater.inflate(R.layout.fragment_successful_log, container, false)
+        val vm = ViewModelProvider(requireActivity()).get(OnBoardingVM::class.java)
+        view.findViewById<Button>(R.id.keep_going).setOnClickListener {
+            onNextBtn(vm, view)
+        }
+        return view
+    }
+
+
+    fun onNextBtn(vm: OnBoardingVM, view: View) : Boolean
+    {
+        vm.doneTask(4)
+        return true
     }
 
 
