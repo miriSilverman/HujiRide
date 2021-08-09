@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_dir"
+    app:startDestination="@id/log_1">
+
+    <fragment
+        android:id="@+id/log_1"
+        android:name="huji.postpc.year2021.hujiride.log_1"
+        android:label="fragment_log_1"
+        tools:layout="@layout/fragment_log_1" >
+        <action
+            android:id="@+id/action_log_1_to_log_2"
+            app:destination="@id/log_2"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/log_2"
+        android:name="huji.postpc.year2021.hujiride.log_2"
+        android:label="fragment_log_2"
+        tools:layout="@layout/fragment_log_2" >
+        <action
+            android:id="@+id/action_log_2_to_scan"
+            app:destination="@id/scan"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/scan"
+        android:name="huji.postpc.year2021.hujiride.scan"
+        android:label="fragment_scan"
+        tools:layout="@layout/fragment_scan" >
+        <action
+            android:id="@+id/action_scan_to_successful_log"
+            app:destination="@id/successful_log"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/successful_log"
+        android:name="huji.postpc.year2021.hujiride.successful_log"
+        android:label="fragment_successful_log"
+        tools:layout="@layout/fragment_successful_log" />
+</navigation>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <EditText
+        android:id="@+id/first_name"
+        android:layout_width="217dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="188dp"
+        android:background="#86AFD8"
+        android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:gravity="center"
+        android:hint="First Name*"
+        android:maxLength="20"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/last_name"
+        android:layout_width="217dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="60dp"
+        android:background="#86AFD8"
+        android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:gravity="center"
+        android:hint="Last Name*"
+        android:maxLength="20"
+        android:textSize="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_name" />
+
+    <!--    <EditText-->
+<!--        android:id="@+id/phone"-->
+<!--        android:layout_width="110dp"-->
+<!--        android:layout_height="45dp"-->
+<!--        android:background="#86AFD8"-->
+<!--        android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"-->
+<!--        android:gravity="center"-->
+<!--        android:hint="Your Phone*"-->
+<!--        android:maxLength="20"-->
+<!--        android:textSize="12dp"-->
+<!--        tools:layout_editor_absoluteX="122dp"-->
+<!--        tools:layout_editor_absoluteY="361dp" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
