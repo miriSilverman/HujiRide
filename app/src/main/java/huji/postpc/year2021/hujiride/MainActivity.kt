@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,6 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         if (doneOnboarding) {
             setContentView(R.layout.home)
+//            homeButtons()
         }
             else {
             onboardingCase(sp)
@@ -34,9 +38,22 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    private fun homeButtons(view : View)
+    {
+        val groupBtn = findViewById<TextView>(R.id.groups_btn)
+        val searchBtn = findViewById<TextView>(R.id.search_btn)
+
+        groupBtn.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_log_1_to_log_2)
+
+        }
+    }
 
 
-    private fun onboardingCase(sp: SharedPreferences) {
+
+
+
+        private fun onboardingCase(sp: SharedPreferences) {
 
         val sharedVM = ViewModelProvider(this).get(OnBoardingVM::class.java)
 
