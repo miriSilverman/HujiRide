@@ -5,52 +5,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/search_btn"
-        android:layout_width="193dp"
-        android:layout_height="69dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="#009688"
-        android:gravity="center"
-        android:text="SEARCH"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+<!--    <TextView-->
+<!--        android:id="@+id/search_btn"-->
+<!--        android:layout_width="193dp"-->
+<!--        android:layout_height="69dp"-->
+<!--        android:layout_marginEnd="4dp"-->
+<!--        android:layout_marginBottom="4dp"-->
+<!--        android:background="#009688"-->
+<!--        android:gravity="center"-->
+<!--        android:text="SEARCH"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent" />-->
 
-    <TextView
-        android:id="@+id/groups_btn"
-        android:layout_width="203dp"
-        android:layout_height="69dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
-        android:background="#009688"
-        android:gravity="center"
-        android:text="GROUPS"
+<!--    <TextView-->
+<!--        android:id="@+id/groups_btn"-->
+<!--        android:layout_width="203dp"-->
+<!--        android:layout_height="69dp"-->
+<!--        android:layout_marginStart="4dp"-->
+<!--        android:layout_marginBottom="4dp"-->
+<!--        android:background="#009688"-->
+<!--        android:gravity="center"-->
+<!--        android:text="GROUPS"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:rippleColor="#9C27B0" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/imageView2"-->
+<!--        android:layout_width="46dp"-->
+<!--        android:layout_height="51dp"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/search_btn"-->
+<!--        app:layout_constraintEnd_toEndOf="@+id/search_btn"-->
+<!--        app:layout_constraintHorizontal_bias="0.498"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/groups_btn"-->
+<!--        app:srcCompat="@drawable/ic_baseline_home_24" />-->
+
+<!--    <fragment-->
+<!--        android:id="@+id/fragment4"-->
+<!--        android:name="androidx.navigation.fragment.NavHostFragment"-->
+<!--        android:layout_width="386dp"-->
+<!--        android:layout_height="553dp"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        app:defaultNavHost="true"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/imageView2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.36"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.48"-->
+<!--        app:navGraph="@navigation/app_navigation" />-->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_nav_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F4D9E3"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="#9C27B0" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="46dp"
-        android:layout_height="51dp"
-        app:layout_constraintBottom_toTopOf="@+id/search_btn"
-        app:layout_constraintEnd_toEndOf="@+id/search_btn"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/groups_btn"
-        app:srcCompat="@drawable/ic_baseline_home_24" />
+        app:menu="@menu/bottom_menu"/>
 
     <fragment
-        android:id="@+id/fragment4"
+        android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="409dp"
-        android:layout_height="586dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/app_navigation" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,36 +9,15 @@
         android:id="@+id/groups_home"
         android:name="huji.postpc.year2021.hujiride.groups_home"
         android:label="fragment_groups_home"
-        tools:layout="@layout/fragment_groups_home" >
-        <action
-            android:id="@+id/action_groups_home_to_search_home"
-            app:destination="@id/search_home" />
-        <action
-            android:id="@+id/action_groups_home_to_dashboard"
-            app:destination="@id/dashboard" />
-    </fragment>
+        tools:layout="@layout/fragment_groups_home" />
     <fragment
         android:id="@+id/search_home"
         android:name="huji.postpc.year2021.hujiride.search_home"
         android:label="fragment_search_home"
-        tools:layout="@layout/fragment_search_home" >
-        <action
-            android:id="@+id/action_search_home_to_groups_home"
-            app:destination="@id/groups_home" />
-        <action
-            android:id="@+id/action_search_home_to_dashboard"
-            app:destination="@id/dashboard" />
-    </fragment>
+        tools:layout="@layout/fragment_search_home" />
     <fragment
         android:id="@+id/dashboard"
         android:name="huji.postpc.year2021.hujiride.dashboard"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" >
-        <action
-            android:id="@+id/action_dashboard_to_search_home"
-            app:destination="@id/search_home" />
-        <action
-            android:id="@+id/action_dashboard_to_groups_home"
-            app:destination="@id/groups_home" />
-    </fragment>
+        tools:layout="@layout/fragment_dashboard" />
 </navigation>

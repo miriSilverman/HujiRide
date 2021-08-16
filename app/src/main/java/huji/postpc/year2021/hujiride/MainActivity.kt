@@ -10,6 +10,9 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,8 +29,7 @@ class MainActivity : AppCompatActivity() {
         val doneOnboarding = sp.getBoolean(DONE_ONBOARDING, false)
 
         if (doneOnboarding) {
-            setContentView(R.layout.home)
-//            homeButtons()
+            doneOnboardingCase()
         }
             else {
             onboardingCase(sp)
@@ -37,23 +39,15 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    private fun homeButtons(view : View)
-    {
-        val groupBtn = findViewById<TextView>(R.id.groups_btn)
-        val searchBtn = findViewById<TextView>(R.id.search_btn)
-
-        groupBtn.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_log_1_to_log_2)
-
-        }
+    private fun doneOnboardingCase() {
+        setContentView(R.layout.home)
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        val navController = findNavController(R.id.nav_host_fragment)
+        bottomNavView.setupWithNavController(navController)
     }
 
 
-
-
-
-        private fun onboardingCase(sp: SharedPreferences) {
+    private fun onboardingCase(sp: SharedPreferences) {
 
         val sharedVM = ViewModelProvider(this).get(OnBoardingVM::class.java)
 
@@ -69,13 +63,12 @@ class MainActivity : AppCompatActivity() {
 
         sharedVM.doneOnBoard.observe(this, Observer { b ->
             if (b) {
-                setContentView(R.layout.home)
+                doneOnboardingCase()
                 val editor: SharedPreferences.Editor = sp.edit()
                 editor.putBoolean(DONE_ONBOARDING, true)
                 editor.apply()
             }
         })
     }
-
 
 }
