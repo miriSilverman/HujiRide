@@ -1,17 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#3F51B5"
     tools:context=".search_home">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="SEARCH"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
         android:gravity="center"
-        android:background="#3F51B5"
-        android:textSize="50dp"/>
+        android:text="Search for Closest Rides:"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <EditText
+        android:id="@+id/source_edit_text"
+        android:layout_width="328dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="44dp"
+        android:background="#89B0D6"
+        android:hint="start"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+
+    <EditText
+        android:id="@+id/dest_edit_text"
+        android:layout_width="328dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="44dp"
+        android:background="#89B0D6"
+        android:hint="Where do you want to go?"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />
+
+    <TextView
+        android:id="@+id/driver_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="96dp"
+        android:text="DRIVER"
+        android:background="#6E368C"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
+
+
+    <TextView
+        android:id="@+id/trampist_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="96dp"
+        android:background="#6E368C"
+        android:text="TRAMPIST"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

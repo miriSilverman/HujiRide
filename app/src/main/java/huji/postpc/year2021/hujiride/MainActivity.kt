@@ -34,17 +34,8 @@ class MainActivity : AppCompatActivity() {
             else {
             onboardingCase(sp)
         }
-
-
-
     }
 
-    private fun doneOnboardingCase() {
-        setContentView(R.layout.home)
-        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
-        bottomNavView.setupWithNavController(navController)
-    }
 
 
     private fun onboardingCase(sp: SharedPreferences) {
@@ -69,6 +60,15 @@ class MainActivity : AppCompatActivity() {
                 editor.apply()
             }
         })
+    }
+
+
+
+    private fun doneOnboardingCase() {
+        setContentView(R.layout.home)
+        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        val navController = findNavController(R.id.nav_host_fragment)
+        bottomNavView.setupWithNavController(navController)
     }
 
 }

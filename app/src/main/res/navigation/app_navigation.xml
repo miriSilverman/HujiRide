@@ -14,10 +14,23 @@
         android:id="@+id/search_home"
         android:name="huji.postpc.year2021.hujiride.search_home"
         android:label="fragment_search_home"
-        tools:layout="@layout/fragment_search_home" />
+        tools:layout="@layout/fragment_search_home" >
+        <action
+            android:id="@+id/action_search_home_to_newRide2"
+            app:destination="@id/newRide2" />
+    </fragment>
     <fragment
         android:id="@+id/dashboard"
         android:name="huji.postpc.year2021.hujiride.dashboard"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" />
+    <fragment
+        android:id="@+id/newRide2"
+        android:name="huji.postpc.year2021.hujiride.newRide"
+        android:label="fragment_new_ride"
+        tools:layout="@layout/fragment_new_ride" >
+        <action
+            android:id="@+id/action_newRide2_to_dashboard"
+            app:destination="@id/dashboard" />
+    </fragment>
 </navigation>
