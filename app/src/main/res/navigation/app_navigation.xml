@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_search_home_to_newRide2"
             app:destination="@id/newRide2" />
+        <action
+            android:id="@+id/action_search_home_to_ridesList"
+            app:destination="@id/ridesList" />
     </fragment>
     <fragment
         android:id="@+id/dashboard"
@@ -32,5 +35,26 @@
         <action
             android:id="@+id/action_newRide2_to_dashboard"
             app:destination="@id/dashboard" />
+    </fragment>
+    <fragment
+        android:id="@+id/ridesList"
+        android:name="huji.postpc.year2021.hujiride.ridesList"
+        android:label="fragment_rides_list"
+        tools:layout="@layout/fragment_rides_list" >
+        <action
+            android:id="@+id/action_ridesList_to_newRide2"
+            app:destination="@id/newRide2" />
+        <action
+            android:id="@+id/action_ridesList_to_ridesDetails"
+            app:destination="@id/ridesDetails" />
+    </fragment>
+    <fragment
+        android:id="@+id/ridesDetails"
+        android:name="huji.postpc.year2021.hujiride.RidesDetails"
+        android:label="fragment_rides_details"
+        tools:layout="@layout/fragment_rides_details" >
+        <action
+            android:id="@+id/action_ridesDetails_to_ridesList"
+            app:destination="@id/ridesList" />
     </fragment>
 </navigation>
