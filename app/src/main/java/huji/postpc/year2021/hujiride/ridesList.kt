@@ -5,17 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
-import android.widget.TextView
 import androidx.navigation.Navigation
 
 
 /**
- * A simple [Fragment] subclass.
- * Use the [ridesList.newInstance] factory method to
- * create an instance of this fragment.
+ * list of the closest rides
  */
 class ridesList : Fragment() {
+
+    private var aView: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,19 +24,28 @@ class ridesList : Fragment() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        val sortItems = resources.getStringArray(R.array.sorting_list)
+        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, sortItems)
+        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)?.setAdapter(arrayAdapter)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_rides_list, container, false)
-        view.findViewById<Button>(R.id.add_new_ride).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_ridesList_to_newRide2)
+        aView =  inflater.inflate(R.layout.fragment_rides_list, container, false)
+
+        aView?.findViewById<Button>(R.id.add_new_ride)?.setOnClickListener {
+            Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_newRide2)
         }
 
 
-        view.findViewById<Button>(R.id.ride_example).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_ridesList_to_ridesDetails)
+        aView?.findViewById<Button>(R.id.ride_example)?.setOnClickListener {
+            Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
         }
-        return view
+        return aView
     }
 }
