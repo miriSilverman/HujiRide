@@ -6,19 +6,18 @@
     android:layout_height="match_parent"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".RidesDetails">
-
-
+        android:layout_height="match_parent"
+        tools:context=".DriversDetails"
+        >
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
-            android:text="Ride's Details:"
+            android:text="Driver's Details:"
             android:textSize="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
@@ -26,74 +25,42 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/source"
+            android:id="@+id/first_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="From: huji"
+            android:text="Sara"
             android:textSize="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <TextView
-            android:id="@+id/destination"
+            android:id="@+id/last_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="To: Pisgat Zeev"
+            android:text="Cohen"
             android:textSize="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/source" />
+            app:layout_constraintTop_toBottomOf="@+id/first_name" />
 
 
         <TextView
-            android:id="@+id/time"
+            android:id="@+id/phone_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
-            android:text="Leaving Hour: 12:30"
+            android:text="0546985252"
             android:textSize="25dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/destination" />
+            app:layout_constraintTop_toBottomOf="@+id/last_name" />
 
-        <TextView
-            android:id="@+id/stops"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Stops: gas station"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time" />
 
-        <TextView
-            android:id="@+id/comments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:text="Comments: no babies"
-            android:textSize="25dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/stops" />
-
-        <Button
-            android:id="@+id/contact_driver_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:text="contact the\ndriver"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comments" />
 
         <Button
             android:id="@+id/back_to_groups"
@@ -103,7 +70,7 @@
             android:layout_marginTop="56dp"
             android:text="BACK TO \nGROUPS"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_driver_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/phone_num" />
 
         <Button
             android:id="@+id/back_to_closest_rides"
@@ -113,7 +80,7 @@
             android:layout_marginEnd="60dp"
             android:text="ALL \nRIDES"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_driver_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/phone_num" />
 
         <ImageView
             android:id="@+id/just_for_padding"
@@ -126,6 +93,8 @@
             app:srcCompat="@drawable/ic_baseline_linear_scale_24" />
 
 
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </ScrollView>

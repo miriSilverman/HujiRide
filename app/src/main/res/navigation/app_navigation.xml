@@ -9,7 +9,11 @@
         android:id="@+id/groups_home"
         android:name="huji.postpc.year2021.hujiride.groups_home"
         android:label="fragment_groups_home"
-        tools:layout="@layout/fragment_groups_home" />
+        tools:layout="@layout/fragment_groups_home" >
+        <action
+            android:id="@+id/action_groups_home_to_searchNewGroup"
+            app:destination="@id/searchNewGroup" />
+    </fragment>
     <fragment
         android:id="@+id/search_home"
         android:name="huji.postpc.year2021.hujiride.search_home"
@@ -56,5 +60,22 @@
         <action
             android:id="@+id/action_ridesDetails_to_ridesList"
             app:destination="@id/ridesList" />
+        <action
+            android:id="@+id/action_ridesDetails_to_driversDetails"
+            app:destination="@id/driversDetails" />
     </fragment>
+    <fragment
+        android:id="@+id/driversDetails"
+        android:name="huji.postpc.year2021.hujiride.DriversDetails"
+        android:label="fragment_drivers_details"
+        tools:layout="@layout/fragment_drivers_details" >
+        <action
+            android:id="@+id/action_driversDetails_to_ridesList"
+            app:destination="@id/ridesList" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchNewGroup"
+        android:name="huji.postpc.year2021.hujiride.SearchNewGroup"
+        android:label="fragment_search_new_group"
+        tools:layout="@layout/fragment_search_new_group" />
 </navigation>

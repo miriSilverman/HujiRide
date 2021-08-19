@@ -1,94 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newRide">
+    >
 
 
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Create New Ride:"
-        android:textSize="22dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/source_edit_text"
-        android:layout_width="328dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="44dp"
-        android:background="#89B0D6"
-        android:hint="start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        tools:context=".newRide">
 
 
-    <EditText
-        android:id="@+id/dest_edit_text"
-        android:layout_width="328dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="44dp"
-        android:background="#89B0D6"
-        android:hint="Where do you want to go?"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Create New Ride:"
+            android:textSize="22dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/source_edit_text"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="44dp"
+            android:background="#89B0D6"
+            android:hint="start"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
 
-    <EditText
-        android:id="@+id/time_edit_btn"
-        android:layout_width="328dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="44dp"
-        android:background="#89B0D6"
-        android:hint="time"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
-
-    <EditText
-        android:id="@+id/stops_edit_btn"
-        android:layout_width="328dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="44dp"
-        android:background="#89B0D6"
-        android:hint="stops"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />
-
-    <EditText
-        android:id="@+id/comments_edit_btn"
-        android:layout_width="328dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="44dp"
-        android:background="#89B0D6"
-        android:hint="comments"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stops_edit_btn" />
-
-    <ImageView
-        android:id="@+id/done_btn"
-        android:layout_width="89dp"
-        android:layout_height="78dp"
-        android:layout_marginTop="16dp"
-        android:background="#673AB7"
-        android:src="@drawable/ic_baseline_done_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.784"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/comments_edit_btn"
-        app:layout_constraintVertical_bias="0.015" />
+        <EditText
+            android:id="@+id/dest_edit_text"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="44dp"
+            android:background="#89B0D6"
+            android:hint="Where do you want to go?"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/time_edit_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="44dp"
+            android:background="#89B0D6"
+            android:hint="time"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
+
+        <EditText
+            android:id="@+id/stops_edit_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="44dp"
+            android:background="#89B0D6"
+            android:hint="stops"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />
+
+        <EditText
+            android:id="@+id/comments_edit_btn"
+            android:layout_width="328dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="44dp"
+            android:background="#89B0D6"
+            android:hint="comments"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stops_edit_btn" />
+
+        <ImageView
+            android:id="@+id/done_btn"
+            android:layout_width="89dp"
+            android:layout_height="78dp"
+            android:layout_marginTop="16dp"
+            android:background="#673AB7"
+            android:src="@drawable/ic_baseline_done_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.784"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comments_edit_btn"
+            app:layout_constraintVertical_bias="0.015" />
+
+
+        <ImageView
+            android:id="@+id/just_for_padding"
+            android:layout_width="15dp"
+            android:layout_height="12dp"
+            android:layout_marginTop="150dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/done_btn"
+            app:srcCompat="@drawable/ic_baseline_linear_scale_24" />
+
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</ScrollView>
