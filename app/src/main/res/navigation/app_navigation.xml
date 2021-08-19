@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_groups_home_to_searchNewGroup"
             app:destination="@id/searchNewGroup" />
+        <action
+            android:id="@+id/action_groups_home_to_ridesList"
+            app:destination="@id/ridesList" />
     </fragment>
     <fragment
         android:id="@+id/search_home"
