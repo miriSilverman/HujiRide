@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.navigation.Navigation
 import java.lang.String.format
 import java.text.DateFormat
+import java.text.MessageFormat.format
 import java.util.*
 
 
@@ -27,32 +28,6 @@ class newRide : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-
-//            timerTextView = aView?.findViewById(R.id.time_edit_btn)
-//
-//
-//            timerTextView?.setOnClickListener {
-//
-//
-//                var timePickerDialog : TimePickerDialog = TimePickerDialog(activity, TimePickerDialog.OnTimeSetListener()
-//                {
-//                    v, hourOfDay, minutes ->
-////                    timeHour = hourOfDay
-////                    timeMinutes = minutes
-////                    val calendar = Calendar.getInstance()
-////                    calendar.set(0,0,0,timeHour, timeMinutes)
-//////                    timerTextView!!.setText(DateFormat.format("HH:MM aa", calendar))
-////                    timerTextView!!.setText(timeHour.toString() + " : "+timeMinutes.toString())
-//                }, 12, 0, false)
-//
-//                timePickerDialog.updateTime(timeHour, timeMinutes)
-//                timePickerDialog.show()
-//
-//            }
-//
-
-
-
         }
     }
 
@@ -92,8 +67,8 @@ class newRide : Fragment() {
                     timeMinutes = minutes
                     val calendar = Calendar.getInstance()
                     calendar.set(0,0,0,timeHour, timeMinutes)
-//                    timerTextView!!.setText(DateFormat.format("HH:MM aa", calendar))
-                    timerTextView!!.setText(timeHour.toString() + " : "+timeMinutes.toString())
+//                    timerTextView!!.setText(DateFormat("HH:MM aa", calendar))
+                    timerTextView!!.setText("Leaving at $timeHour : $timeMinutes")
             }, 12, 0, false)
 
             timePickerDialog.updateTime(timeHour, timeMinutes)
