@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_driversDetails_to_ridesList"
             app:destination="@id/ridesList" />
+        <action
+            android:id="@+id/action_driversDetails_to_groups_home"
+            app:destination="@id/groups_home" />
     </fragment>
     <fragment
         android:id="@+id/searchNewGroup"

@@ -26,6 +26,10 @@ class DriversDetails : Fragment() {
         view.findViewById<Button>(R.id.back_to_closest_rides).setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_driversDetails_to_ridesList)
         }
+
+        view.findViewById<Button>(R.id.back_to_groups).setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_driversDetails_to_groups_home)
+        }
         return view
     }
 
