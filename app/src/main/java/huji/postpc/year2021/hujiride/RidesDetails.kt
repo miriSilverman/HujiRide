@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.navigation.Navigation
 
@@ -14,25 +16,36 @@ import androidx.navigation.Navigation
  */
 class RidesDetails : Fragment() {
 
+    private var aView: View? = null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
     }
+//
+//    override fun onResume() {
+//        super.onResume()
+//        val sortItems = resources.getStringArray(R.array.stops_list)
+//        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, sortItems)
+//        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)?.setAdapter(arrayAdapter)
+//    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_rides_details, container, false)
-        view.findViewById<Button>(R.id.back_to_closest_rides).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_ridesDetails_to_ridesList)
+        aView =  inflater.inflate(R.layout.fragment_rides_details, container, false)
+        aView?.findViewById<Button>(R.id.back_to_closest_rides)?.setOnClickListener {
+            Navigation.findNavController(aView!!).navigate(R.id.action_ridesDetails_to_ridesList)
         }
 
-        view.findViewById<Button>(R.id.contact_driver_btn).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_ridesDetails_to_driversDetails)
+        aView?.findViewById<Button>(R.id.contact_driver_btn)?.setOnClickListener {
+            Navigation.findNavController(aView!!).navigate(R.id.action_ridesDetails_to_driversDetails)
         }
-        return view
+        return aView
     }
 
 

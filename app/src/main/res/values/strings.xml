@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">HujiRide</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registration">Your registration has been successfully completed!</string>
     
@@ -8,4 +7,21 @@
         <item>time</item>
         <item>src and dest</item>
     </string-array>
+
+    <string-array name="stops_list">
+        <item>Gas station</item>
+        <item>Pick up my child</item>
+    </string-array>
+
+
+    <string-array name="comments_list">
+        <item>No smoking</item>
+        <item>Only vaccinated</item>
+        <item>Only Women</item>
+        <item>Be on time, I wont wait</item>
+        <item>I have parked far</item>
+    </string-array>
+
+
+
 </resources>
