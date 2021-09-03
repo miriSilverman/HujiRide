@@ -50,29 +50,44 @@
             app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />
 
 
-        <EditText
+
+
+
+
+
+        <TextView
             android:id="@+id/time_edit_btn"
-            android:layout_width="328dp"
-            android:layout_height="48dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
-            android:background="#89B0D6"
-            android:hint="time"
+            android:background="@color/teal_700"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:hint="Select Time"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:drawableStart="@drawable/ic_time"
+            android:drawablePadding="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
 
 
 
-<!--        <EditText-->
-<!--            android:id="@+id/comments_edit_btn"-->
-<!--            android:layout_width="328dp"-->
-<!--            android:layout_height="48dp"-->
-<!--            android:layout_marginTop="44dp"-->
-<!--            android:background="#89B0D6"-->
-<!--            android:hint="comments"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/stops_edit_btn" />-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <ImageView
             android:id="@+id/done_btn"

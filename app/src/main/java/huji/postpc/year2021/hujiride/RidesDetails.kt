@@ -24,13 +24,7 @@ class RidesDetails : Fragment() {
         arguments?.let {
         }
     }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        val sortItems = resources.getStringArray(R.array.stops_list)
-//        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, sortItems)
-//        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)?.setAdapter(arrayAdapter)
-//    }
+
 
 
     override fun onCreateView(

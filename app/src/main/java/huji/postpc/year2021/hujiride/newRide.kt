@@ -1,14 +1,16 @@
 package huji.postpc.year2021.hujiride
 
+import android.app.TimePickerDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.ImageView
+import android.widget.*
 import androidx.navigation.Navigation
+import java.lang.String.format
+import java.text.DateFormat
+import java.util.*
 
 
 /**
@@ -17,11 +19,40 @@ import androidx.navigation.Navigation
 class newRide : Fragment() {
 
     private var aView: View? = null
+    private var timerTextView: TextView? = null
+    private var timeHour: Int = 0
+    private var timeMinutes: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
+
+//            timerTextView = aView?.findViewById(R.id.time_edit_btn)
+//
+//
+//            timerTextView?.setOnClickListener {
+//
+//
+//                var timePickerDialog : TimePickerDialog = TimePickerDialog(activity, TimePickerDialog.OnTimeSetListener()
+//                {
+//                    v, hourOfDay, minutes ->
+////                    timeHour = hourOfDay
+////                    timeMinutes = minutes
+////                    val calendar = Calendar.getInstance()
+////                    calendar.set(0,0,0,timeHour, timeMinutes)
+//////                    timerTextView!!.setText(DateFormat.format("HH:MM aa", calendar))
+////                    timerTextView!!.setText(timeHour.toString() + " : "+timeMinutes.toString())
+//                }, 12, 0, false)
+//
+//                timePickerDialog.updateTime(timeHour, timeMinutes)
+//                timePickerDialog.show()
+//
+//            }
+//
+
+
+
         }
     }
 
@@ -45,6 +76,32 @@ class newRide : Fragment() {
         aView?.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
             Navigation.findNavController(aView!!).navigate(R.id.action_newRide2_to_dashboard)
         }
+
+
+
+        timerTextView = aView?.findViewById(R.id.time_edit_btn)
+
+
+        timerTextView?.setOnClickListener {
+
+
+            var timePickerDialog : TimePickerDialog = TimePickerDialog(activity, TimePickerDialog.OnTimeSetListener()
+            {
+                v, hourOfDay, minutes ->
+                    timeHour = hourOfDay
+                    timeMinutes = minutes
+                    val calendar = Calendar.getInstance()
+                    calendar.set(0,0,0,timeHour, timeMinutes)
+//                    timerTextView!!.setText(DateFormat.format("HH:MM aa", calendar))
+                    timerTextView!!.setText(timeHour.toString() + " : "+timeMinutes.toString())
+            }, 12, 0, false)
+
+            timePickerDialog.updateTime(timeHour, timeMinutes)
+            timePickerDialog.show()
+
+        }
+
+
         return aView
     }
 }
