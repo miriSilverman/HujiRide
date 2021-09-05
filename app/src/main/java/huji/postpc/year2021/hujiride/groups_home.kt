@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.LinearLayout
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 /**
@@ -32,10 +35,26 @@ class groups_home : Fragment() {
         }
 
 
-        view.findViewById<Button>(R.id.group_example).setOnClickListener {
+        val groups: List<Group> = arrayListOf(Group("Gilo"),
+            Group("Malcha"),
+            Group("Pisgat Zeev"),
+            Group("Ramot"),
+            Group("Bakaa"),
+            Group("Katamon"),
+            Group("Armon Hanaziv")
+        )
+
+        val adapter = GroupsAdapter()
+        adapter.setGroupsList(groups)
+
+        val groupsRecycler: RecyclerView = view.findViewById(R.id.groups_list_recyclerView)
+        groupsRecycler.adapter = adapter
+        groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+
+
+        adapter.onItemClickCallback = {group: Group->
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
         }
-
 
         return view
     }
