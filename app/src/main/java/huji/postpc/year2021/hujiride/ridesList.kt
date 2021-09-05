@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 
 /**
@@ -43,9 +45,36 @@ class ridesList : Fragment() {
         }
 
 
-        aView?.findViewById<Button>(R.id.ride_example)?.setOnClickListener {
-            Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
+//        aView?.findViewById<Button>(R.id.ride_example)?.setOnClickListener {
+//            Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
+//        }
+//
+
+        val rides: List<Ride> = arrayListOf(
+            Ride("Gilo", "huji", "15:03", arrayListOf("gas station"), arrayListOf("no smoking")),
+            Ride("huji", "Malcha", "14:03", arrayListOf("gas station"), arrayListOf("no smoking")),
+            Ride("Ramot", "huji", "15:13", arrayListOf("gas station"), arrayListOf("no smoking")),
+            Ride("Talpiyot", "huji", "05:23", arrayListOf("gas station"), arrayListOf("no smoking")),
+            Ride("huji", "Bakaa", "04:03", arrayListOf("gas station"), arrayListOf("no smoking")),
+            Ride("Gilo", "Beit hakerem", "15:03", arrayListOf("gas station"), arrayListOf("no smoking"))
+        )
+
+
+        val adapter = RidesAdapter()
+        adapter.setRidesList(rides)
+
+        if (aView != null)
+        {
+            val ridesRecycler: RecyclerView = aView!!.findViewById(R.id.rides_list_recyclerView)
+            ridesRecycler.adapter = adapter
+            ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            adapter.onItemClickCallback = {ride: Ride->
+                Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
+            }
+
         }
+
+
         return aView
     }
 }
