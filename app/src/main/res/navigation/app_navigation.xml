@@ -66,6 +66,9 @@
         <action
             android:id="@+id/action_ridesDetails_to_driversDetails"
             app:destination="@id/driversDetails" />
+        <action
+            android:id="@+id/action_ridesDetails_to_groups_home"
+            app:destination="@id/groups_home" />
     </fragment>
     <fragment
         android:id="@+id/driversDetails"
