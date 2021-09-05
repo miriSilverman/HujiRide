@@ -45,10 +45,6 @@ class ridesList : Fragment() {
         }
 
 
-//        aView?.findViewById<Button>(R.id.ride_example)?.setOnClickListener {
-//            Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
-//        }
-//
 
         val rides: List<Ride> = arrayListOf(
             Ride("Gilo", "huji", "15:03", arrayListOf("gas station"), arrayListOf("no smoking")),

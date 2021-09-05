@@ -19,7 +19,7 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RideViewHolder {
         val contex = parent.context
-        val view = LayoutInflater.from(contex).inflate(R.layout.group_item, parent, false)
+        val view = LayoutInflater.from(contex).inflate(R.layout.ride_item, parent, false)
 
         var holder = RideViewHolder(view)
         view.setOnClickListener{
@@ -34,8 +34,10 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
     override fun onBindViewHolder(holder: RideViewHolder, position: Int) {
         val ride = _ridesList[position]
         holder.source.setText(ride.src)
+        holder.dest.setText(ride.dest)
+        holder.time.setText(ride.time)
 
-        holder.source.setOnClickListener {
+        holder.infoImg.setOnClickListener {
             val callback = onItemClickCallback?: return@setOnClickListener
             callback(ride)
         }
