@@ -44,8 +44,11 @@ class SearchNewGroup : Fragment() {
 
         var arrayAdapter = activity?.let { ArrayAdapter<String>(it, android.R.layout.simple_list_item_1, android.R.id.text1, neighborhoods) }
         listView?.setAdapter(arrayAdapter)
+
         listView?.setOnItemClickListener(){ parent, view, position, id ->
-            Toast.makeText(activity, "you clicked on ", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(activity, "you clicked on "+parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show()
+            val app = HujiRideApplication.getInstance()
+            app.groupsData.addGroup(Group(parent.getItemAtPosition(position).toString()))
         }
 
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

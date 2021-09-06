@@ -2,6 +2,7 @@ package huji.postpc.year2021.hujiride
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
@@ -9,6 +10,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     private val _groupsList: MutableList<Group> = ArrayList()
 
     public var onItemClickCallback: ((Group)->Unit)? = null
+    public var onDeleteIconCallback: ((Group)->Unit)? = null
 
     fun setGroupsList(newGroupsList: List<Group>){
         _groupsList.clear()
@@ -24,6 +26,12 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         var holder = GroupViewHolder(view)
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
+            val group = _groupsList[holder.adapterPosition]
+            callback(group)
+        }
+
+        view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
+            val callback = onDeleteIconCallback?: return@setOnClickListener
             val group = _groupsList[holder.adapterPosition]
             callback(group)
         }

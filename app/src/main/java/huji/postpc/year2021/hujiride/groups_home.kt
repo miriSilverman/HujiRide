@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.net.HttpURLConnection
 
 
 /**
@@ -34,15 +35,22 @@ class groups_home : Fragment() {
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchNewGroup)
         }
 
+        val app = HujiRideApplication.getInstance()
 
-        val groups: List<Group> = arrayListOf(Group("Gilo"),
-            Group("Malcha"),
-            Group("Pisgat Zeev"),
-            Group("Ramot"),
-            Group("Bakaa"),
-            Group("Katamon"),
-            Group("Armon Hanaziv")
-        )
+
+        val groupsData = app.groupsData
+        val groups: List<Group> = groupsData.getGroups()
+
+
+
+//        val groups: List<Group> = arrayListOf(Group("Gilo"),
+//            Group("Malcha"),
+//            Group("Pisgat Zeev"),
+//            Group("Ramot"),
+//            Group("Bakaa"),
+//            Group("Katamon"),
+//            Group("Armon Hanaziv")
+//        )
 
         val adapter = GroupsAdapter()
         adapter.setGroupsList(groups)
@@ -54,6 +62,19 @@ class groups_home : Fragment() {
 
         adapter.onItemClickCallback = {group: Group->
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
+        }
+
+        adapter.onDeleteIconCallback = { group : Group ->
+            groupsData.removeGroup(group)
+
+        }
+
+        activity?.let {
+            groupsData.liveDataGroups.observe(it, { groupsList ->
+                adapter.notifyDataSetChanged()
+                println("######################### "+groupsList.size)
+
+            })
         }
 
         return view
