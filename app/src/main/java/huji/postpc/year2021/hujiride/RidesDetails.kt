@@ -32,6 +32,8 @@ class RidesDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         aView =  inflater.inflate(R.layout.fragment_rides_details, container, false)
+
+
         aView?.findViewById<Button>(R.id.back_to_closest_rides)?.setOnClickListener {
             Navigation.findNavController(aView!!).navigate(R.id.action_ridesDetails_to_ridesList)
         }

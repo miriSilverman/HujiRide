@@ -64,6 +64,8 @@ class ridesList : Fragment() {
             val ridesRecycler: RecyclerView = aView!!.findViewById(R.id.rides_list_recyclerView)
             ridesRecycler.adapter = adapter
             ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+
+
             adapter.onItemClickCallback = {ride: Ride->
                 Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
             }

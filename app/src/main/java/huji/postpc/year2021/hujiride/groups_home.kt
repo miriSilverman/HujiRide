@@ -58,8 +58,6 @@ class groups_home : Fragment() {
         activity?.let {
             groupsData.liveDataGroups.observe(it, { groupsList ->
                 adapter.notifyDataSetChanged()
-                println("######################### "+groupsList.size)
-
             })
         }
 
