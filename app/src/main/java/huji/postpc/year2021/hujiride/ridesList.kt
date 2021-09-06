@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,10 +48,10 @@ class ridesList : Fragment() {
 
 
         val rides: List<Ride> = arrayListOf(
-            Ride("Gilo", "huji", "15:03", arrayListOf("gas station"), arrayListOf("no smoking")),
-            Ride("huji", "Malcha", "14:03", arrayListOf("gas station"), arrayListOf("no smoking")),
+            Ride("Gilo", "huji", "15:03", arrayListOf("gas station", "babies"), arrayListOf("no smoking", "just women")),
+            Ride("huji", "Malcha", "14:03", arrayListOf("gas station"), arrayListOf("put masks","no smoking")),
             Ride("Ramot", "huji", "15:13", arrayListOf("gas station"), arrayListOf("no smoking")),
-            Ride("Talpiyot", "huji", "05:23", arrayListOf("gas station"), arrayListOf("no smoking")),
+            Ride("Talpiyot", "huji", "05:23", arrayListOf("gas station"), arrayListOf("no smoking", "vaccinated" )),
             Ride("huji", "Bakaa", "04:03", arrayListOf("gas station"), arrayListOf("no smoking")),
             Ride("Gilo", "Beit hakerem", "15:03", arrayListOf("gas station"), arrayListOf("no smoking"))
         )
@@ -67,6 +68,8 @@ class ridesList : Fragment() {
 
 
             adapter.onItemClickCallback = {ride: Ride->
+                val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+                vm.pressedRide.value = ride
                 Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
             }
 
