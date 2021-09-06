@@ -39,21 +39,8 @@ class groups_home : Fragment() {
 
 
         val groupsData = app.groupsData
-        val groups: List<Group> = groupsData.getGroups()
-
-
-
-//        val groups: List<Group> = arrayListOf(Group("Gilo"),
-//            Group("Malcha"),
-//            Group("Pisgat Zeev"),
-//            Group("Ramot"),
-//            Group("Bakaa"),
-//            Group("Katamon"),
-//            Group("Armon Hanaziv")
-//        )
 
         val adapter = GroupsAdapter()
-        adapter.setGroupsList(groups)
 
         val groupsRecycler: RecyclerView = view.findViewById(R.id.groups_list_recyclerView)
         groupsRecycler.adapter = adapter

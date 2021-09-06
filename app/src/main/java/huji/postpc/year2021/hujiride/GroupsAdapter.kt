@@ -7,31 +7,28 @@ import androidx.recyclerview.widget.RecyclerView
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
-    private val _groupsList: MutableList<Group> = ArrayList()
 
-    public var onItemClickCallback: ((Group)->Unit)? = null
-    public var onDeleteIconCallback: ((Group)->Unit)? = null
 
-    fun setGroupsList(newGroupsList: List<Group>){
-        _groupsList.clear()
-        _groupsList.addAll(newGroupsList)
-        notifyDataSetChanged()
-    }
+    var onItemClickCallback: ((Group)->Unit)? = null
+    var onDeleteIconCallback: ((Group)->Unit)? = null
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val contex = parent.context
         val view = LayoutInflater.from(contex).inflate(R.layout.group_item, parent, false)
 
-        var holder = GroupViewHolder(view)
+        val holder = GroupViewHolder(view)
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
+            val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
             val group = _groupsList[holder.adapterPosition]
             callback(group)
         }
 
         view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
             val callback = onDeleteIconCallback?: return@setOnClickListener
+            val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
             val group = _groupsList[holder.adapterPosition]
             callback(group)
         }
@@ -39,6 +36,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
+        val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
         val group = _groupsList[position]
         holder.name.setText(group.name)
 
@@ -49,6 +47,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
         return _groupsList.size
     }
 }
