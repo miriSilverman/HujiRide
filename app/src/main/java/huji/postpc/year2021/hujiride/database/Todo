@@ -1,0 +1,16 @@
+gets:
+1. rides for each group
+2. search according to destination and/or source.
+3. some information about the client(?) (on load, etc...?)
+4. register to live update
+
+
+pushes:
+1. new client (on first time in app)
+2. new ride
+3. registered to a new group
+4.
+
+##
+0. notifications of registered rides for each user.
+1. find locations api (search engine)
