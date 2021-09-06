@@ -53,7 +53,6 @@ class groups_home : Fragment() {
 
         adapter.onDeleteIconCallback = { group : Group ->
             groupsData.removeGroup(group)
-
         }
 
         activity?.let {
