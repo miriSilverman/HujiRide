@@ -48,12 +48,12 @@ class ridesList : Fragment() {
 
 
         val rides: List<Ride> = arrayListOf(
-            Ride("Gilo", "huji", "15:03", arrayListOf("gas station", "babies"), arrayListOf("no smoking", "just women")),
-            Ride("huji", "Malcha", "14:03", arrayListOf("gas station"), arrayListOf("put masks","no smoking")),
-            Ride("Ramot", "huji", "15:13", arrayListOf("gas station"), arrayListOf("no smoking")),
-            Ride("Talpiyot", "huji", "05:23", arrayListOf("gas station"), arrayListOf("no smoking", "vaccinated" )),
-            Ride("huji", "Bakaa", "04:03", arrayListOf("gas station"), arrayListOf("no smoking")),
-            Ride("Gilo", "Beit hakerem", "15:03", arrayListOf("gas station"), arrayListOf("no smoking"))
+            Ride("Gilo", "huji", "15:03", arrayListOf("gas station", "babies"), arrayListOf("no smoking", "just women"), "miri", "silverman", "0543697578"),
+            Ride("huji", "Malcha", "14:03", arrayListOf("gas station"), arrayListOf("put masks","no smoking"),"yair", "Gueta", "0547584545"),
+            Ride("Ramot", "huji", "15:13", arrayListOf("gas station"), arrayListOf("no smoking"), "Amit", "Cohen", "0545656655"),
+            Ride("Talpiyot", "huji", "05:23", arrayListOf("gas station"), arrayListOf("no smoking", "vaccinated" ), "Shir", "Levi", "0536542897"),
+            Ride("huji", "Bakaa", "04:03", arrayListOf("gas station"), arrayListOf("no smoking"), "Dafna", "Golan", "0547587899"),
+            Ride("Gilo", "Beit hakerem", "15:03", arrayListOf("gas station"), arrayListOf("no smoking"), "Kobi", "Israeli", "0563698585")
         )
 
 

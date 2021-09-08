@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import org.w3c.dom.Text
 
 
 /**
@@ -30,6 +33,15 @@ class DriversDetails : Fragment() {
         view.findViewById<Button>(R.id.back_to_groups).setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_driversDetails_to_groups_home)
         }
+
+        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        activity?.let { vm.pressedRide.observe(it, {
+            ride ->
+            view.findViewById<TextView>(R.id.first_name).setText(ride.drivers_first_name)
+            view.findViewById<TextView>(R.id.last_name).setText(ride.drivers_last_name)
+            view.findViewById<TextView>(R.id.phone_num).setText(ride.drivers_phone_number)
+        }) }
+
         return view
     }
 
