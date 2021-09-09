@@ -3,6 +3,7 @@ package huji.postpc.year2021.hujiride;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,10 +25,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import huji.postpc.year2021.hujiride.Groups.Group;
 
-public class SearchGroupJava extends Fragment implements SearchCallback {
+public class SearchGroupJava extends Fragment {
 
     private List<SearchGroupItem> neighborhoods = new ArrayList<SearchGroupItem>(Arrays.asList(new SearchGroupItem("Malcha", false),
             new SearchGroupItem("Bakaa", false), new SearchGroupItem("Talpiyot", false),
@@ -43,9 +45,11 @@ public class SearchGroupJava extends Fragment implements SearchCallback {
         View view = inflater.inflate(R.layout.fragment_search_group, container, false);
         addGroupBtn = view.findViewById(R.id.add_floating_btn);
         adapter = new SearchGroupAdapter();
-        adapter.setGroupsList(neighborhoods);
+        HujiRideApplication app = HujiRideApplication.getInstance();
+        app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) neighborhoods);
+//        adapter.setGroupsList(neighborhoods);
 
-        adapter.setSearchCallback(this);
+//        adapter.setSearchCallback(this);
 
         RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
         groupsRecycler.setAdapter(adapter);
@@ -88,19 +92,20 @@ public class SearchGroupJava extends Fragment implements SearchCallback {
                 filteredList.add(item);
             }
         }
-        adapter.setGroupsList(filteredList);
-    }
-
-
-    @Override
-    public void onCheckingItem(ArrayList<SearchGroupItem> list) {
-
         HujiRideApplication app = HujiRideApplication.getInstance();
-
-        for (SearchGroupItem item: list)
-        {
-            app.getGroupsData().addGroup(new Group(item.getName()));
-        }
-
+        app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) filteredList);
+//        adapter.se(filteredList);
+        adapter.notifyDataSetChanged();
     }
+
+
+//    @Override
+//    public void onCheckingItem(Map<String, SearchGroupItem> map) {
+//
+//        HujiRideApplication app = HujiRideApplication.getInstance();
+//
+//        for (Pair<String, SearchGroupItem> item: map)
+//            app.getGroupsData().addGroup(new Group(item.first));
+//
+//    }
 }
