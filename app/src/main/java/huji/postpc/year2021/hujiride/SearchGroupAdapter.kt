@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
     private val _groupsList: MutableList<SearchGroupItem> = ArrayList()
+    private val _checkedGroups: MutableList<SearchGroupItem> = ArrayList()
 
-    public var onItemClickCallback: ((SearchGroupItem)->Unit)? = null
+    var onItemClickCallback: ((SearchGroupItem)->Unit)? = null
+    var searchCallback : SearchCallback ?= null
 
 
     fun setGroupsList(newGroupsList: List<SearchGroupItem>){
@@ -34,11 +36,26 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
     override fun onBindViewHolder(holder: SearchGroupViewHolder, position: Int) {
         val group = _groupsList[position]
         holder.checkBox.setText(group.name)
+        holder.checkBox.isChecked = group.checked
 
-        holder.checkBox.setOnClickListener {
-            val callback = onItemClickCallback?: return@setOnClickListener
-            callback(group)
+        holder.checkBox.setOnClickListener { view ->
+            if (holder.checkBox.isChecked) {
+                _checkedGroups.add(group)
+            } else {
+                _checkedGroups.remove(group)
+            }
+
+            searchCallback?.onCheckingItem(_checkedGroups as java.util.ArrayList<SearchGroupItem>?)
         }
+
+
+//        holder.checkBox.setOnClickListener {
+//            val callback = onItemClickCallback?: return@setOnClickListener
+//            callback(group)
+//        }
+
+
+
     }
 
     override fun getItemCount(): Int {

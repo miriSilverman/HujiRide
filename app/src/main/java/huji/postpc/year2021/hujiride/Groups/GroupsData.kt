@@ -24,6 +24,7 @@ class GroupsData {
         mutableDataGroups.value = groupsList
     }
 
+
     fun removeGroup(group: Group){
         groupsList.remove(group)
         mutableDataGroups.value = groupsList

@@ -14,71 +14,77 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class SearchGroupJava extends Fragment {
+import huji.postpc.year2021.hujiride.Groups.Group;
 
-    private  List<SearchGroupItem>  neighborhoods =  new ArrayList<SearchGroupItem>(Arrays.asList(            new SearchGroupItem("Malcha"),
-            new SearchGroupItem("Bakaa"), new SearchGroupItem("Talpiyot"),
-            new SearchGroupItem("Pisga zeev"), new SearchGroupItem("Gilo")));
+public class SearchGroupJava extends Fragment implements SearchCallback {
 
+    private List<SearchGroupItem> neighborhoods = new ArrayList<SearchGroupItem>(Arrays.asList(new SearchGroupItem("Malcha", false),
+            new SearchGroupItem("Bakaa", false), new SearchGroupItem("Talpiyot", false),
+            new SearchGroupItem("Pisga zeev", false), new SearchGroupItem("Gilo", false)));
+
+    private List<SearchGroupItem> checkedGroups = new ArrayList<>();
 
     private SearchGroupAdapter adapter;
+    private FloatingActionButton addGroupBtn;
 
-     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_search_group, container, false);
-
-         adapter = new SearchGroupAdapter();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_search_group, container, false);
+        addGroupBtn = view.findViewById(R.id.add_floating_btn);
+        adapter = new SearchGroupAdapter();
         adapter.setGroupsList(neighborhoods);
 
-         RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
+        adapter.setSearchCallback(this);
+
+        RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
         groupsRecycler.setAdapter(adapter);
         groupsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
 
-         EditText editText = view.findViewById(R.id.search_group_editText);
-         editText.addTextChangedListener(new TextWatcher() {
-             @Override
-             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        EditText editText = view.findViewById(R.id.search_group_editText);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-             }
+            }
 
-             @Override
-             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-             }
+            }
 
-             @Override
-             public void afterTextChanged(Editable editable) {
-                 filter(editable.toString());
-             }
-         });
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
 
-//        adapter.onItemClickCallback = {group: SearchGroupItem ->
-//            Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
-//        }
-
-//        val dividerItemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
-//        groupsRecycler.addItemDecoration(dividerItemDecoration)
+        addGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_searchGroup_to_groups_home);
+            }
+        });
 
         return view;
     }
 
 
-    private void filter(String text)
-    {
+    private void filter(String text) {
         ArrayList<SearchGroupItem> filteredList = new ArrayList<>();
-        for (SearchGroupItem item: neighborhoods)
-        {
-            if (item.getName().toLowerCase().contains(text.toLowerCase())){
+        for (SearchGroupItem item : neighborhoods) {
+            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }
@@ -87,24 +93,14 @@ public class SearchGroupJava extends Fragment {
 
 
     @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-         inflater.inflate(R.menu.search_group_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) item.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
+    public void onCheckingItem(ArrayList<SearchGroupItem> list) {
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
+        HujiRideApplication app = HujiRideApplication.getInstance();
 
-
-        super.onCreateOptionsMenu(menu, inflater);
+        for (SearchGroupItem item: list)
+        {
+            app.getGroupsData().addGroup(new Group(item.getName()));
+        }
 
     }
 }
