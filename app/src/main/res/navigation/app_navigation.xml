@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchGroup"
-        android:name="huji.postpc.year2021.hujiride.SearchGroup"
+        android:name="huji.postpc.year2021.hujiride.SearchGroupJava"
         android:label="fragment_search_group"
         tools:layout="@layout/fragment_search_group" >
         <action
