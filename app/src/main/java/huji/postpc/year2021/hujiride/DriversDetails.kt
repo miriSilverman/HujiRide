@@ -9,7 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import org.w3c.dom.Text
+import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 
 
 /**

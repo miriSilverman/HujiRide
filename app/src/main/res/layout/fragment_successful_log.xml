@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".successful_log">
+    tools:context=".Onboarding.successful_log">
 
     <TextView
         android:id="@+id/registration_txt"

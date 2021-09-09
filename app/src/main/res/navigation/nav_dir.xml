@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/log_1"
-        android:name="huji.postpc.year2021.hujiride.log_1"
+        android:name="huji.postpc.year2021.hujiride.Onboarding.log_1"
         android:label="fragment_log_1"
         tools:layout="@layout/fragment_log_1" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/log_2"
-        android:name="huji.postpc.year2021.hujiride.log_2"
+        android:name="huji.postpc.year2021.hujiride.Onboarding.log_2"
         android:label="fragment_log_2"
         tools:layout="@layout/fragment_log_2" >
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/scan"
-        android:name="huji.postpc.year2021.hujiride.scan"
+        android:name="huji.postpc.year2021.hujiride.Onboarding.scan"
         android:label="fragment_scan"
         tools:layout="@layout/fragment_scan" >
         <action
@@ -60,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/successful_log"
-        android:name="huji.postpc.year2021.hujiride.successful_log"
+        android:name="huji.postpc.year2021.hujiride.Onboarding.successful_log"
         android:label="fragment_successful_log"
         tools:layout="@layout/fragment_successful_log" >
         <action

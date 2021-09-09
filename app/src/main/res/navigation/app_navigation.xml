@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/groups_home"
-        android:name="huji.postpc.year2021.hujiride.groups_home"
+        android:name="huji.postpc.year2021.hujiride.Groups.groups_home"
         android:label="fragment_groups_home"
         tools:layout="@layout/fragment_groups_home" >
         <action
@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_groups_home_to_ridesList"
             app:destination="@id/ridesList" />
+        <action
+            android:id="@+id/action_groups_home_to_searchGroup"
+            app:destination="@id/searchGroup" />
     </fragment>
     <fragment
         android:id="@+id/search_home"
@@ -45,7 +48,7 @@
     </fragment>
     <fragment
         android:id="@+id/ridesList"
-        android:name="huji.postpc.year2021.hujiride.ridesList"
+        android:name="huji.postpc.year2021.hujiride.Rides.ridesList"
         android:label="fragment_rides_list"
         tools:layout="@layout/fragment_rides_list" >
         <action
@@ -57,7 +60,7 @@
     </fragment>
     <fragment
         android:id="@+id/ridesDetails"
-        android:name="huji.postpc.year2021.hujiride.RidesDetails"
+        android:name="huji.postpc.year2021.hujiride.Rides.RidesDetails"
         android:label="fragment_rides_details"
         tools:layout="@layout/fragment_rides_details" >
         <action
@@ -92,6 +95,15 @@
             app:destination="@id/groups_home" />
         <action
             android:id="@+id/action_searchNewGroup_to_groups_home2"
+            app:destination="@id/groups_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchGroup"
+        android:name="huji.postpc.year2021.hujiride.SearchGroup"
+        android:label="fragment_search_group"
+        tools:layout="@layout/fragment_search_group" >
+        <action
+            android:id="@+id/action_searchGroup_to_groups_home"
             app:destination="@id/groups_home" />
     </fragment>
 </navigation>

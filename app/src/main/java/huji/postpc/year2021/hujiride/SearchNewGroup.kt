@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.Navigation
+import huji.postpc.year2021.hujiride.Groups.Group
 
 
 /**

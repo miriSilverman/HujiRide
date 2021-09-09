@@ -1,16 +1,15 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Rides
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import huji.postpc.year2021.hujiride.R
 
 
 /**

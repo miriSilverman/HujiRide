@@ -1,4 +1,4 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Groups
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

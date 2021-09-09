@@ -1,4 +1,4 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Onboarding
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,17 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import org.w3c.dom.Text
+import huji.postpc.year2021.hujiride.R
 
 
 /**
- * log - first and last name
+ * log - phone and id
  */
-class log_1 : Fragment() {
+class log_2 : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,16 +26,16 @@ class log_1 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_log_1, container, false)
+        val view =  inflater.inflate(R.layout.fragment_log_2, container, false)
         val vm = ViewModelProvider(requireActivity()).get(OnBoardingVM::class.java)
-        vm.unDoneTask(1)
+        vm.unDoneTask(2)
 
         view.findViewById<ImageView>(R.id.next_btn).setOnClickListener {
             onNextBtn(vm, view)
         }
+        view.findViewById<ImageView>(R.id.back_btn).setOnClickListener { Navigation.findNavController(view).navigate(R.id.action_log_2_to_log_1) }
         return view
     }
-
 
 
     fun onNextBtn(vm: OnBoardingVM, view: View) : Boolean
@@ -45,8 +43,8 @@ class log_1 : Fragment() {
 
         if (check_all_fields_are_filled())
         {
-            vm.doneTask(1)
-            Navigation.findNavController(view).navigate(R.id.action_log_1_to_log_2)
+            vm.doneTask(2)
+            Navigation.findNavController(view).navigate(R.id.action_log_2_to_scan)
         }
 
         return true

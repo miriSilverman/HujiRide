@@ -1,5 +1,5 @@
 package huji.postpc.year2021.hujiride
 
-data class Group (
+data class SearchGroupItem (
     val name: String
 )

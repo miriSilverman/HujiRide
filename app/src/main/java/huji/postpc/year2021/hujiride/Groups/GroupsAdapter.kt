@@ -1,9 +1,11 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Groups
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import huji.postpc.year2021.hujiride.HujiRideApplication
+import huji.postpc.year2021.hujiride.R
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 

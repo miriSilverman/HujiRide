@@ -1,4 +1,4 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Onboarding
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

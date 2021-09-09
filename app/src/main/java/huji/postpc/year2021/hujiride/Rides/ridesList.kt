@@ -1,4 +1,4 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Rides
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import huji.postpc.year2021.hujiride.R
 
 
 /**
@@ -67,7 +68,7 @@ class ridesList : Fragment() {
             ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
 
-            adapter.onItemClickCallback = {ride: Ride->
+            adapter.onItemClickCallback = {ride: Ride ->
                 val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
                 vm.pressedRide.value = ride
                 Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)

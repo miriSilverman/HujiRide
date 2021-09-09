@@ -1,4 +1,4 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Groups
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,11 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.LinearLayout
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import java.net.HttpURLConnection
+import huji.postpc.year2021.hujiride.HujiRideApplication
+import huji.postpc.year2021.hujiride.R
 
 
 /**
@@ -32,7 +32,7 @@ class groups_home : Fragment() {
 
 
         view.findViewById<Button>(R.id.search_new_group_btn).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchNewGroup)
+            Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchGroup)
         }
 
         val app = HujiRideApplication.getInstance()
@@ -47,7 +47,7 @@ class groups_home : Fragment() {
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
 
-        adapter.onItemClickCallback = {group: Group->
+        adapter.onItemClickCallback = {group: Group ->
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
         }
 

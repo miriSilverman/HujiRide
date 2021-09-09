@@ -2,7 +2,7 @@
     <string name="app_name">HujiRide</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="registration">Your registration has been successfully completed!</string>
-    
+
     <string-array name="sorting_list">
         <item>time</item>
         <item>src and dest</item>
@@ -21,7 +21,6 @@
         <item>Be on time, I wont wait</item>
         <item>I have parked far</item>
     </string-array>
-
 
 
 </resources>

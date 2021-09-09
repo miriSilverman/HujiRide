@@ -1,8 +1,9 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Rides
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import huji.postpc.year2021.hujiride.R
 
 class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
 
