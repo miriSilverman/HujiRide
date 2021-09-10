@@ -6,7 +6,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
-import huji.postpc.year2021.hujiride.SearchGroupItem
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 

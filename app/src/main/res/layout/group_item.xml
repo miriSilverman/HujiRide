@@ -15,12 +15,13 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:text="description"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/delete_img"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.509"></TextView>
+        app:layout_constraintVertical_bias="0.509" />
 
 <!--    <CheckBox-->
 <!--        android:id="@+id/mcheckbox"-->

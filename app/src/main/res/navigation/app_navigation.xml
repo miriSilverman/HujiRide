@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchNewGroup"
-        android:name="huji.postpc.year2021.hujiride.SearchNewGroup"
+        android:name="huji.postpc.year2021.hujiride.toDelete.SearchNewGroup"
         android:label="fragment_search_new_group"
         tools:layout="@layout/fragment_search_new_group" >
         <action
@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchGroup"
-        android:name="huji.postpc.year2021.hujiride.SearchGroupJava"
+        android:name="huji.postpc.year2021.hujiride.SearchGroups.SearchGroupJava"
         android:label="fragment_search_group"
         tools:layout="@layout/fragment_search_group" >
         <action

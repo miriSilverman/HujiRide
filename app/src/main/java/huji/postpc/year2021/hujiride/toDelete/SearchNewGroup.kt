@@ -1,4 +1,4 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.toDelete
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.navigation.Navigation
-import huji.postpc.year2021.hujiride.Groups.Group
+import huji.postpc.year2021.hujiride.HujiRideApplication
+import huji.postpc.year2021.hujiride.R
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 
 
 /**

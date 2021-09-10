@@ -2,7 +2,7 @@ package huji.postpc.year2021.hujiride.Groups
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import huji.postpc.year2021.hujiride.SearchGroupItem
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -21,11 +21,14 @@ class GroupsData {
 //    val mutableDataCheckedGroups: MutableLiveData<MutableMap<String, SearchGroupItem>> = MutableLiveData<MutableMap<String, SearchGroupItem>>()
 //    var liveDataCheckedGroups: LiveData<MutableMap<String, SearchGroupItem>> = mutableDataCheckedGroups
 
+
+    // the filtered list
     val mutableDataCheckedGroups: MutableLiveData<MutableList<SearchGroupItem>> = MutableLiveData<MutableList<SearchGroupItem>>()
 //    var liveDataCheckedGroups: LiveData<MutableList<SearchGroupItem>> = mutableDataCheckedGroups
 
 
     private var groupsList : ArrayList<SearchGroupItem> = arrayListOf()
+    var currentChanges : ArrayList<SearchGroupItem> = arrayListOf()
 
 
     fun setChecked(arrayList: ArrayList<SearchGroupItem>){
@@ -44,17 +47,17 @@ class GroupsData {
     fun addGroup(newGroup: SearchGroupItem) {
         groupsList.add(newGroup)
         mutableDataGroups.value = groupsList
+//        mutableDataGroups.value?.add(newGroup)
     }
 
 
     fun removeGroup(group: SearchGroupItem){
         groupsList.remove(group)
         mutableDataGroups.value = groupsList
+//        mutableDataGroups.value?.remove(group)
+
     }
 
-//    fun isGroupChecked(nameOfGroup: String): Boolean? {
-//        return mutableDataCheckedGroups.value?.get(nameOfGroup)?.checked
-//    }
 
 
 

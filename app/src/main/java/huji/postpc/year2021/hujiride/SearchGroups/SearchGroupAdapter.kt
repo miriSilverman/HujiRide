@@ -1,16 +1,17 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.SearchGroups
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import huji.postpc.year2021.hujiride.Groups.Group
+import huji.postpc.year2021.hujiride.*
+import huji.postpc.year2021.hujiride.toDelete.SearchCallback
 
 class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
 //    private val _groupsList: MutableList<SearchGroupItem> = ArrayList()
 
     var onItemClickCallback: ((SearchGroupItem)->Unit)? = null
-    var searchCallback : SearchCallback ?= null
+    var searchCallback : SearchCallback?= null
 
 
 //    fun setGroupsList(newGroupsList: List<SearchGroupItem>){
@@ -43,12 +44,13 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
             holder.checkBox.setOnClickListener { view ->
                 app.groupsData.mutableDataCheckedGroups.value?.get(position)!!.checked = holder.checkBox.isChecked
-
 //            searchCallback?.onCheckingItem(app.groupsData.mutableDataCheckedGroups.value as java.util.ArrayList<SearchGroupItem>?)
             }
 
             holder.checkBox.setOnCheckedChangeListener{buttonView, isChecked ->
                 app.groupsData.mutableDataCheckedGroups.value?.get(position)!!.checked = isChecked
+                app.groupsData.currentChanges.add(group)
+
             }
 
 

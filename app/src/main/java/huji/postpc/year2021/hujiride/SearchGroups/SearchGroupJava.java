@@ -1,19 +1,13 @@
-package huji.postpc.year2021.hujiride;
+package huji.postpc.year2021.hujiride.SearchGroups;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Pair;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,13 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-import huji.postpc.year2021.hujiride.Groups.Group;
-import huji.postpc.year2021.hujiride.Groups.GroupsData;
+import huji.postpc.year2021.hujiride.HujiRideApplication;
+import huji.postpc.year2021.hujiride.R;
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupAdapter;
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem;
 
 public class SearchGroupJava extends Fragment {
 
@@ -50,6 +43,10 @@ public class SearchGroupJava extends Fragment {
         adapter = new SearchGroupAdapter();
         HujiRideApplication app = HujiRideApplication.getInstance();
         neighborhoods =  app.getGroupsData().getNeighborhoods();
+
+
+        // init current changes to be empty
+        app.getGroupsData().setCurrentChanges(new ArrayList<SearchGroupItem>());
 
         app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) neighborhoods);
 
@@ -83,9 +80,13 @@ public class SearchGroupJava extends Fragment {
 
 
                 // add now all the checked groups todo - change
-                final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getMutableDataCheckedGroups().getValue();
+                final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
                 for (SearchGroupItem group: checkedGroups) {
-                    if (group.getChecked()) app.getGroupsData().addGroup(group);
+                    if (group.getChecked()){
+                        app.getGroupsData().addGroup(group);
+                    }else {
+                        app.getGroupsData().removeGroup(group);
+                    }
                 }
 
             }

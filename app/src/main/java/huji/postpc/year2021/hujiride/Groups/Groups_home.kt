@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
-import huji.postpc.year2021.hujiride.SearchGroupItem
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 
 
 /**
@@ -54,6 +54,7 @@ class groups_home : Fragment() {
 
         adapter.onDeleteIconCallback = { group : SearchGroupItem ->
             groupsData.removeGroup(group)
+            group.checked = false
         }
 
         activity?.let {
