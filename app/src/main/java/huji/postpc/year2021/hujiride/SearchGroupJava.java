@@ -28,17 +28,20 @@ import java.util.List;
 import java.util.Map;
 
 import huji.postpc.year2021.hujiride.Groups.Group;
+import huji.postpc.year2021.hujiride.Groups.GroupsData;
 
 public class SearchGroupJava extends Fragment {
 
-    private List<SearchGroupItem> neighborhoods = new ArrayList<SearchGroupItem>(Arrays.asList(new SearchGroupItem("Malcha", false),
-            new SearchGroupItem("Bakaa", false), new SearchGroupItem("Talpiyot", false),
-            new SearchGroupItem("Pisga zeev", false), new SearchGroupItem("Gilo", false)));
+//    // todo: delete neighborhoods
+//    private List<SearchGroupItem> neighborhoods = new ArrayList<SearchGroupItem>(Arrays.asList(new SearchGroupItem("Malcha", false),
+//            new SearchGroupItem("Bakaa", false), new SearchGroupItem("Talpiyot", false),
+//            new SearchGroupItem("Pisga zeev", false), new SearchGroupItem("Gilo", false)));
 
     private List<SearchGroupItem> checkedGroups = new ArrayList<>();
 
     private SearchGroupAdapter adapter;
     private FloatingActionButton addGroupBtn;
+    List<SearchGroupItem> neighborhoods;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -46,10 +49,9 @@ public class SearchGroupJava extends Fragment {
         addGroupBtn = view.findViewById(R.id.add_floating_btn);
         adapter = new SearchGroupAdapter();
         HujiRideApplication app = HujiRideApplication.getInstance();
-        app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) neighborhoods);
-//        adapter.setGroupsList(neighborhoods);
+        neighborhoods =  app.getGroupsData().getNeighborhoods();
 
-//        adapter.setSearchCallback(this);
+        app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) neighborhoods);
 
         RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
         groupsRecycler.setAdapter(adapter);
@@ -78,6 +80,14 @@ public class SearchGroupJava extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).navigate(R.id.action_searchGroup_to_groups_home);
+
+
+                // add now all the checked groups todo - change
+                final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getMutableDataCheckedGroups().getValue();
+                for (SearchGroupItem group: checkedGroups) {
+                    if (group.getChecked()) app.getGroupsData().addGroup(group);
+                }
+
             }
         });
 
@@ -87,14 +97,14 @@ public class SearchGroupJava extends Fragment {
 
     private void filter(String text) {
         ArrayList<SearchGroupItem> filteredList = new ArrayList<>();
+        HujiRideApplication app = HujiRideApplication.getInstance();
+
         for (SearchGroupItem item : neighborhoods) {
             if (item.getName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }
-        HujiRideApplication app = HujiRideApplication.getInstance();
         app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) filteredList);
-//        adapter.se(filteredList);
         adapter.notifyDataSetChanged();
     }
 

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
+import huji.postpc.year2021.hujiride.SearchGroupItem
 
 
 /**
@@ -47,11 +48,11 @@ class groups_home : Fragment() {
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
 
-        adapter.onItemClickCallback = {group: Group ->
+        adapter.onItemClickCallback = {group: SearchGroupItem ->
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
         }
 
-        adapter.onDeleteIconCallback = { group : Group ->
+        adapter.onDeleteIconCallback = { group : SearchGroupItem ->
             groupsData.removeGroup(group)
         }
 

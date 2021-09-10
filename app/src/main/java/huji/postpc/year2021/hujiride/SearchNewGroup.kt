@@ -49,7 +49,7 @@ class SearchNewGroup : Fragment() {
         listView?.setOnItemClickListener(){ parent, view, position, id ->
 //            Toast.makeText(activity, "you clicked on "+parent.getItemAtPosition(position).toString(), Toast.LENGTH_SHORT).show()
             val app = HujiRideApplication.getInstance()
-            app.groupsData.addGroup(Group(parent.getItemAtPosition(position).toString()))
+            app.groupsData.addGroup(SearchGroupItem(parent.getItemAtPosition(position).toString(), false))
         }
 
         searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {

@@ -6,13 +6,14 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
+import huji.postpc.year2021.hujiride.SearchGroupItem
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
 
 
-    var onItemClickCallback: ((Group)->Unit)? = null
-    var onDeleteIconCallback: ((Group)->Unit)? = null
+    var onItemClickCallback: ((SearchGroupItem)->Unit)? = null
+    var onDeleteIconCallback: ((SearchGroupItem)->Unit)? = null
 
 
 

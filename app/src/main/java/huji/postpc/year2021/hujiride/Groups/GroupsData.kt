@@ -14,8 +14,8 @@ class GroupsData {
 
 
     // groups that were added
-    private val mutableDataGroups: MutableLiveData<MutableList<Group>> = MutableLiveData<MutableList<Group>>()
-    var liveDataGroups: LiveData<MutableList<Group>> = mutableDataGroups
+    private val mutableDataGroups: MutableLiveData<MutableList<SearchGroupItem>> = MutableLiveData<MutableList<SearchGroupItem>>()
+    var liveDataGroups: LiveData<MutableList<SearchGroupItem>> = mutableDataGroups
 
     // all groups as <name of group, checked or not>
 //    val mutableDataCheckedGroups: MutableLiveData<MutableMap<String, SearchGroupItem>> = MutableLiveData<MutableMap<String, SearchGroupItem>>()
@@ -25,7 +25,7 @@ class GroupsData {
 //    var liveDataCheckedGroups: LiveData<MutableList<SearchGroupItem>> = mutableDataCheckedGroups
 
 
-    private var groupsList : ArrayList<Group> = arrayListOf()
+    private var groupsList : ArrayList<SearchGroupItem> = arrayListOf()
 
 
     fun setChecked(arrayList: ArrayList<SearchGroupItem>){
@@ -34,21 +34,20 @@ class GroupsData {
 
 
 
-    fun getGroups() : List<Group> {
-        var newList = ArrayList<Group>()
-//        newList.addAll(groupsList)
+    fun getGroups() : List<SearchGroupItem> {
+        var newList = ArrayList<SearchGroupItem>()
         liveDataGroups.value?.let { newList.addAll(it) }
         return newList
     }
 
 
-    fun addGroup(newGroup: Group) {
+    fun addGroup(newGroup: SearchGroupItem) {
         groupsList.add(newGroup)
         mutableDataGroups.value = groupsList
     }
 
 
-    fun removeGroup(group: Group){
+    fun removeGroup(group: SearchGroupItem){
         groupsList.remove(group)
         mutableDataGroups.value = groupsList
     }

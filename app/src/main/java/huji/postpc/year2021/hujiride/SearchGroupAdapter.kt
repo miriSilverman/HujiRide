@@ -42,17 +42,17 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
 
             holder.checkBox.setOnClickListener { view ->
-                if (holder.checkBox.isChecked) {
-                    app.groupsData.addGroup(Group(group.name))
-                    app.groupsData.mutableDataCheckedGroups.value?.get(position)!!.checked = true
-//                    app.groupsData.neighborhoods(position)!!.checked = true
-                } else {
-                    app.groupsData.removeGroup(Group(group.name))
-                    app.groupsData.mutableDataCheckedGroups.value?.get(position)!!.checked = false
-                }
+                app.groupsData.mutableDataCheckedGroups.value?.get(position)!!.checked = holder.checkBox.isChecked
 
 //            searchCallback?.onCheckingItem(app.groupsData.mutableDataCheckedGroups.value as java.util.ArrayList<SearchGroupItem>?)
             }
+
+            holder.checkBox.setOnCheckedChangeListener{buttonView, isChecked ->
+                app.groupsData.mutableDataCheckedGroups.value?.get(position)!!.checked = isChecked
+            }
+
+
+
         }
 
 
