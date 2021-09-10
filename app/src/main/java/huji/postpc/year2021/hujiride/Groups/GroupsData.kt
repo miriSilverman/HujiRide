@@ -10,7 +10,7 @@ class GroupsData {
 
     val neighborhoods: List<SearchGroupItem> = java.util.ArrayList(Arrays.asList(SearchGroupItem("Malcha", false),
             SearchGroupItem("Bakaa", false), SearchGroupItem("Talpiyot", false),
-            SearchGroupItem("Pisga zeev", false), SearchGroupItem("Gilo", false)))
+            SearchGroupItem("Pisgat zeev", false), SearchGroupItem("Gilo", false)))
 
 
     // groups that were added

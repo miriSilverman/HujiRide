@@ -8,6 +8,7 @@ public class HujiRideApplication extends Application {
 
     private static HujiRideApplication instance;
     private GroupsData groupsData;
+    private RidesPerGroups ridesPerGroups;
 
     @Override
     public void onCreate() {
@@ -17,11 +18,15 @@ public class HujiRideApplication extends Application {
             instance = this;
         }
         groupsData = new GroupsData();
+        ridesPerGroups = new RidesPerGroups();
     }
 
     public GroupsData getGroupsData()
     {
         return groupsData;
+    }
+    public RidesPerGroups getRidesPerGroup() {
+        return ridesPerGroups;
     }
 
     public static HujiRideApplication getInstance()

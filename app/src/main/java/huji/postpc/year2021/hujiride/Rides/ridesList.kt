@@ -13,6 +13,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.R
+import huji.postpc.year2021.hujiride.RidesPerGroups
+import huji.postpc.year2021.hujiride.HujiRideApplication
 
 
 /**
@@ -47,19 +49,16 @@ class ridesList : Fragment() {
         }
 
 
+        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        val curGroup = vm.pressedGroup
+        val ridesPerGroup = HujiRideApplication.getInstance().ridesPerGroup
 
-        val rides: List<Ride> = arrayListOf(
-            Ride("Gilo", "huji", "15:03", arrayListOf("gas station", "babies"), arrayListOf("no smoking", "just women"), "miri", "silverman", "0543697578"),
-            Ride("huji", "Malcha", "14:03", arrayListOf("gas station"), arrayListOf("put masks","no smoking"),"yair", "Gueta", "0547584545"),
-            Ride("Ramot", "huji", "15:13", arrayListOf("gas station"), arrayListOf("no smoking"), "Amit", "Cohen", "0545656655"),
-            Ride("Talpiyot", "huji", "05:23", arrayListOf("gas station"), arrayListOf("no smoking", "vaccinated" ), "Shir", "Levi", "0536542897"),
-            Ride("huji", "Bakaa", "04:03", arrayListOf("gas station"), arrayListOf("no smoking"), "Dafna", "Golan", "0547587899"),
-            Ride("Gilo", "Beit hakerem", "15:03", arrayListOf("gas station"), arrayListOf("no smoking"), "Kobi", "Israeli", "0563698585")
-        )
-
+        val rides = ridesPerGroup.map[curGroup.value?.name]
 
         val adapter = RidesAdapter()
-        adapter.setRidesList(rides)
+        if (rides != null) {
+            adapter.setRidesList(rides)
+        }
 
         if (aView != null)
         {
@@ -69,7 +68,6 @@ class ridesList : Fragment() {
 
 
             adapter.onItemClickCallback = {ride: Ride ->
-                val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
                 vm.pressedRide.value = ride
                 Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
             }
@@ -80,3 +78,14 @@ class ridesList : Fragment() {
         return aView
     }
 }
+
+
+
+//        val rides: List<Ride> = arrayListOf(
+//            Ride("Gilo", "huji", "15:03", arrayListOf("gas station", "babies"), arrayListOf("no smoking", "just women"), "miri", "silverman", "0543697578"),
+//            Ride("huji", "Malcha", "14:03", arrayListOf("gas station"), arrayListOf("put masks","no smoking"),"yair", "Gueta", "0547584545"),
+//            Ride("Ramot", "huji", "15:13", arrayListOf("gas station"), arrayListOf("no smoking"), "Amit", "Cohen", "0545656655"),
+//            Ride("Talpiyot", "huji", "05:23", arrayListOf("gas station"), arrayListOf("no smoking", "vaccinated" ), "Shir", "Levi", "0536542897"),
+//            Ride("huji", "Bakaa", "04:03", arrayListOf("gas station"), arrayListOf("no smoking"), "Dafna", "Golan", "0547587899"),
+//            Ride("Gilo", "Beit hakerem", "15:03", arrayListOf("gas station"), arrayListOf("no smoking"), "Kobi", "Israeli", "0563698585")
+//        )

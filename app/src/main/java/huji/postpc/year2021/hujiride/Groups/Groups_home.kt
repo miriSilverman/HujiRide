@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
+import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 
 
@@ -49,6 +51,8 @@ class groups_home : Fragment() {
 
 
         adapter.onItemClickCallback = {group: SearchGroupItem ->
+            val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+            vm.pressedGroup.value = group
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
         }
 
