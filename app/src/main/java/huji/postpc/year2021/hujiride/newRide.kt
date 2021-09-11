@@ -92,9 +92,10 @@ class newRide : Fragment() {
 
         aView?.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
 
+
             val newRide: Ride = Ride(srcET?.text.toString(), destET?.text.toString(),
                     "$timeHour : $timeMinutes",
-                    arrayListOf<String>("gas station"), arrayListOf<String>("no babies"),
+                    arrayListOf<String>(stops?.text.toString()), arrayListOf<String>(comments?.text.toString()),
                     app.userDetails.userFirstName, app.userDetails.userLastName,
                     app.userDetails.userPhoneNumber)
 
