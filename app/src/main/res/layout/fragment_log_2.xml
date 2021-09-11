@@ -13,7 +13,7 @@
         android:layout_height="55dp"
         android:layout_marginTop="48dp"
         android:background="#86AFD8"
-        android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        android:digits="0123456789"
         android:gravity="center"
         android:hint="Your Phone*"
         android:maxLength="20"

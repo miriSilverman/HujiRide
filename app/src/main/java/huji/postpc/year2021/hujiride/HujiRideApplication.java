@@ -3,12 +3,14 @@ package huji.postpc.year2021.hujiride;
 import android.app.Application;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
+import huji.postpc.year2021.hujiride.UserDetails;
 
 public class HujiRideApplication extends Application {
 
     private static HujiRideApplication instance;
     private GroupsData groupsData;
     private RidesPerGroups ridesPerGroups;
+    private UserDetails userDetails;
 
     @Override
     public void onCreate() {
@@ -19,6 +21,7 @@ public class HujiRideApplication extends Application {
         }
         groupsData = new GroupsData();
         ridesPerGroups = new RidesPerGroups();
+        userDetails = new UserDetails();
     }
 
     public GroupsData getGroupsData()
@@ -27,6 +30,9 @@ public class HujiRideApplication extends Application {
     }
     public RidesPerGroups getRidesPerGroup() {
         return ridesPerGroups;
+    }
+    public UserDetails getUserDetails() {
+        return userDetails;
     }
 
     public static HujiRideApplication getInstance()

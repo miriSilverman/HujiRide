@@ -7,11 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import huji.postpc.year2021.hujiride.Rides.Ride
+import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import java.lang.String.format
 import java.text.DateFormat
 import java.text.MessageFormat.format
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -23,6 +27,13 @@ class newRide : Fragment() {
     private var timerTextView: TextView? = null
     private var timeHour: Int = 0
     private var timeMinutes: Int = 0
+    private var srcET: EditText? = null
+    private var destET: EditText? = null
+    private var stops: AutoCompleteTextView? = null
+    private var comments: AutoCompleteTextView? = null
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,10 +59,11 @@ class newRide : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         aView =  inflater.inflate(R.layout.fragment_new_ride, container, false)
-        aView?.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
-            Navigation.findNavController(aView!!).navigate(R.id.action_newRide2_to_dashboard)
-        }
 
+        srcET = aView?.findViewById(R.id.source_edit_text)
+        destET = aView?.findViewById(R.id.dest_edit_text)
+        stops = aView?.findViewById(R.id.autoCompleteStops)
+        comments = aView?.findViewById(R.id.autoCompleteComments)
 
 
         timerTextView = aView?.findViewById(R.id.time_edit_btn)
@@ -75,6 +87,26 @@ class newRide : Fragment() {
             timePickerDialog.show()
 
         }
+
+        val app = HujiRideApplication.getInstance()
+
+        aView?.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
+
+            val newRide: Ride = Ride(srcET?.text.toString(), destET?.text.toString(),
+                    "$timeHour : $timeMinutes",
+                    arrayListOf<String>("gas station"), arrayListOf<String>("no babies"),
+                    app.userDetails.userFirstName, app.userDetails.userLastName,
+                    app.userDetails.userPhoneNumber)
+
+
+            val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+
+            val pressedGroup = vm.pressedGroup
+            app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
+            Navigation.findNavController(aView!!).navigate(R.id.action_newRide2_to_dashboard)
+        }
+
+
 
 
         return aView

@@ -6,14 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import huji.postpc.year2021.hujiride.R
+import huji.postpc.year2021.hujiride.HujiRideApplication
 
 
 /**
  * screen of successful log
  */
 class successful_log : Fragment() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

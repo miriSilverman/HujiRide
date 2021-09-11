@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import huji.postpc.year2021.hujiride.Rides.RidesViewModel
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 
 
 /**
@@ -25,6 +28,9 @@ class search_home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view =  inflater.inflate(R.layout.fragment_search_home, container, false)
+        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        vm.pressedGroup.value = SearchGroupItem("all", false)
+
         view.findViewById<TextView>(R.id.driver_btn).setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_search_home_to_newRide2)
         }
