@@ -16,6 +16,9 @@ class MainActivity : AppCompatActivity() {
 
     private val SHARED = "shared"
     private val DONE_ONBOARDING = "done onboarding"
+    private val FIRST_NAME = "first name"
+    private val LAST_NAME = "last name"
+    private val PHONE_NUMBER = "phone num"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private fun onboardingCase(sp: SharedPreferences) {
 
         val sharedVM = ViewModelProvider(this).get(OnBoardingVM::class.java)
+        val userDetails = HujiRideApplication.getInstance().userDetails
 
         sharedVM.doneArr.observe(this, Observer { arr ->
 
@@ -57,6 +61,9 @@ class MainActivity : AppCompatActivity() {
                 doneOnboardingCase()
                 val editor: SharedPreferences.Editor = sp.edit()
                 editor.putBoolean(DONE_ONBOARDING, true)
+                editor.putString(FIRST_NAME, userDetails.userFirstName)
+                editor.putString(LAST_NAME, userDetails.userLastName)
+                editor.putString(PHONE_NUMBER, userDetails.userPhoneNumber)
                 editor.apply()
             }
         })
