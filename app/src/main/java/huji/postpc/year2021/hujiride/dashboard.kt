@@ -9,19 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import huji.postpc.year2021.hujiride.MyRides.MyRidesAdapter
 import huji.postpc.year2021.hujiride.Rides.Ride
-import huji.postpc.year2021.hujiride.Rides.RidesAdapter
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
 /**
- * A simple [Fragment] subclass.
- * Use the [dashboard.newInstance] factory method to
- * create an instance of this fragment.
+ * dashboard shows rides that the user was signed to
  */
 class dashboard : Fragment() {
 
@@ -35,7 +29,6 @@ class dashboard : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val aView = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val adapter = MyRidesAdapter()
 

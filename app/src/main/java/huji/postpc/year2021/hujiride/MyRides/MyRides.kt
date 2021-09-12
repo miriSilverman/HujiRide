@@ -1,4 +1,4 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.MyRides
 import huji.postpc.year2021.hujiride.Rides.Ride
 
 

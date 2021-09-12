@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
-import huji.postpc.year2021.hujiride.UserDetails;
+import huji.postpc.year2021.hujiride.MyRides.MyRides;
 
 public class HujiRideApplication extends Application {
 
