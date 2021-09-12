@@ -6,9 +6,9 @@ gets:
 
 
 pushes:
-1. new client (on first time in app)
-2. new ride
-3. registered to a new group
+1. new client (on first time in app)    V
+2. new ride                             V
+3. registered to a new group            V
 4.
 
 ##

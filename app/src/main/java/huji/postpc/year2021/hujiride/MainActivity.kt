@@ -15,6 +15,10 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import huji.postpc.year2021.hujiride.Onboarding.OnBoardingVM
+import huji.postpc.year2021.hujiride.Rides.Ride
+import huji.postpc.year2021.hujiride.database.Database
+import kotlinx.coroutines.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private val FIRST_NAME = "first name"
     private val LAST_NAME = "last name"
     private val PHONE_NUMBER = "phone num"
+    val db : Database = Database()
 
     private var drawer: DrawerLayout? = null
 
@@ -30,6 +35,24 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        println("BEFORE")
+        GlobalScope.launch(Dispatchers.IO) {
+            db.newClient("TEST1", "TEST1", "000", "TEST1")
+            db.findClient("TEST1")?.firstName
+            withContext(Dispatchers.Main) {
+                // UI CHANGES
+            }
+
+            db.newRide(Ride("TEST", "TEST", "NOW", arrayListOf(), arrayListOf(),
+                            "Stephan", "TEST", "87567", UUID.randomUUID()),
+                "TEST1")
+            db.registerClientToGroup("TEST1", 11)
+            db.registerClientToGroup("TEST1", 152)
+            db.registerClientToGroup("TEST1", 30)
+        }
+
+
         setContentView(R.layout.activity_main)
 
 
@@ -57,8 +80,6 @@ class MainActivity : AppCompatActivity() {
             else {
             onboardingCase(sp)
         }
-
-
     }
 
 
