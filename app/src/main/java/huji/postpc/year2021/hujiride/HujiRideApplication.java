@@ -13,6 +13,7 @@ public class HujiRideApplication extends Application {
     private GroupsData groupsData;
     private RidesPerGroups ridesPerGroups;
     private UserDetails userDetails;
+    private MyRides myRides;
 
 
     private String SHARED = "shared";
@@ -32,6 +33,8 @@ public class HujiRideApplication extends Application {
         }
         groupsData = new GroupsData();
         ridesPerGroups = new RidesPerGroups();
+        myRides = new MyRides();
+
 
         SharedPreferences sp = this.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
         userDetails = new UserDetails(sp.getString(FIRST_NAME, ""),
@@ -49,6 +52,10 @@ public class HujiRideApplication extends Application {
     }
     public UserDetails getUserDetails() {
         return userDetails;
+    }
+
+    public MyRides getMyRides() {
+        return myRides;
     }
 
     public static HujiRideApplication getInstance()

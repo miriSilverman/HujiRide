@@ -9,7 +9,7 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
 
     private val _ridesList: MutableList<Ride> = ArrayList()
 
-    public var onItemClickCallback: ((Ride)->Unit)? = null
+    var onItemClickCallback: ((Ride)->Unit)? = null
 
 
     fun setRidesList(newRidesList: List<Ride>){

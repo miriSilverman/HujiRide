@@ -36,7 +36,11 @@
         android:id="@+id/dashboard"
         android:name="huji.postpc.year2021.hujiride.dashboard"
         android:label="fragment_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard" >
+        <action
+            android:id="@+id/action_dashboard_to_ridesDetails"
+            app:destination="@id/ridesDetails" />
+    </fragment>
     <fragment
         android:id="@+id/newRide2"
         android:name="huji.postpc.year2021.hujiride.newRide"
@@ -84,6 +88,9 @@
         <action
             android:id="@+id/action_driversDetails_to_groups_home"
             app:destination="@id/groups_home" />
+        <action
+            android:id="@+id/action_driversDetails_to_dashboard"
+            app:destination="@id/dashboard" />
     </fragment>
     <fragment
         android:id="@+id/searchNewGroup"
