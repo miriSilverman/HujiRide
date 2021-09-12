@@ -1,5 +1,8 @@
 package huji.postpc.year2021.hujiride.Rides
 
+import java.util.*
+import kotlin.collections.ArrayList
+
 data class Ride (
     val src: String,
     val dest: String,
@@ -9,5 +12,6 @@ data class Ride (
     val drivers_first_name: String,
     val drivers_last_name: String,
     val drivers_phone_number: String,
+    val id: UUID
 
 )

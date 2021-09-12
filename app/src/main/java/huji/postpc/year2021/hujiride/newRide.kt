@@ -97,7 +97,8 @@ class newRide : Fragment() {
                     "$timeHour : $timeMinutes",
                     arrayListOf<String>(stops?.text.toString()), arrayListOf<String>(comments?.text.toString()),
                     app.userDetails.userFirstName, app.userDetails.userLastName,
-                    app.userDetails.userPhoneNumber)
+                    app.userDetails.userPhoneNumber,
+                    UUID.randomUUID())
 
 
             val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)

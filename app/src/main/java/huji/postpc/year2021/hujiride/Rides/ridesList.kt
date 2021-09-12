@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.RidesPerGroups
+import huji.postpc.year2021.hujiride.GroupsRides
 import huji.postpc.year2021.hujiride.HujiRideApplication
 
 
@@ -53,11 +54,11 @@ class ridesList : Fragment() {
         val curGroup = vm.pressedGroup
         val ridesPerGroup = HujiRideApplication.getInstance().ridesPerGroup
 
-        val rides = ridesPerGroup.map[curGroup.value?.name]
+        val rides: GroupsRides? = ridesPerGroup.map[curGroup.value?.name]
 
         val adapter = RidesAdapter()
         if (rides != null) {
-            adapter.setRidesList(rides)
+            adapter.setRidesList(rides.ridesList)
         }
 
         if (aView != null)
