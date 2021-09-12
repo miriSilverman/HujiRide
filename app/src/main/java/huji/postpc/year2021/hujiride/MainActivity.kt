@@ -5,6 +5,10 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ProgressBar
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -20,10 +24,28 @@ class MainActivity : AppCompatActivity() {
     private val LAST_NAME = "last name"
     private val PHONE_NUMBER = "phone num"
 
+    private var drawer: DrawerLayout? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+        var toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+
+        drawer = findViewById(R.id.drawer_layout)
+        val toggle = ActionBarDrawerToggle(this, drawer, toolbar,
+        R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close)
+
+        drawer?.addDrawerListener(toggle)
+        toggle.syncState()
+
+
 
         val sp: SharedPreferences = this.getSharedPreferences(SHARED, Context.MODE_PRIVATE)
 
@@ -76,6 +98,18 @@ class MainActivity : AppCompatActivity() {
         val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
         bottomNavView.setupWithNavController(navController)
+    }
+
+
+    override fun onBackPressed() {
+        if (drawer!!.isDrawerOpen(GravityCompat.START)){
+            drawer!!.closeDrawer(GravityCompat.START)
+        }
+        else{
+
+            super.onBackPressed()
+        }
+
     }
 
 }
