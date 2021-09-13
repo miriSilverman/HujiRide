@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "237729670592",
+    "project_id": "hujirides",
+    "storage_bucket": "hujirides.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:237729670592:android:918a5e4755d3621269d425",
+        "android_client_info": {
+          "package_name": "huji.postpc.year2021.hujiride"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "237729670592-8ji2qs98lsrkk3enlatvvqd22omktond.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHfZHeNtw8VA0uC9YhBilcSHl5VZiQfkc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "237729670592-8ji2qs98lsrkk3enlatvvqd22omktond.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
