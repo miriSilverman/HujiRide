@@ -75,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     println("HIHIHIHI")
         // Specify the types of place data to return.
         autocompleteFragment
-            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
             .setCountry("IL")
             .setHint("חפש מוצא...") // TODO translated version?
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: ${place.name}, ${place.id}")
+                Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
             }
 
             override fun onError(status: Status) {

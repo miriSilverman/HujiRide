@@ -1,7 +1,11 @@
 gets:
 1. rides for each group
-2. search according to destination and/or source.
-3. some information about the client(?) (on load, etc...?)
+        a) do groups represent destination or source?
+        b) should we calculate for which group a ride belongs or should the user decide?
+2. search according to destination and/or source.       V (Needs to be tested)
+        a) Rides should have dest&src IDs too! (or lat&long?)
+        b)
+3. some information about the client(?) (on load, etc...?)      VV
 4. register to live update
 
 
@@ -13,4 +17,4 @@ pushes:
 
 ##
 0. notifications of registered rides for each user.
-1. find locations api (search engine)
+1. find locations api (search engine)               V

@@ -1,6 +1,8 @@
 package huji.postpc.year2021.hujiride.database
 
 import android.util.Log
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
@@ -11,6 +13,7 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.*
 import com.google.android.gms.tasks.*
 import com.google.firebase.database.DatabaseReference
+import com.google.type.LatLng
 import kotlinx.coroutines.tasks.await
 import huji.postpc.year2021.hujiride.Rides.Ride as ClientRide
 
@@ -42,7 +45,7 @@ class Database {
 
     suspend fun newRide(ride: ClientRide, driverID: String): Boolean {
 
-        val dbRide = Ride(ride.src, ride.dest, ride.time, ride.stops, ride.comments, clients.document(driverID))
+        val dbRide = Ride(ride.src, "", ride.dest, "", ride.time, ride.stops, ride.comments, clients.document(driverID))
         try {
             rides.document(ride.id.toString()).set(dbRide).await()
             return true
@@ -65,6 +68,35 @@ class Database {
             return true
         }
     }
+
+    suspend fun sortRidesAccordingToALocation(latLng: LatLng) : List<Ride> {
+        val closeRidesSnaps = rides.orderBy(FIELD_GEO_HASH)
+            .startAt(GeoFireUtils.getGeoHashForLocation(GeoLocation(latLng.latitude, latLng.longitude)))
+            .get()
+            .await()
+
+        val closeRides = arrayListOf<Ride>()
+        for (s in closeRidesSnaps) {
+            closeRides.add(s.toObject(Ride::class.java))
+        }
+        return closeRides
+    }
+
+    /**
+     * Returns null if the client does not even exist
+     */
+    suspend fun isClientAuth(clientUniqueID: String) : Boolean? {
+        return clients.document(clientUniqueID).get().await()?.getBoolean(FIELD_IS_AUTH)
+    }
+
+    /**
+     * Returns null if the client does not even exist, else, a map containing the data
+     */
+    suspend fun getClientData(clientUniqueID: String): MutableMap<String, Any>? {
+        return clients.document(clientUniqueID).get().await()?.data
+    }
+
+
 
 }
 
