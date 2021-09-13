@@ -3,6 +3,8 @@ package huji.postpc.year2021.hujiride.database
 import com.google.firebase.firestore.DocumentReference
 import com.google.type.LatLng
 
+// todo: boolen is university
+
 data class Ride (
     val srcName: String = "",   // TODO: Is it really needed?
     val srcID: String = "",     // TODO: Kanal

@@ -18,3 +18,4 @@ pushes:
 ##
 0. notifications of registered rides for each user.
 1. find locations api (search engine)               V
+2. automate ride deletion once it's over
