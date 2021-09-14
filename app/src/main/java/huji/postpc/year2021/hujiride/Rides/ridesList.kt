@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,13 @@ import huji.postpc.year2021.hujiride.HujiRideApplication
 class ridesList : Fragment() {
 
     private var aView: View? = null
+
+    private var srcDestImg: ImageView? = null
+    private var switchDirectionBtn: Button? = null
+    private var toHuji: Boolean = true
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +56,16 @@ class ridesList : Fragment() {
         aView?.findViewById<Button>(R.id.add_new_ride)?.setOnClickListener {
             Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_newRide2)
         }
+
+        srcDestImg = aView?.findViewById(R.id.srcDestImg)
+        switchDirectionBtn = aView?.findViewById(R.id.switchDirectionBtn)
+        setDirection()
+
+        switchDirectionBtn?.setOnClickListener({ v ->
+            toHuji = !toHuji
+            setDirection()
+        })
+
 
 
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
@@ -78,7 +96,28 @@ class ridesList : Fragment() {
 
         return aView
     }
+
+    fun setDirection() {
+
+        //todo: show only toHuji in right direction
+        if (toHuji) {
+
+            srcDestImg?.setImageResource(R.drawable.resource_switch)
+
+        } else {
+            srcDestImg?.setImageResource(R.drawable.switchfromhuji)
+
+
+        }
+    }
+
+
+
 }
+
+
+
+
 
 
 

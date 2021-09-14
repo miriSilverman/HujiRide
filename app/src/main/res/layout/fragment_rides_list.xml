@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title">
+            app:layout_constraintTop_toBottomOf="@+id/switchDirectionBtn">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteTextView2"
@@ -63,6 +63,31 @@
                 android:text="src and dest" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
+        <ImageView
+            android:id="@+id/srcDestImg"
+            android:layout_width="128dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:srcCompat="@drawable/resource_switch" />
+
+        <Button
+            android:id="@+id/switchDirectionBtn"
+            android:layout_width="125dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="10dp"
+            android:text="switch direction"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/srcDestImg" />
+
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rides_list_recyclerView"

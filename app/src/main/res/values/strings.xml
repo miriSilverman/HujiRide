@@ -5,6 +5,10 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="destHujiField">HUJI</string>
+    <string name="insertSourceHint">Insert source ...</string>
+    <string name="insertDestHint">Insert destination ...</string>
+    <string name="hujirides">HujiRides</string>
 
     <string-array name="sorting_list">
         <item>time</item>

@@ -9,13 +9,10 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.rpc.context.AttributeContext
 import huji.postpc.year2021.hujiride.Rides.Ride
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
-import java.lang.String.format
-import java.text.DateFormat
-import java.text.MessageFormat.format
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 /**
@@ -32,8 +29,10 @@ class newRide : Fragment() {
     private var stops: AutoCompleteTextView? = null
     private var comments: AutoCompleteTextView? = null
 
-
-
+    private var srcDestImg: ImageView? = null
+    private var switchDirectionBtn: Button? = null
+    private var toHuji: Boolean = true
+    private lateinit var vm: RidesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,41 +46,96 @@ class newRide : Fragment() {
         super.onResume()
         val stopsSortItems = resources.getStringArray(R.array.stops_list)
         val stopsArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, stopsSortItems)
-        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)?.setAdapter(stopsArrayAdapter)
+        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)
+            ?.setAdapter(stopsArrayAdapter)
 
 
         val commentsSortItems = resources.getStringArray(R.array.comments_list)
-        val commentsArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, commentsSortItems)
-        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteComments)?.setAdapter(commentsArrayAdapter)
+        val commentsArrayAdapter =
+            ArrayAdapter(requireContext(), R.layout.sort_item, commentsSortItems)
+        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteComments)
+            ?.setAdapter(commentsArrayAdapter)
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        aView =  inflater.inflate(R.layout.fragment_new_ride, container, false)
 
+    fun setDirection() {
+        if (toHuji) {
+
+            srcDestImg?.setImageResource(R.drawable.resource_switch)
+            destET?.setText(getString(R.string.destHujiField))
+            destET?.isEnabled = false
+            srcET?.isEnabled = true
+            srcET?.text?.clear()
+
+        } else {
+            srcDestImg?.setImageResource(R.drawable.switchfromhuji)
+            srcET?.setText(getString(R.string.destHujiField))
+            destET?.isEnabled = true
+            srcET?.isEnabled = false
+            destET?.text?.clear()
+
+
+        }
+    }
+
+
+    fun setSrcOrDest() {
+        toHuji = vm.toHuji
+        if (!vm.srcOrDest.equals("")) {
+            setDirection()
+
+            if (toHuji) {
+                srcET?.setText(vm.srcOrDest)
+            } else {
+                destET?.setText(vm.srcOrDest)
+            }
+
+        }else{
+            setDirection()
+        }
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        aView = inflater.inflate(R.layout.fragment_new_ride, container, false)
+        vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         srcET = aView?.findViewById(R.id.source_edit_text)
         destET = aView?.findViewById(R.id.dest_edit_text)
         stops = aView?.findViewById(R.id.autoCompleteStops)
         comments = aView?.findViewById(R.id.autoCompleteComments)
 
-
         timerTextView = aView?.findViewById(R.id.time_edit_btn)
 
+
+        srcDestImg = aView?.findViewById(R.id.srcDestImg)
+        switchDirectionBtn = aView?.findViewById(R.id.switchDirectionBtn)
+        setSrcOrDest()
+
+
+        switchDirectionBtn?.setOnClickListener({ v ->
+            toHuji = !toHuji
+            setDirection()
+        })
 
         timerTextView?.setOnClickListener {
 
 
-            var timePickerDialog : TimePickerDialog = TimePickerDialog(activity, TimePickerDialog.OnTimeSetListener()
-            {
-                v, hourOfDay, minutes ->
-                    timeHour = hourOfDay
-                    timeMinutes = minutes
-                    val calendar = Calendar.getInstance()
-                    calendar.set(0,0,0,timeHour, timeMinutes)
+            var timePickerDialog: TimePickerDialog =
+                TimePickerDialog(
+                    activity, TimePickerDialog.OnTimeSetListener()
+                    { v, hourOfDay, minutes ->
+                        timeHour = hourOfDay
+                        timeMinutes = minutes
+                        val calendar = Calendar.getInstance()
+                        calendar.set(0, 0, 0, timeHour, timeMinutes)
 //                    timerTextView!!.setText(DateFormat("HH:MM aa", calendar))
-                    timerTextView!!.setText("Leaving at $timeHour : $timeMinutes")
-            }, 12, 0, false)
+                        timerTextView!!.setText("Leaving at $timeHour : $timeMinutes")
+                    }, 12, 0, false
+                )
 
             timePickerDialog.updateTime(timeHour, timeMinutes)
             timePickerDialog.show()
@@ -93,12 +147,18 @@ class newRide : Fragment() {
         aView?.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
 
 
-            val newRide: Ride = Ride(srcET?.text.toString(), destET?.text.toString(),
-                    "$timeHour : $timeMinutes",
-                    arrayListOf<String>(stops?.text.toString()), arrayListOf<String>(comments?.text.toString()),
-                    app.userDetails.userFirstName, app.userDetails.userLastName,
-                    app.userDetails.userPhoneNumber,
-                    UUID.randomUUID())
+            val newRide: Ride = Ride(
+                srcET?.text.toString(),
+                destET?.text.toString(),
+                "$timeHour : $timeMinutes",
+                arrayListOf<String>(stops?.text.toString()),
+                arrayListOf<String>(comments?.text.toString()),
+                app.userDetails.userFirstName,
+                app.userDetails.userLastName,
+                app.userDetails.userPhoneNumber,
+                UUID.randomUUID(),
+                toHuji
+            )
 
 
             val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)

@@ -26,16 +26,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
+
+
         <EditText
             android:id="@+id/source_edit_text"
             android:layout_width="328dp"
             android:layout_height="48dp"
             android:layout_marginTop="44dp"
             android:background="#89B0D6"
-            android:hint="start"
+            android:paddingStart="20dp"
+            android:hint="@string/insertSourceHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/switchDirectionBtn" />
 
 
         <EditText
@@ -43,8 +47,9 @@
             android:layout_width="328dp"
             android:layout_height="48dp"
             android:layout_marginTop="44dp"
+            android:paddingStart="20dp"
             android:background="#89B0D6"
-            android:hint="Where do you want to go?"
+            android:hint="@string/insertDestHint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />
@@ -71,19 +76,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -168,6 +160,27 @@
                 android:text="add a comment ..." />
 
         </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/srcDestImg"
+            android:layout_width="128dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:srcCompat="@drawable/resource_switch" />
+
+        <Button
+            android:id="@+id/switchDirectionBtn"
+            android:layout_width="125dp"
+            android:layout_height="33dp"
+            android:layout_marginTop="10dp"
+            android:text="switch direction"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/srcDestImg" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
