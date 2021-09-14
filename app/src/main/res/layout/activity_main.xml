@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:background="#3F324C"
     tools:context=".MainActivity"
-    tools:openDrawer="start"
     >
 
 
@@ -32,8 +31,18 @@
             android:layout_height="match_parent"/>
 
 
+        <fragment android:id="@+id/autocomplete_fragment"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            />
+
+
 
     </LinearLayout>
+
+
+
 
 
     <com.google.android.material.navigation.NavigationView
@@ -64,11 +73,7 @@
         app:navGraph="@navigation/nav_dir"
         />
 
-    <fragment android:id="@+id/autocomplete_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-        />
+
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -81,5 +86,12 @@
         app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
