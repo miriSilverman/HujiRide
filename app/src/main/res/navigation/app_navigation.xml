@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/search_home"
-        android:name="huji.postpc.year2021.hujiride.search_home"
+        android:name="huji.postpc.year2021.hujiride.SearchHome"
         android:label="fragment_search_home"
         tools:layout="@layout/fragment_search_home" >
         <action
@@ -52,7 +52,7 @@
     </fragment>
     <fragment
         android:id="@+id/ridesList"
-        android:name="huji.postpc.year2021.hujiride.Rides.ridesList"
+        android:name="huji.postpc.year2021.hujiride.Rides.RidesList"
         android:label="fragment_rides_list"
         tools:layout="@layout/fragment_rides_list" >
         <action

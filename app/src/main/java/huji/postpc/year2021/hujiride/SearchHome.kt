@@ -20,7 +20,7 @@ import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 /**
  * create or find new ride
  */
-class search_home : Fragment() {
+class SearchHome : Fragment() {
 
     private lateinit var srcDestImg: ImageView
     private lateinit var switchDirectionBtn: Button
@@ -37,7 +37,6 @@ class search_home : Fragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,16 +45,15 @@ class search_home : Fragment() {
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         vm.pressedGroup.value = SearchGroupItem("all", false)
 
-        srcET = view.findViewById(R.id.source_edit_text)
-        destET = view.findViewById(R.id.dest_edit_text)
+        findViews(view)
 
-        srcDestImg = view.findViewById(R.id.srcDestImg)
-        switchDirectionBtn = view.findViewById(R.id.switchDirectionBtn)
         toHuji = vm.toHuji
         setDirection()
 
         switchDirectionBtn.setOnClickListener {
+            setDetails()
             toHuji = !toHuji
+            vm.toHuji = toHuji
             setDirection()
         }
 
@@ -71,52 +69,59 @@ class search_home : Fragment() {
         return view
     }
 
-
+    private fun findViews(view: View) {
+        srcET = view.findViewById(R.id.source_edit_text)
+        destET = view.findViewById(R.id.dest_edit_text)
+        srcDestImg = view.findViewById(R.id.srcDestImg)
+        switchDirectionBtn = view.findViewById(R.id.switchDirectionBtn)
+    }
 
 
     private fun setDetails(){
-        vm.toHuji = toHuji
         if (toHuji){
-            if (srcET.text?.isEmpty() != true){
-                vm.srcOrDest = srcET.text.toString()
-            }
+            syncVmAndET(srcET)
         }else{
-            if (destET.text?.isEmpty() != true){
-                vm.srcOrDest = destET.text.toString()
-            }
+            syncVmAndET(destET)
 
         }
+    }
 
+    private fun syncVmAndET(editText: EditText) {
+        if (editText.text?.isEmpty() != true) {
+            vm.srcOrDest = editText.text.toString()
+        } else {
+            vm.srcOrDest = ""
+        }
     }
 
 
 
     private fun setDirection() {
-
         if (toHuji) {
-
-            srcDestImg.setImageResource(R.drawable.resource_switch)
-            destET.setText(getString(R.string.destHujiField))
-            destET.setTextColor(Color.BLACK)
-            destET.isEnabled = false
-            srcET.isEnabled = true
-            srcET.text?.clear()
+            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch)
 
         } else {
-            srcDestImg.setImageResource(R.drawable.switchfromhuji)
-            srcET.setText(getString(R.string.destHujiField))
-            srcET.setTextColor(Color.BLACK)
-            destET.isEnabled = true
-            srcET.isEnabled = false
-            destET.text?.clear()
-
-
+            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji)
         }
         vm.toHuji = toHuji
     }
 
 
 
+    private fun designSwitchDirection(img:ImageView, constWay: EditText,
+                                      notConstWay: EditText, resOfImg: Int) {
+        img.setImageResource(resOfImg)
+        constWay.setText(getString(R.string.destHujiField))
+        constWay.setTextColor(Color.BLACK)
+        notConstWay.isEnabled = true
+        constWay.isEnabled = false
+        if (vm.srcOrDest != "") {
+            notConstWay.setText(vm.srcOrDest)
+        } else {
+
+            notConstWay.text?.clear()
+        }
+    }
 
 
 

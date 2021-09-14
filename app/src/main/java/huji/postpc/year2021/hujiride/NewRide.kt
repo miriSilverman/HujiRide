@@ -67,16 +67,9 @@ class NewRide : Fragment() {
     ): View {
         aView = inflater.inflate(R.layout.fragment_new_ride, container, false)
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
-
-        srcET = aView.findViewById(R.id.source_edit_text)
-        destET = aView.findViewById(R.id.dest_edit_text)
-        stops = aView.findViewById(R.id.autoCompleteStops)
-        comments = aView.findViewById(R.id.autoCompleteComments)
-        timerTextView = aView.findViewById(R.id.time_edit_btn)
-        srcDestImg = aView.findViewById(R.id.srcDestImg)
-        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
         app = HujiRideApplication.getInstance()
 
+        findViews()
         setSrcOrDest()
 
 
@@ -98,10 +91,19 @@ class NewRide : Fragment() {
             Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
         }
 
-
-
-
         return aView
+    }
+
+
+
+    private fun findViews() {
+        srcET = aView.findViewById(R.id.source_edit_text)
+        destET = aView.findViewById(R.id.dest_edit_text)
+        stops = aView.findViewById(R.id.autoCompleteStops)
+        comments = aView.findViewById(R.id.autoCompleteComments)
+        timerTextView = aView.findViewById(R.id.time_edit_btn)
+        srcDestImg = aView.findViewById(R.id.srcDestImg)
+        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
     }
 
     private fun createNewRide(app: HujiRideApplication): Ride {
@@ -138,37 +140,28 @@ class NewRide : Fragment() {
         timePickerDialog.show()
     }
 
+    private fun designSwitchDirection(img:ImageView, constWay: EditText,
+                                      notConstWay: EditText, resOfImg: Int) {
+        img.setImageResource(resOfImg)
+        constWay.setText(getString(R.string.destHujiField))
+        constWay.setTextColor(Color.BLACK)
+        notConstWay.isEnabled = true
+        constWay.isEnabled = false
+        if (vm.srcOrDest != "") {
+            notConstWay.setText(vm.srcOrDest)
+        } else {
+
+            notConstWay.text?.clear()
+        }
+    }
+
 
     private fun setDirection() {
         if (toHuji) {
-
-            srcDestImg.setImageResource(R.drawable.resource_switch)
-            destET.setText(getString(R.string.destHujiField))
-            destET.setTextColor(Color.BLACK)
-            destET.isEnabled = false
-            srcET.isEnabled = true
-            if (vm.srcOrDest != ""){
-                srcET.setText(vm.srcOrDest)
-            }else{
-
-                srcET.text?.clear()
-            }
+            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch)
 
         } else {
-            srcDestImg.setImageResource(R.drawable.switchfromhuji)
-            srcET.setText(getString(R.string.destHujiField))
-            srcET.setTextColor(Color.BLACK)
-            destET.isEnabled = true
-            srcET.isEnabled = false
-
-            if (vm.srcOrDest != ""){
-                destET.setText(vm.srcOrDest)
-            }else{
-
-                destET.text?.clear()
-            }
-
-
+            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji)
         }
     }
 
@@ -194,24 +187,21 @@ class NewRide : Fragment() {
 
     private fun setDetails(){
         if (toHuji){
-            if (srcET.text?.isEmpty() != true){
-                vm.srcOrDest = srcET.text.toString()
-            }else{
-                vm.srcOrDest = ""
-            }
+            syncVmAndET(srcET)
         }else{
-            if (destET.text?.isEmpty() != true){
-                vm.srcOrDest = destET.text.toString()
-            }else{
-                vm.srcOrDest = ""
-            }
-
+            syncVmAndET(destET)
         }
         toHuji = !toHuji
         vm.toHuji = toHuji
+    }
 
 
-
+    private fun syncVmAndET(editText: EditText) {
+        if (editText.text?.isEmpty() != true) {
+            vm.srcOrDest = editText.text.toString()
+        } else {
+            vm.srcOrDest = ""
+        }
     }
 
 
