@@ -1,5 +1,6 @@
 package huji.postpc.year2021.hujiride
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -36,25 +37,6 @@ class search_home : Fragment() {
     }
 
 
-    fun setDirection() {
-        if (toHuji) {
-
-            srcDestImg.setImageResource(R.drawable.resource_switch)
-            destET.setText(getString(R.string.destHujiField))
-            destET.isEnabled = false
-            srcET.isEnabled = true
-            srcET.text?.clear()
-
-        } else {
-            srcDestImg.setImageResource(R.drawable.switchfromhuji)
-            srcET.setText(getString(R.string.destHujiField))
-            destET.isEnabled = true
-            srcET.isEnabled = false
-            destET.text?.clear()
-
-
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,12 +51,13 @@ class search_home : Fragment() {
 
         srcDestImg = view.findViewById(R.id.srcDestImg)
         switchDirectionBtn = view.findViewById(R.id.switchDirectionBtn)
+        toHuji = vm.toHuji
         setDirection()
 
-        switchDirectionBtn.setOnClickListener({ v ->
+        switchDirectionBtn.setOnClickListener {
             toHuji = !toHuji
             setDirection()
-        })
+        }
 
         view.findViewById<TextView>(R.id.driver_btn).setOnClickListener {
             setDetails()
@@ -88,7 +71,10 @@ class search_home : Fragment() {
         return view
     }
 
-    fun setDetails(){
+
+
+
+    private fun setDetails(){
         vm.toHuji = toHuji
         if (toHuji){
             if (srcET.text?.isEmpty() != true){
@@ -102,6 +88,37 @@ class search_home : Fragment() {
         }
 
     }
+
+
+
+    private fun setDirection() {
+
+        if (toHuji) {
+
+            srcDestImg.setImageResource(R.drawable.resource_switch)
+            destET.setText(getString(R.string.destHujiField))
+            destET.setTextColor(Color.BLACK)
+            destET.isEnabled = false
+            srcET.isEnabled = true
+            srcET.text?.clear()
+
+        } else {
+            srcDestImg.setImageResource(R.drawable.switchfromhuji)
+            srcET.setText(getString(R.string.destHujiField))
+            srcET.setTextColor(Color.BLACK)
+            destET.isEnabled = true
+            srcET.isEnabled = false
+            destET.text?.clear()
+
+
+        }
+        vm.toHuji = toHuji
+    }
+
+
+
+
+
 
 
 }

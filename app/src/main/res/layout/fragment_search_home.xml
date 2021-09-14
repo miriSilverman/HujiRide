@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         android:layout_marginEnd="96dp"
-        android:text="DRIVER"
+        android:text="@string/driverBtnText"
         android:background="#6E368C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
@@ -87,7 +87,7 @@
         android:layout_marginStart="96dp"
         android:layout_marginTop="96dp"
         android:background="#6E368C"
-        android:text="TRAMPIST"
+        android:text="@string/trampistBtnText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
 
@@ -107,7 +107,7 @@
         android:layout_width="125dp"
         android:layout_height="33dp"
         android:layout_marginTop="10dp"
-        android:text="switch direction"
+        android:text="@string/switchDirectionBtnText"
         android:textSize="8sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
