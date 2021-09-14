@@ -3,14 +3,15 @@ package huji.postpc.year2021.hujiride.Groups
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
-import java.util.*
 import kotlin.collections.ArrayList
 
 class GroupsData {
 
-    val neighborhoods: List<SearchGroupItem> = java.util.ArrayList(Arrays.asList(SearchGroupItem("Malcha", false),
+    val neighborhoods: List<SearchGroupItem> = java.util.ArrayList(
+        listOf(SearchGroupItem("Malcha", false),
             SearchGroupItem("Bakaa", false), SearchGroupItem("Talpiyot", false),
-            SearchGroupItem("Pisgat zeev", false), SearchGroupItem("Gilo", false)))
+            SearchGroupItem("Pisgat zeev", false), SearchGroupItem("Gilo", false))
+    )
 
 
     // groups that were added
@@ -34,7 +35,7 @@ class GroupsData {
 
 
     fun getGroups() : List<SearchGroupItem> {
-        var newList = ArrayList<SearchGroupItem>()
+        val newList = ArrayList<SearchGroupItem>()
         liveDataGroups.value?.let { newList.addAll(it) }
         return newList
     }

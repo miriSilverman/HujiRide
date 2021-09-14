@@ -19,7 +19,7 @@ import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 /**
  * A simple [Fragment] subclass.
  */
-class groups_home : Fragment() {
+class GroupsHome : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,25 +33,21 @@ class groups_home : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_groups_home, container, false)
 
-
         view.findViewById<Button>(R.id.search_new_group_btn).setOnClickListener {
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchGroup)
         }
 
         val app = HujiRideApplication.getInstance()
-
-
+        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         val groupsData = app.groupsData
-
         val adapter = GroupsAdapter()
-
         val groupsRecycler: RecyclerView = view.findViewById(R.id.groups_list_recyclerView)
+
         groupsRecycler.adapter = adapter
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
 
         adapter.onItemClickCallback = {group: SearchGroupItem ->
-            val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
             vm.pressedGroup.value = group
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
         }

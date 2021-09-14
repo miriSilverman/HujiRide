@@ -3,16 +3,8 @@ package huji.postpc.year2021.hujiride.database
 import android.util.Log
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
-import com.google.android.gms.tasks.Task
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.*
-import kotlin.coroutines.*
-import com.google.android.gms.tasks.*
-import com.google.firebase.database.DatabaseReference
 import com.google.type.LatLng
 import kotlinx.coroutines.tasks.await
 import huji.postpc.year2021.hujiride.Rides.Ride as ClientRide

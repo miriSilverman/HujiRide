@@ -14,10 +14,9 @@ class MyRidesAdapter: RecyclerView.Adapter<MyRidesViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRidesViewHolder {
-        val contex = parent.context
-        val view = LayoutInflater.from(contex).inflate(R.layout.ride_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.ride_item, parent, false)
 
-        var holder = MyRidesViewHolder(view)
+        val holder = MyRidesViewHolder(view)
 
         val ridesList = HujiRideApplication.getInstance().myRides.getRidesList()
 
@@ -33,9 +32,9 @@ class MyRidesAdapter: RecyclerView.Adapter<MyRidesViewHolder>() {
         val ridesList = HujiRideApplication.getInstance().myRides.getRidesList()
 
         val ride = ridesList[position]
-        holder.source.setText(ride.src)
-        holder.dest.setText(ride.dest)
-        holder.time.setText(ride.time)
+        holder.source.text = ride.src
+        holder.dest.text = ride.dest
+        holder.time.text = ride.time
 
         holder.infoImg.setOnClickListener {
             val callback = onItemClickCallback?: return@setOnClickListener

@@ -1,8 +1,5 @@
 package huji.postpc.year2021.hujiride
 import huji.postpc.year2021.hujiride.Rides.Ride
-import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
-import java.util.*
-import kotlin.collections.ArrayList
 
 class RidesPerGroups{
 

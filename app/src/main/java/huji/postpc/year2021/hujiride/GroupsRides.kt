@@ -5,7 +5,6 @@ import java.util.*
 
 class GroupsRides {
 
-//    var map: Map<UUID, Ride> = mapOf()
     var idSet: Set<UUID> = setOf()
     var ridesList: List<Ride> = arrayListOf()
 

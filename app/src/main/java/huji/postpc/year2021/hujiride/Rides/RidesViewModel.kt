@@ -12,6 +12,7 @@ class RidesViewModel: ViewModel() {
     var pressedGroup: MutableLiveData<SearchGroupItem> = MutableLiveData()
 
 
-
+    var toHuji: Boolean = true
+    var srcOrDest: String = ""
 
 }

@@ -8,12 +8,12 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Button
+import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.R
-import huji.postpc.year2021.hujiride.RidesPerGroups
 import huji.postpc.year2021.hujiride.GroupsRides
 import huji.postpc.year2021.hujiride.HujiRideApplication
 
@@ -21,9 +21,15 @@ import huji.postpc.year2021.hujiride.HujiRideApplication
 /**
  * list of the closest rides
  */
-class ridesList : Fragment() {
+class RidesList : Fragment() {
 
-    private var aView: View? = null
+    private lateinit var aView: View
+    private lateinit var srcDestImg: ImageView
+    private lateinit var switchDirectionBtn: Button
+    private var toHuji: Boolean = true
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,17 +42,26 @@ class ridesList : Fragment() {
         super.onResume()
         val sortItems = resources.getStringArray(R.array.sorting_list)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, sortItems)
-        aView?.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)?.setAdapter(arrayAdapter)
+        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)?.setAdapter(arrayAdapter)
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         aView =  inflater.inflate(R.layout.fragment_rides_list, container, false)
 
-        aView?.findViewById<Button>(R.id.add_new_ride)?.setOnClickListener {
-            Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_newRide2)
+        aView.findViewById<Button>(R.id.add_new_ride)?.setOnClickListener {
+            Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_newRide2)
+        }
+
+        srcDestImg = aView.findViewById(R.id.srcDestImg)
+        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
+        setDirection()
+
+        switchDirectionBtn.setOnClickListener {
+            toHuji = !toHuji
+            setDirection()
         }
 
 
@@ -61,24 +76,41 @@ class ridesList : Fragment() {
             adapter.setRidesList(rides.ridesList)
         }
 
-        if (aView != null)
-        {
-            val ridesRecycler: RecyclerView = aView!!.findViewById(R.id.rides_list_recyclerView)
-            ridesRecycler.adapter = adapter
-            ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        val ridesRecycler: RecyclerView = aView.findViewById(R.id.rides_list_recyclerView)
+        ridesRecycler.adapter = adapter
+        ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
 
-            adapter.onItemClickCallback = {ride: Ride ->
-                vm.pressedRide.value = ride
-                Navigation.findNavController(aView!!).navigate(R.id.action_ridesList_to_ridesDetails)
-            }
-
+        adapter.onItemClickCallback = {ride: Ride ->
+            vm.pressedRide.value = ride
+            Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_ridesDetails)
         }
 
 
         return aView
     }
+
+    private fun setDirection() {
+
+        //todo: show only toHuji in right direction
+        if (toHuji) {
+
+            srcDestImg.setImageResource(R.drawable.resource_switch)
+
+        } else {
+            srcDestImg.setImageResource(R.drawable.switchfromhuji)
+
+
+        }
+    }
+
+
+
 }
+
+
+
+
 
 
 

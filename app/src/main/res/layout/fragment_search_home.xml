@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#3F51B5"
-    tools:context=".search_home">
+    tools:context=".SearchHome">
 
     <TextView
         android:id="@+id/title"
@@ -19,16 +19,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    <EditText-->
+<!--        android:id="@+id/source_edit_text"-->
+<!--        android:layout_width="328dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="44dp"-->
+<!--        android:background="#89B0D6"-->
+<!--        android:hint="start"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/title" />-->
+
+
+<!--    <EditText-->
+<!--        android:id="@+id/dest_edit_text"-->
+<!--        android:layout_width="328dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="44dp"-->
+<!--        android:background="#89B0D6"-->
+<!--        android:hint="Where do you want to go?"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />-->
+
+
     <EditText
         android:id="@+id/source_edit_text"
         android:layout_width="328dp"
         android:layout_height="48dp"
         android:layout_marginTop="44dp"
         android:background="#89B0D6"
-        android:hint="start"
+        android:paddingStart="20dp"
+        android:hint="@string/insertSourceHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/switchDirectionBtn" />
 
 
     <EditText
@@ -36,8 +61,9 @@
         android:layout_width="328dp"
         android:layout_height="48dp"
         android:layout_marginTop="44dp"
+        android:paddingStart="20dp"
         android:background="#89B0D6"
-        android:hint="Where do you want to go?"
+        android:hint="@string/insertDestHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />
@@ -48,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
         android:layout_marginEnd="96dp"
-        android:text="DRIVER"
+        android:text="@string/driverBtnText"
         android:background="#6E368C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
@@ -61,8 +87,32 @@
         android:layout_marginStart="96dp"
         android:layout_marginTop="96dp"
         android:background="#6E368C"
-        android:text="TRAMPIST"
+        android:text="@string/trampistBtnText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
+
+
+    <ImageView
+        android:id="@+id/srcDestImg"
+        android:layout_width="128dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:srcCompat="@drawable/resource_switch" />
+
+    <Button
+        android:id="@+id/switchDirectionBtn"
+        android:layout_width="125dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/switchDirectionBtnText"
+        android:textSize="8sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/srcDestImg" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,24 +24,24 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         val holder = GroupViewHolder(view)
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
-            val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
-            val group = _groupsList[holder.adapterPosition]
+            val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+            val group = groupsList[holder.adapterPosition]
             callback(group)
         }
 
         view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
             val callback = onDeleteIconCallback?: return@setOnClickListener
-            val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
-            val group = _groupsList[holder.adapterPosition]
+            val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+            val group = groupsList[holder.adapterPosition]
             callback(group)
         }
         return holder
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
-        val group = _groupsList[position]
-        holder.name.setText(group.name)
+        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+        val group = groupsList[position]
+        holder.name.text = group.name
 
         holder.name.setOnClickListener {
             val callback = onItemClickCallback?: return@setOnClickListener
@@ -50,7 +50,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        val _groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
-        return _groupsList.size
+        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+        return groupsList.size
     }
 }

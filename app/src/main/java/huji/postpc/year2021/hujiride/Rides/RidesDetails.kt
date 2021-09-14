@@ -17,9 +17,8 @@ import huji.postpc.year2021.hujiride.R
  */
 class RidesDetails : Fragment() {
 
-    private var aView: View? = null
+    private lateinit var aView: View
 
-//    private var currentRide : Ride? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,45 +32,45 @@ class RidesDetails : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         aView =  inflater.inflate(R.layout.fragment_rides_details, container, false)
 
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         activity?.let { vm.pressedRide.observe(it, {
             ride ->
 
-            aView?.findViewById<TextView>(R.id.source)?.setText(ride.src)
-            aView?.findViewById<TextView>(R.id.destination)?.setText(ride.dest)
-            aView?.findViewById<TextView>(R.id.time)?.setText(ride.time)
+            aView.findViewById<TextView>(R.id.source)?.text = ride.src
+            aView.findViewById<TextView>(R.id.destination)?.text = ride.dest
+            aView.findViewById<TextView>(R.id.time)?.text = ride.time
             var stops = ""
             for (s in ride.stops)
             {
                 stops += "\n"+s
             }
-            aView?.findViewById<TextView>(R.id.stops)?.setText(stops)
+            aView.findViewById<TextView>(R.id.stops)?.text = stops
 
             var comments = ""
             for (s in ride.comments)
             {
                 comments += "\n"+s
             }
-            aView?.findViewById<TextView>(R.id.comments)?.setText(comments)
+            aView.findViewById<TextView>(R.id.comments)?.text = comments
 
 
         }) }
 
 
-        aView?.findViewById<Button>(R.id.back_to_closest_rides)?.setOnClickListener {
-            Navigation.findNavController(aView!!).navigate(R.id.action_ridesDetails_to_ridesList)
+        aView.findViewById<Button>(R.id.back_to_closest_rides)?.setOnClickListener {
+            Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_ridesList)
         }
 
-        aView?.findViewById<Button>(R.id.contact_driver_btn)?.setOnClickListener {
-            Navigation.findNavController(aView!!).navigate(R.id.action_ridesDetails_to_driversDetails)
+        aView.findViewById<Button>(R.id.contact_driver_btn)?.setOnClickListener {
+            Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
         }
 
 
-        aView?.findViewById<Button>(R.id.back_to_groups)?.setOnClickListener {
-            Navigation.findNavController(aView!!).navigate(R.id.action_ridesDetails_to_groups_home)
+        aView.findViewById<Button>(R.id.back_to_groups)?.setOnClickListener {
+            Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_groups_home)
         }
         return aView
     }
