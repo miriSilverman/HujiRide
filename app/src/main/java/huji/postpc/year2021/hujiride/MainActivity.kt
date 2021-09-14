@@ -94,12 +94,8 @@ class MainActivity : AppCompatActivity() {
 
          //DB things
         GlobalScope.launch(Dispatchers.IO) {
-            println("#########################")
-
-//            pb.visibility  = View.VISIBLE
-            db.newClient("TEST2", "TEST1", "000", "TEST1")
-            db.findClient("TEST2")?.firstName
-            println("#########################")
+            db.newClient("TEST2", "TEST1", "000", "TEST2")
+            val f = db.findClient("TEST2")?.firstName
             withContext(Dispatchers.Main) {
             }
 
@@ -109,8 +105,7 @@ class MainActivity : AppCompatActivity() {
             db.registerClientToGroup("TEST1", 11)
             db.registerClientToGroup("TEST1", 152)
             db.registerClientToGroup("TEST1", 30)
-//            pb.visibility = View.GONE
-
+            print("######### $f")
             // not show loading
         }
 

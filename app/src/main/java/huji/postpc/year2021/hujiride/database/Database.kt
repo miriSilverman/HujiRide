@@ -44,8 +44,17 @@ class Database {
     }
 
     suspend fun newRide(ride: ClientRide, driverID: String): Boolean {
-
-        val dbRide = Ride(ride.src, "", ride.dest, "", ride.time, ride.stops, ride.comments, clients.document(driverID))
+        val dbRide = Ride(
+            time = ride.time,
+            stops = ride.stops,
+            comments = ride.comments,
+            driverID = clients.document(driverID),
+            destName = ride.dest,
+            lat = 0.0,
+            long = 0.0,
+            geoHash = "",
+            isDestinationHuji = false
+        )
         try {
             rides.document(ride.id.toString()).set(dbRide).await()
             return true
