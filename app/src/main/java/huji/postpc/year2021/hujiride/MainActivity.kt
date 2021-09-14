@@ -38,9 +38,6 @@ class MainActivity : AppCompatActivity() {
 
     private var drawer: DrawerLayout? = null
 
-    026266000
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -94,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         drawer?.addDrawerListener(toggle)
         toggle.syncState()
 
-        val pb = findViewById<ProgressBar>(R.id.Yair)
 
          //DB things
         GlobalScope.launch(Dispatchers.IO) {
@@ -105,7 +101,6 @@ class MainActivity : AppCompatActivity() {
             db.findClient("TEST2")?.firstName
             println("#########################")
             withContext(Dispatchers.Main) {
-                pb.visibility = View.GONE
             }
 
             db.newRide(Ride("TEST", "TEST", "NOW", arrayListOf(), arrayListOf(),
