@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ProgressBar
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -37,27 +38,14 @@ class MainActivity : AppCompatActivity() {
 
     private var drawer: DrawerLayout? = null
 
+    026266000
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
-        // DB things
-        GlobalScope.launch(Dispatchers.IO) {
-            db.newClient("TEST1", "TEST1", "000", "TEST1")
-            db.findClient("TEST1")?.firstName
-            withContext(Dispatchers.Main) {
-                // UI CHANGES
-            }
 
-            db.newRide(Ride("TEST", "TEST", "NOW", arrayListOf(), arrayListOf(),
-                            "Stephan", "TEST", "87567", UUID.randomUUID()),
-                "TEST1")
-            db.registerClientToGroup("TEST1", 11)
-            db.registerClientToGroup("TEST1", 152)
-            db.registerClientToGroup("TEST1", 30)
-        }
 
 
 
@@ -105,6 +93,31 @@ class MainActivity : AppCompatActivity() {
 
         drawer?.addDrawerListener(toggle)
         toggle.syncState()
+
+        val pb = findViewById<ProgressBar>(R.id.Yair)
+
+         //DB things
+        GlobalScope.launch(Dispatchers.IO) {
+            println("#########################")
+
+//            pb.visibility  = View.VISIBLE
+            db.newClient("TEST2", "TEST1", "000", "TEST1")
+            db.findClient("TEST2")?.firstName
+            println("#########################")
+            withContext(Dispatchers.Main) {
+                pb.visibility = View.GONE
+            }
+
+            db.newRide(Ride("TEST", "TEST", "NOW", arrayListOf(), arrayListOf(),
+                "Stephan", "TEST", "87567", UUID.randomUUID()),
+                "TEST1")
+            db.registerClientToGroup("TEST1", 11)
+            db.registerClientToGroup("TEST1", 152)
+            db.registerClientToGroup("TEST1", 30)
+//            pb.visibility = View.GONE
+
+            // not show loading
+        }
 
 
 
