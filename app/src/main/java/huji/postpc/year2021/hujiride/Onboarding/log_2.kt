@@ -1,14 +1,10 @@
 package huji.postpc.year2021.hujiride.Onboarding
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageView
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
 
@@ -16,52 +12,67 @@ import huji.postpc.year2021.hujiride.R
 /**
  * log - phone and id
  */
-class log_2 : Fragment() {
+class log_2 : BaseOnbaordingFragment(R.layout.fragment_log_2, R.id.action_log_2_to_scan, R.id.action_log_2_to_log_1) {
 
-    private var phoneNumber: EditText? = null
+    lateinit var phoneNumberView : EditText
+    lateinit var idNumberView : EditText
 
+    val phoneNumberInput : String
+        get() = phoneNumberView.text!!.toString()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
+    val idNumberInput : String
+        get() = idNumberView.text!!.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_log_2, container, false)
-        val vm = ViewModelProvider(requireActivity()).get(OnBoardingVM::class.java)
-        vm.unDoneTask(2)
+        val view = super.onCreateView(inflater, container, savedInstanceState)!!
 
-        view.findViewById<ImageView>(R.id.next_btn).setOnClickListener {
-            onNextBtn(vm, view)
-        }
-        view.findViewById<ImageView>(R.id.back_btn).setOnClickListener { Navigation.findNavController(view).navigate(R.id.action_log_2_to_log_1) }
-        phoneNumber = view.findViewById<EditText>(R.id.up_edit_txt)
+        phoneNumberView = view.findViewById(R.id.phone_number_edittext)
+        idNumberView = view.findViewById(R.id.id_number_edittext)
 
         return view
     }
 
-
-    fun onNextBtn(vm: OnBoardingVM, view: View) : Boolean
-    {
-
-        if (check_all_fields_are_filled())
-        {
-            HujiRideApplication.getInstance().userDetails.userPhoneNumber = phoneNumber?.text.toString()
-            vm.doneTask(2)
-            Navigation.findNavController(view).navigate(R.id.action_log_2_to_scan)
+    override fun onClickNext() {
+        val phoneNumber = phoneNumberInput
+        val idNumber = idNumberInput
+        if (!validatePhoneNumber(phoneNumber)) {
+            alertInvalidPhoneNumber()
+            return
+        }
+        if (!validateID(idNumber)) {
+            alertInvalidID()
+            return
         }
 
-        return true
+        //TODO: MIRIS
+        HujiRideApplication.getInstance().userDetails.userPhoneNumber = phoneNumberView.text.toString()
+
+        viewModel.phoneNumber = phoneNumber
+        viewModel.idNumber = idNumber
     }
 
+    override fun onClickBack() {
 
-    fun check_all_fields_are_filled() : Boolean
-    {
-        return true
+    }
+
+    private fun alertInvalidPhoneNumber() {
+
+    }
+
+    private fun alertInvalidID() {
+
+    }
+
+    fun validateID(ID: String) : Boolean {
+        return validateIsraeliID(ID)
+    }
+
+    fun validatePhoneNumber(phoneNumber: String): Boolean {
+        val regex = Regex("^0(5[^7]|7[0-9])[0-9]{7}\$")
+        return phoneNumber.matches(regex)
     }
 
 

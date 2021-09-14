@@ -4,6 +4,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class OnBoardingVM: ViewModel()  {
+    val progress: MutableLiveData<Int> by lazy { MutableLiveData<Int>(0) }
+
+    var firstName: String? = null
+    var lastName: String? = null
+
+    var phoneNumber: String? = null
+    var idNumber: String? = null
+
 
     var tasksArr = booleanArrayOf(true, false, false, false)
     var doneArr : MutableLiveData<BooleanArray> = MutableLiveData(tasksArr)

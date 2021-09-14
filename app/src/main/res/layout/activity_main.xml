@@ -53,7 +53,7 @@
 
 
         <fragment
-            android:id="@+id/fragment"
+            android:id="@+id/onborading_nav_fragment_container"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -66,7 +66,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.498"
-            app:navGraph="@navigation/nav_dir"
+            app:navGraph="@navigation/nav_onbaording"
             />
 
 
