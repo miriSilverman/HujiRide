@@ -161,10 +161,11 @@ class newRide : Fragment() {
             )
 
 
-            val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+//            val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
             val pressedGroup = vm.pressedGroup
             app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
+            vm.srcOrDest = ""
             Navigation.findNavController(aView!!).navigate(R.id.action_newRide2_to_dashboard)
         }
 
