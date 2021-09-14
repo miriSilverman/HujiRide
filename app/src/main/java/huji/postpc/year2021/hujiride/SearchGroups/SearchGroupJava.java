@@ -1,5 +1,6 @@
 package huji.postpc.year2021.hujiride.SearchGroups;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,33 +21,25 @@ import java.util.List;
 
 import huji.postpc.year2021.hujiride.HujiRideApplication;
 import huji.postpc.year2021.hujiride.R;
-import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupAdapter;
-import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem;
 
 public class SearchGroupJava extends Fragment {
 
-//    // todo: delete neighborhoods
-//    private List<SearchGroupItem> neighborhoods = new ArrayList<SearchGroupItem>(Arrays.asList(new SearchGroupItem("Malcha", false),
-//            new SearchGroupItem("Bakaa", false), new SearchGroupItem("Talpiyot", false),
-//            new SearchGroupItem("Pisga zeev", false), new SearchGroupItem("Gilo", false)));
 
-    private List<SearchGroupItem> checkedGroups = new ArrayList<>();
 
     private SearchGroupAdapter adapter;
-    private FloatingActionButton addGroupBtn;
     List<SearchGroupItem> neighborhoods;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_group, container, false);
-        addGroupBtn = view.findViewById(R.id.add_floating_btn);
+        FloatingActionButton addGroupBtn = view.findViewById(R.id.add_floating_btn);
         adapter = new SearchGroupAdapter();
         HujiRideApplication app = HujiRideApplication.getInstance();
         neighborhoods =  app.getGroupsData().getNeighborhoods();
 
 
         // init current changes to be empty
-        app.getGroupsData().setCurrentChanges(new ArrayList<SearchGroupItem>());
+        app.getGroupsData().setCurrentChanges(new ArrayList<>());
 
         app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) neighborhoods);
 
@@ -73,29 +66,27 @@ public class SearchGroupJava extends Fragment {
             }
         });
 
-        addGroupBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.action_searchGroup_to_groups_home);
+        addGroupBtn.setOnClickListener(view1 -> {
+            Navigation.findNavController(view1).navigate(R.id.action_searchGroup_to_groups_home);
 
 
-                // add now all the checked groups todo - change
-                final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
-                for (SearchGroupItem group: checkedGroups) {
-                    if (group.getChecked()){
-                        app.getGroupsData().addGroup(group);
-                    }else {
-                        app.getGroupsData().removeGroup(group);
-                    }
+            // add now all the checked groups todo - change
+            final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
+            for (SearchGroupItem group: checkedGroups) {
+                if (group.getChecked()){
+                    app.getGroupsData().addGroup(group);
+                }else {
+                    app.getGroupsData().removeGroup(group);
                 }
-
             }
+
         });
 
         return view;
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     private void filter(String text) {
         ArrayList<SearchGroupItem> filteredList = new ArrayList<>();
         HujiRideApplication app = HujiRideApplication.getInstance();
@@ -105,18 +96,9 @@ public class SearchGroupJava extends Fragment {
                 filteredList.add(item);
             }
         }
-        app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) filteredList);
+        app.getGroupsData().setChecked(filteredList);
         adapter.notifyDataSetChanged();
     }
 
 
-//    @Override
-//    public void onCheckingItem(Map<String, SearchGroupItem> map) {
-//
-//        HujiRideApplication app = HujiRideApplication.getInstance();
-//
-//        for (Pair<String, SearchGroupItem> item: map)
-//            app.getGroupsData().addGroup(new Group(item.first));
-//
-//    }
 }

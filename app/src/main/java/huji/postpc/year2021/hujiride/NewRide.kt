@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.google.rpc.context.AttributeContext
 import huji.postpc.year2021.hujiride.Rides.Ride
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import java.util.*
@@ -107,26 +106,24 @@ class NewRide : Fragment() {
     }
 
     private fun createNewRide(app: HujiRideApplication): Ride {
-        val newRide: Ride = Ride(
+        return Ride(
             srcET.text.toString(),
             destET.text.toString(),
             "$timeHour : $timeMinutes",
-            arrayListOf<String>(stops.text.toString()),
-            arrayListOf<String>(comments.text.toString()),
+            arrayListOf(stops.text.toString()),
+            arrayListOf(comments.text.toString()),
             app.userDetails.userFirstName,
             app.userDetails.userLastName,
             app.userDetails.userPhoneNumber,
             UUID.randomUUID(),
             toHuji
         )
-        return newRide
     }
 
     private fun timeDialog() {
-        val timePickerDialog: TimePickerDialog =
+        val timePickerDialog =
             TimePickerDialog(
-                activity, TimePickerDialog.OnTimeSetListener()
-                { v, hourOfDay, minutes ->
+                activity, { _, hourOfDay, minutes ->
                     timeHour = hourOfDay
                     timeMinutes = minutes
                     val calendar = Calendar.getInstance()

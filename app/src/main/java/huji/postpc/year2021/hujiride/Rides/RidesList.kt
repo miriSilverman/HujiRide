@@ -14,7 +14,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.R
-import huji.postpc.year2021.hujiride.RidesPerGroups
 import huji.postpc.year2021.hujiride.GroupsRides
 import huji.postpc.year2021.hujiride.HujiRideApplication
 

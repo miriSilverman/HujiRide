@@ -17,7 +17,7 @@ import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 /**
  * dashboard shows rides that the user was signed to
  */
-class dashboard : Fragment() {
+class Dashboard : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +28,7 @@ class dashboard : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         val aView = inflater.inflate(R.layout.fragment_dashboard, container, false)
         val adapter = MyRidesAdapter()
 
@@ -40,7 +40,7 @@ class dashboard : Fragment() {
 
         adapter.onItemClickCallback = {ride: Ride ->
             vm.pressedRide.value = ride
-            Navigation.findNavController(aView!!).navigate(R.id.action_dashboard_to_ridesDetails)
+            Navigation.findNavController(aView).navigate(R.id.action_dashboard_to_ridesDetails)
         }
 
 

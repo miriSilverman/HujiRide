@@ -37,15 +37,15 @@ class DriversDetails : Fragment() {
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         activity?.let { vm.pressedRide.observe(it, {
             ride ->
-            view.findViewById<TextView>(R.id.first_name).setText(ride.drivers_first_name)
-            view.findViewById<TextView>(R.id.last_name).setText(ride.drivers_last_name)
-            view.findViewById<TextView>(R.id.phone_num).setText(ride.drivers_phone_number)
+            view.findViewById<TextView>(R.id.first_name).text = ride.drivers_first_name
+            view.findViewById<TextView>(R.id.last_name).text = ride.drivers_last_name
+            view.findViewById<TextView>(R.id.phone_num).text = ride.drivers_phone_number
         }) }
 
 
         view.findViewById<Button>(R.id.add_to_my_rides).setOnClickListener {
-            v ->
-            val app = HujiRideApplication.getInstance()
+
+        val app = HujiRideApplication.getInstance()
             app.myRides.addRide(vm.pressedRide.value!!)
             Navigation.findNavController(view).navigate(R.id.action_driversDetails_to_dashboard)
 
