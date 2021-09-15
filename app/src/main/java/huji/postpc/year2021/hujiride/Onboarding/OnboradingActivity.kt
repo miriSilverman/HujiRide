@@ -35,9 +35,10 @@ class OnboradingActivity : AppCompatActivity() {
 
     private fun chooseFragment() {
         val actionID = when (viewModel.progress.value) {
-            0 -> return
-            1 -> R.id.action_log_1_to_log_2
-            2 -> R.id.action_log_1_to_scan
+            0 -> R.id.action_global_log_1
+            1 -> R.id.action_global_log_2
+            2 -> R.id.action_global_scan
+            3 -> R.id.action_global_successful_log
             else -> -1
         }
         val navHost = supportFragmentManager.findFragmentById(R.id.onborading_nav_fragment_container)
