@@ -4,16 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#3F51B5"
     tools:context=".Dashboard">
 
     <TextView
         android:id="@+id/title_next_rides"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="Your Next Rides:"
+        android:text="@string/dashboardText"
         android:gravity="center"
-        android:background="#89457A"
-        android:textSize="50dp"
+        android:textSize="50sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
