@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         val doneOnboarding = sp.getBoolean(DONE_ONBOARDING, false)
 
         if (doneOnboarding) {
-            doneOnboardingCase()
+//            doneOnboardingCase()
         }
             else {
             onboardingCase(sp)
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
 
         sharedVM.doneOnBoard.observe(this, Observer { b ->
             if (b) {
-                doneOnboardingCase()
+//                doneOnboardingCase()
                 val editor: SharedPreferences.Editor = sp.edit()
                 editor.putBoolean(DONE_ONBOARDING, true)
                 editor.putString(FIRST_NAME, userDetails.userFirstName)
@@ -151,12 +151,12 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    private fun doneOnboardingCase() {
-        setContentView(R.layout.home)
-        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-        val navController = findNavController(R.id.nav_host_fragment)
-        bottomNavView.setupWithNavController(navController)
-    }
+//    private fun doneOnboardingCase() {
+//        setContentView(R.layout.home)
+//        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+//        val navController = findNavController(R.id.nav_host_fragment)
+//        bottomNavView.setupWithNavController(navController)
+//    }
 
 
     override fun onBackPressed() {

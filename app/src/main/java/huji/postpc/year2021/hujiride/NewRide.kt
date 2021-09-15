@@ -153,6 +153,7 @@ class NewRide : Fragment() {
 
             manager.createNotificationChannel(channel)
         }
+
     }
 
     private fun sendNotification() {

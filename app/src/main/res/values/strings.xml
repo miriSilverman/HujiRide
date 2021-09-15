@@ -23,6 +23,8 @@
     <string name="trampistBtnText">TRAMPIST</string>
     <string name="searchRidesTitle">Search for Closest Rides:</string>
     <string name="dashboardText">Your Next Rides:</string>
+    <string name="searchGroupTitle">Search for New Group:</string>
+    <string name="addGroupBtnText">add\ngroups</string>
 
     <string-array name="sorting_list">
         <item>time</item>

@@ -5,15 +5,19 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -22,12 +26,13 @@ import java.util.List;
 import huji.postpc.year2021.hujiride.HujiRideApplication;
 import huji.postpc.year2021.hujiride.R;
 
-public class SearchGroupJava extends Fragment {
+public class SearchGroupJava extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener{
 
 
 
     private SearchGroupAdapter adapter;
     List<SearchGroupItem> neighborhoods;
+    private BottomNavigationView bottomNavigationView;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -37,7 +42,8 @@ public class SearchGroupJava extends Fragment {
         HujiRideApplication app = HujiRideApplication.getInstance();
         neighborhoods =  app.getGroupsData().getNeighborhoods();
 
-
+//        bottomNavigationView = view.findViewById(R.id.bottom_nav_view);
+//        bottomNavigationView.setOnNavigationItemSelectedListener(this);
         // init current changes to be empty
         app.getGroupsData().setCurrentChanges(new ArrayList<>());
 
@@ -101,4 +107,15 @@ public class SearchGroupJava extends Fragment {
     }
 
 
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.groups_home)
+        {
+            Toast.makeText(getActivity(), "grouppp", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return false;
+    }
 }
