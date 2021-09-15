@@ -65,7 +65,6 @@ class NewRide : Fragment() {
     }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -87,42 +86,87 @@ class NewRide : Fragment() {
             timeDialog()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channel = NotificationChannel("New Ride Notification", "New Ride Notification", NotificationManager.IMPORTANCE_DEFAULT)
-            val manager: NotificationManager =
-                activity?.getSystemService(NotificationManager::class.java)!!
-
-            manager.createNotificationChannel(channel)
-
-        }
+        audioNotification()
 
 
         aView.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
+            onPressedAddNewRide()
+        }
+
+        return aView
+    }
+
+    private fun onPressedAddNewRide() {
+        if (validateAllFields()){
             val newRide: Ride = createNewRide(app)
             val pressedGroup = vm.pressedGroup
             app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
             vm.srcOrDest = ""
 
 
-
-
-
-            // todo: send notification
-            val builder = activity?.let { it1 -> NotificationCompat.Builder(it1, "New Ride Notification") }
-            builder?.setContentTitle("New Ride has been created")
-            builder?.setContentText("click here to see more details")
-            builder?.setSmallIcon(R.drawable.ic_baseline_notifications_24)
-            builder?.setAutoCancel(true)
-
-            val manageCompat = activity?.let { it1 -> NotificationManagerCompat.from(it1) }
-            builder?.build()?.let { it1 -> manageCompat?.notify(1, it1) }
+            sendNotification()
 
             Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
         }
-
-        return aView
     }
 
+
+    private fun getEditableET() : EditText{
+        return if (toHuji){
+            srcET
+        }else{
+            destET
+        }
+    }
+
+
+    private fun getSrcOrDestStr() : String{
+        return if (toHuji){
+            "source"
+        }else{
+            "destination"
+        }
+    }
+
+
+
+
+
+    private fun validateAllFields(): Boolean{
+        val et = getEditableET()
+        if (et.text.isEmpty()){
+            Toast.makeText(activity, "you must fill ${getSrcOrDestStr()}",  Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+    private fun audioNotification() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "New Ride Notification",
+                "New Ride Notification",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val manager: NotificationManager =
+                activity?.getSystemService(NotificationManager::class.java)!!
+
+            manager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun sendNotification() {
+        // todo: change to something that works
+        val builder =
+            activity?.let { it1 -> NotificationCompat.Builder(it1, "New Ride Notification") }
+        builder?.setContentTitle("New Ride has been created")
+        builder?.setContentText("click here to see more details")
+        builder?.setSmallIcon(R.drawable.ic_baseline_notifications_24)
+        builder?.setAutoCancel(true)
+
+        val manageCompat = activity?.let { it1 -> NotificationManagerCompat.from(it1) }
+        builder?.build()?.let { it1 -> manageCompat?.notify(1, it1) }
+    }
 
 
     private fun findViews() {
@@ -158,7 +202,7 @@ class NewRide : Fragment() {
                     timeMinutes = minutes
                     val calendar = Calendar.getInstance()
                     calendar.set(0, 0, 0, timeHour, timeMinutes)
-    //                    timerTextView!!.setText(DateFormat("HH:MM aa", calendar))
+                    //                    timerTextView!!.setText(DateFormat("HH:MM aa", calendar))
                     timerTextView.text = "Leaving at $timeHour : $timeMinutes"
                 }, 12, 0, false
             )
@@ -167,8 +211,10 @@ class NewRide : Fragment() {
         timePickerDialog.show()
     }
 
-    private fun designSwitchDirection(img:ImageView, constWay: EditText,
-                                      notConstWay: EditText, resOfImg: Int) {
+    private fun designSwitchDirection(
+        img: ImageView, constWay: EditText,
+        notConstWay: EditText, resOfImg: Int
+    ) {
         img.setImageResource(resOfImg)
         constWay.setText(getString(R.string.destHujiField))
         constWay.setTextColor(Color.BLACK)
@@ -206,16 +252,16 @@ class NewRide : Fragment() {
 
             }
 
-        }else{
+        } else {
             setDirection()
         }
 
     }
 
-    private fun setDetails(){
-        if (toHuji){
+    private fun setDetails() {
+        if (toHuji) {
             syncVmAndET(srcET)
-        }else{
+        } else {
             syncVmAndET(destET)
         }
         toHuji = !toHuji
