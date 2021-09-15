@@ -21,6 +21,7 @@
     <string name="goToRidesListBtnText">ALL \nRIDES</string>
     <string name="driverBtnText">DRIVER</string>
     <string name="trampistBtnText">TRAMPIST</string>
+    <string name="searchRidesTitle">Search for Closest Rides:</string>
 
     <string-array name="sorting_list">
         <item>time</item>

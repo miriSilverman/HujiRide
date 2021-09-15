@@ -2,6 +2,8 @@ package huji.postpc.year2021.hujiride
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -9,10 +11,11 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
-class ApplicationActivity : AppCompatActivity() {
+class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
-    private var drawer: DrawerLayout? = null
+    private lateinit var drawer: DrawerLayout
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,7 +23,8 @@ class ApplicationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_application)
 
 
-
+        val nav_view = findViewById<NavigationView>(R.id.nav_view)
+        nav_view.setNavigationItemSelectedListener(this)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -31,7 +35,7 @@ class ApplicationActivity : AppCompatActivity() {
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close)
 
-        drawer?.addDrawerListener(toggle)
+        drawer.addDrawerListener(toggle)
         toggle.syncState()
 
 
@@ -48,13 +52,32 @@ class ApplicationActivity : AppCompatActivity() {
 
 
     override fun onBackPressed() {
-        if (drawer!!.isDrawerOpen(GravityCompat.START)){
-            drawer!!.closeDrawer(GravityCompat.START)
+        if (drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START)
         }
         else{
 
             super.onBackPressed()
         }
 
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
+            R.id.nav_settings ->
+                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, Settings()).commit()
+            R.id.nav_about ->
+                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, About()).commit()
+            R.id.nav_bugs ->
+                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, BugsReport()).commit()
+            R.id.nav_share ->
+                Toast.makeText(this, "share", Toast.LENGTH_SHORT).show()
+
+        }
+
+        drawer.closeDrawer(GravityCompat.START)
+
+
+        return true
     }
 }
