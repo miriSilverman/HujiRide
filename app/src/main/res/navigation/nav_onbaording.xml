@@ -17,9 +17,6 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_log_1_to_scan"
-            app:destination="@id/scan" />
     </fragment>
     <fragment
         android:id="@+id/log_2"
@@ -70,4 +67,5 @@
             android:id="@+id/action_successful_log_self"
             app:destination="@id/successful_log" />
     </fragment>
+    <action android:id="@+id/action_global_log_1" app:destination="@id/log_1" /><action android:id="@+id/action_global_log_2" app:destination="@id/log_2"/><action android:id="@+id/action_global_scan" app:destination="@id/scan"/><action android:id="@+id/action_global_successful_log" app:destination="@id/successful_log"/>
 </navigation>
