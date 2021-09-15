@@ -1,14 +1,11 @@
 package huji.postpc.year2021.hujiride.Onboarding
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import android.widget.ImageView
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
+import android.widget.Toast
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
 
@@ -16,59 +13,69 @@ import huji.postpc.year2021.hujiride.R
 /**
  * log - first and last name
  */
-class log_1 : Fragment() {
+class log_1 : BaseOnbaordingFragment(R.layout.fragment_log_1, R.id.action_log_1_to_log_2, -1) {
+    private var firstNameView: EditText? = null
+    private var lastNameView: EditText? = null
 
-    private var firstName: EditText? = null
-    private var lastName: EditText? = null
+    private val firstNameInput : String
+        get() = firstNameView!!.text.toString()
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
+    private val lastNameInput : String
+        get() = lastNameView!!.text.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_log_1, container, false)
-        val vm = ViewModelProvider(requireActivity()).get(OnBoardingVM::class.java)
-        vm.unDoneTask(1)
-
-        view.findViewById<ImageView>(R.id.next_btn).setOnClickListener {
-            onNextBtn(vm, view)
-        }
-
-        firstName = view.findViewById<EditText>(R.id.up_edit_txt)
-        lastName = view.findViewById<EditText>(R.id.lower_edit_txt)
-
-
+        val view = super.onCreateView(inflater, container, savedInstanceState)!!
+        firstNameView = view.findViewById(R.id.up_edit_txt)
+        lastNameView = view.findViewById(R.id.lower_edit_txt)
+        (requireActivity() as OnboradingActivity).setOnClickBack(null)
         return view
     }
 
+    override fun onClickNext() {
+        val firstName = firstNameInput
+        val lastName = lastNameInput
+//        if (!validateFirstName(firstName)) {
+//            alertInvalidFirstName()
+//            return
+//        }
+//        if (!validateLastName(lastName)) {
+//            alertInvalidLastName()
+//            return
+//        }
 
 
-    fun onNextBtn(vm: OnBoardingVM, view: View) : Boolean
-    {
+        // TODO: The next two lines needs to be deleted! MIRI ASKED FOR IT TO STAY!!!!
+        HujiRideApplication.getInstance().userDetails.userFirstName = firstNameView?.text.toString()
+        HujiRideApplication.getInstance().userDetails.userLastName = lastNameView?.text.toString()
 
-        if (check_all_fields_are_filled())
-        {
-            HujiRideApplication.getInstance().userDetails.userFirstName = firstName?.text.toString()
-            HujiRideApplication.getInstance().userDetails.userLastName = lastName?.text.toString()
 
-            vm.doneTask(1)
-            Navigation.findNavController(view).navigate(R.id.action_log_1_to_log_2)
-        }
+        viewModel.firstName = firstName
+        viewModel.lastName = lastName
+    }
 
-        return true
+    override fun onClickBack() {
+        // Shouldn't do a thing!
     }
 
 
-    fun check_all_fields_are_filled() : Boolean
-    {
-        return true
+    private fun alertInvalidFirstName() {
+        Toast.makeText(requireContext(), "Invalid First Name! try again!", Toast.LENGTH_LONG).show()
     }
 
+    private fun alertInvalidLastName() {
+        Toast.makeText(requireContext(), "Invalid Last Name! try again!", Toast.LENGTH_LONG).show()
+    }
 
+    private fun validateFirstName(s: String) : Boolean {
+        val regex = Regex("[A-Za-z]{2,9}|[א-ת]")
+        return s.matches(regex)
+    }
+
+    private fun validateLastName(s: String) : Boolean {
+        val regex = Regex("[A-Za-z]{2,9}|[א-ת]")
+        return s.matches(regex)
+    }
 }

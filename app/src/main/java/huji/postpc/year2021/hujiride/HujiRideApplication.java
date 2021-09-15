@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
 import huji.postpc.year2021.hujiride.MyRides.MyRides;
+import huji.postpc.year2021.hujiride.database.Database;
 
 public class HujiRideApplication extends Application {
 
@@ -20,7 +21,7 @@ public class HujiRideApplication extends Application {
     private String FIRST_NAME = "first name";
     private String LAST_NAME = "last name";
     private String PHONE_NUMBER = "phone num";
-
+    private Database db;
 
 
 
@@ -41,6 +42,8 @@ public class HujiRideApplication extends Application {
                 sp.getString(LAST_NAME, ""),
                 sp.getString(PHONE_NUMBER, ""));
 
+        db = new Database();
+
     }
 
     public GroupsData getGroupsData()
@@ -56,6 +59,10 @@ public class HujiRideApplication extends Application {
 
     public MyRides getMyRides() {
         return myRides;
+    }
+
+    public Database getDb() {
+        return db;
     }
 
     public static HujiRideApplication getInstance()

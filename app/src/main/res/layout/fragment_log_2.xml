@@ -8,57 +8,35 @@
 
 
     <EditText
-        android:id="@+id/up_edit_txt"
+        android:id="@+id/phone_number_edittext"
         android:layout_width="217dp"
         android:layout_height="55dp"
         android:layout_marginTop="48dp"
         android:background="#86AFD8"
-        android:digits="0123456789"
         android:gravity="center"
         android:hint="Your Phone*"
-        android:maxLength="20"
+        android:maxLength="10"
         android:textSize="12dp"
+        android:ems="10"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/lower_edit_txt"
+        android:id="@+id/id_number_edittext"
         android:layout_width="217dp"
         android:layout_height="55dp"
         android:layout_marginTop="60dp"
         android:background="#86AFD8"
-        android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:gravity="center"
         android:hint="ID*"
-        android:maxLength="20"
+        android:maxLength="9"
         android:textSize="12dp"
+        android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/up_edit_txt" />
-
-    <ImageView
-        android:id="@+id/next_btn"
-        android:layout_width="87dp"
-        android:layout_height="91dp"
-        android:layout_marginTop="68dp"
-        android:src="@drawable/ic_baseline_arrow_forward_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.824"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lower_edit_txt" />
-
-    <ImageView
-        android:id="@+id/back_btn"
-        android:layout_width="87dp"
-        android:layout_height="91dp"
-        android:layout_marginTop="68dp"
-        android:src="@drawable/ic_baseline_arrow_back_24"
-        app:layout_constraintEnd_toStartOf="@+id/next_btn"
-        app:layout_constraintHorizontal_bias="0.248"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lower_edit_txt" />
-
+        app:layout_constraintTop_toBottomOf="@+id/phone_number_edittext" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

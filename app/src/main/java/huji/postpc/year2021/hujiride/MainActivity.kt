@@ -56,7 +56,6 @@ class MainActivity : AppCompatActivity() {
         val autocompleteFragment =
             supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
                     as AutocompleteSupportFragment
-    println("HIHIHIHI")
         // Specify the types of place data to return.
         autocompleteFragment
             .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))

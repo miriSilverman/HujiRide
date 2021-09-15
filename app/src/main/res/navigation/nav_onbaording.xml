@@ -17,6 +17,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_log_1_to_scan"
+            app:destination="@id/scan" />
     </fragment>
     <fragment
         android:id="@+id/log_2"
