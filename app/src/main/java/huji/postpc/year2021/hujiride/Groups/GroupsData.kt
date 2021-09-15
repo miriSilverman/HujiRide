@@ -54,6 +54,19 @@ class GroupsData {
 
 
 
+//    ######################  DIALOG POPUP ##########################
+
+    var checkedItems: ArrayList<Boolean> = arrayListOf()
+    var userItems: ArrayList<Int> = arrayListOf()
+
+    fun initVars(){
+        for (item: SearchGroupItem in neighborhoods){
+            checkedItems.add(item.checked)
+        }
+    }
+
+
+
 
 
 

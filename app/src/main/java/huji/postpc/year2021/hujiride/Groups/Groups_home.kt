@@ -1,5 +1,8 @@
 package huji.postpc.year2021.hujiride.Groups
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,21 +30,31 @@ class GroupsHome : Fragment() {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_groups_home, container, false)
-
-        view.findViewById<Button>(R.id.search_new_group_btn).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchGroup)
-        }
-
         val app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         val groupsData = app.groupsData
         val adapter = GroupsAdapter()
         val groupsRecycler: RecyclerView = view.findViewById(R.id.groups_list_recyclerView)
+
+        view.findViewById<Button>(R.id.search_new_group_btn).setOnClickListener {
+
+//            val builder = AlertDialog.Builder(activity)
+//            builder.setTitle("Add groups")
+//            builder.setMultiChoiceItems(groupsData.neighborhoods, groupsData.checkedItems,
+//            DialogInterface.OnMultiChoiceClickListener({
+//                dialogInterface, i, b ->
+//
+//            }))
+
+            Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchGroup)
+        }
+
 
         groupsRecycler.adapter = adapter
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
