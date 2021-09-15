@@ -1,10 +1,11 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.ToolBarFraments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import huji.postpc.year2021.hujiride.R
 
 class BugsReport: Fragment() {
 

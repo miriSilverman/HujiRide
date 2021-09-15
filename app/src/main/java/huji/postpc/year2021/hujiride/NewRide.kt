@@ -1,13 +1,19 @@
 package huji.postpc.year2021.hujiride
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.TimePickerDialog
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import huji.postpc.year2021.hujiride.Rides.Ride
@@ -81,12 +87,36 @@ class NewRide : Fragment() {
             timeDialog()
         }
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            val channel = NotificationChannel("New Ride Notification", "New Ride Notification", NotificationManager.IMPORTANCE_DEFAULT)
+            val manager: NotificationManager =
+                activity?.getSystemService(NotificationManager::class.java)!!
+
+            manager.createNotificationChannel(channel)
+
+        }
+
 
         aView.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
             val newRide: Ride = createNewRide(app)
             val pressedGroup = vm.pressedGroup
             app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
             vm.srcOrDest = ""
+
+
+
+
+
+            // todo: send notification
+            val builder = activity?.let { it1 -> NotificationCompat.Builder(it1, "New Ride Notification") }
+            builder?.setContentTitle("New Ride has been created")
+            builder?.setContentText("click here to see more details")
+            builder?.setSmallIcon(R.drawable.ic_baseline_notifications_24)
+            builder?.setAutoCancel(true)
+
+            val manageCompat = activity?.let { it1 -> NotificationManagerCompat.from(it1) }
+            builder?.build()?.let { it1 -> manageCompat?.notify(1, it1) }
+
             Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
         }
 

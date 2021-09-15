@@ -12,6 +12,9 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import huji.postpc.year2021.hujiride.ToolBarFraments.About
+import huji.postpc.year2021.hujiride.ToolBarFraments.BugsReport
+import huji.postpc.year2021.hujiride.ToolBarFraments.Settings
 
 class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
