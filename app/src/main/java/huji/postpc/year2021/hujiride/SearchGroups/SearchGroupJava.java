@@ -80,17 +80,17 @@ public class SearchGroupJava extends Fragment{
             Navigation.findNavController(view1).navigate(R.id.action_searchGroup_to_groups_home);
 
 
-            // add now all the checked groups todo - change
-            final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
-            for (SearchGroupItem group: checkedGroups) {
-                if (group.getChecked()){
-                    app.getGroupsData().addGroup(group);
-                }else {
-                    app.getGroupsData().removeGroup(group);
-                }
-            }
+//            // add now all the checked groups todo - change
+//            final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
+//            for (SearchGroupItem group: checkedGroups) {
+//                if (group.getChecked()){
+//                    app.getGroupsData().addGroup(group);
+//                }else {
+//                    app.getGroupsData().removeGroup(group);
+//                }
+//            }
 
-            app.getGroupsData().setCurrentChanges(new ArrayList<>());
+//            app.getGroupsData().setCurrentChanges(new ArrayList<>());
 
 
         });
@@ -104,8 +104,6 @@ public class SearchGroupJava extends Fragment{
 
     @SuppressLint("NotifyDataSetChanged")
     private void filter(String text) {
-        ArrayList<Boolean> neighborhoodsChecked = app.getGroupsData().getNeighborhoodsChecked();
-//        ArrayList<SearchGroupItem> filteredList = new ArrayList<>();
         ArrayList<String> filteredList = new ArrayList<>();
         for (int i = 0; i < neighborhoods.size(); i++) {
             if (neighborhoods.get(i).toLowerCase().contains(text.toLowerCase())) {
@@ -113,11 +111,6 @@ public class SearchGroupJava extends Fragment{
                 filteredList.add(neighborhoods.get(i));
             }
         }
-//        for (String item : neighborhoods) {
-//            if (item.toLowerCase().contains(text.toLowerCase())) {
-//                filteredList.add(SearchGroupItem(item, item.));
-//            }
-//        }
         app.getGroupsData().setFiltered(filteredList);
         adapter.notifyDataSetChanged();
     }
