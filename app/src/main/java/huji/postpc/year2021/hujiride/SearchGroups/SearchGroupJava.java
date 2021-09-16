@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,39 +19,46 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import huji.postpc.year2021.hujiride.HujiRideApplication;
 import huji.postpc.year2021.hujiride.R;
 
-public class SearchGroupJava extends Fragment implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class SearchGroupJava extends Fragment{
 
 
 
     private SearchGroupAdapter adapter;
-    List<SearchGroupItem> neighborhoods;
+    List<String> neighborhoods;
     private BottomNavigationView bottomNavigationView;
+    private HujiRideApplication app;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_group, container, false);
         FloatingActionButton addGroupBtn = view.findViewById(R.id.add_floating_btn);
+        RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
+        EditText editText = view.findViewById(R.id.search_group_editText);
+
         adapter = new SearchGroupAdapter();
-        HujiRideApplication app = HujiRideApplication.getInstance();
+        app = HujiRideApplication.getInstance();
         neighborhoods =  app.getGroupsData().getNeighborhoods();
 
 //        bottomNavigationView = view.findViewById(R.id.bottom_nav_view);
 //        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+
+
         // init current changes to be empty
-        app.getGroupsData().setCurrentChanges(new ArrayList<>());
+//        clearChanges();
+//        app.getGroupsData().setCurrentChanges(new ArrayList<>());
 
-        app.getGroupsData().setChecked((ArrayList<SearchGroupItem>) neighborhoods);
+        app.getGroupsData().setFiltered((ArrayList<String>) neighborhoods);
 
-        RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
         groupsRecycler.setAdapter(adapter);
         groupsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
 
 
-        EditText editText = view.findViewById(R.id.search_group_editText);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -86,36 +90,76 @@ public class SearchGroupJava extends Fragment implements BottomNavigationView.On
                 }
             }
 
+            app.getGroupsData().setCurrentChanges(new ArrayList<>());
+
+
         });
 
         return view;
     }
 
 
+
+
+
     @SuppressLint("NotifyDataSetChanged")
     private void filter(String text) {
-        ArrayList<SearchGroupItem> filteredList = new ArrayList<>();
-        HujiRideApplication app = HujiRideApplication.getInstance();
-
-        for (SearchGroupItem item : neighborhoods) {
-            if (item.getName().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
+        ArrayList<Boolean> neighborhoodsChecked = app.getGroupsData().getNeighborhoodsChecked();
+//        ArrayList<SearchGroupItem> filteredList = new ArrayList<>();
+        ArrayList<String> filteredList = new ArrayList<>();
+        for (int i = 0; i < neighborhoods.size(); i++) {
+            if (neighborhoods.get(i).toLowerCase().contains(text.toLowerCase())) {
+//                filteredList.add(new SearchGroupItem(neighborhoods.get(i), neighborhoodsChecked.get(i)));
+                filteredList.add(neighborhoods.get(i));
             }
         }
-        app.getGroupsData().setChecked(filteredList);
+//        for (String item : neighborhoods) {
+//            if (item.toLowerCase().contains(text.toLowerCase())) {
+//                filteredList.add(SearchGroupItem(item, item.));
+//            }
+//        }
+        app.getGroupsData().setFiltered(filteredList);
         adapter.notifyDataSetChanged();
     }
 
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.groups_home)
-        {
-            Toast.makeText(getActivity(), "grouppp", Toast.LENGTH_SHORT).show();
-            return true;
-        }
 
-        return false;
-    }
+
 }
+
+
+
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == R.id.groups_home)
+//        {
+//            Toast.makeText(getActivity(), "grouppp", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+//
+//        return false;
+//    }
+
+//
+//    private void clearChanges(){
+//
+//        for (SearchGroupItem gr : app.getGroupsData().getCurrentChanges()){
+//            System.out.println("## "+ gr.getName()+" "+gr.getChecked());
+//        }
+//
+//
+//        final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
+//        for (SearchGroupItem group: checkedGroups) {
+//
+//            for (SearchGroupItem g: app.getGroupsData().getNeighborhoods()){
+//                if (g.getName().equals(group.getName())){
+//                    group.setChecked(g.getChecked());
+//                }
+//            }
+//        }
+//        adapter.notifyDataSetChanged();
+//        app.getGroupsData().setCurrentChanges(new ArrayList<>());
+//
+//
+//    }

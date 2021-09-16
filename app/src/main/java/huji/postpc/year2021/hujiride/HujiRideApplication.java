@@ -33,6 +33,7 @@ public class HujiRideApplication extends Application {
             instance = this;
         }
         groupsData = new GroupsData();
+        getGroupsData().initNeighborhoodsChecked();
         ridesPerGroups = new RidesPerGroups();
         myRides = new MyRides();
 
