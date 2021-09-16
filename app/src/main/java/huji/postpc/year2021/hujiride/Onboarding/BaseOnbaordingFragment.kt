@@ -8,12 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 
-
-/**
- * A simple [Fragment] subclass.
- * Use the [BaseOnbaordingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 abstract class BaseOnbaordingFragment(
     val layoutID: Int,
     val nextNavigationActionID: Int,
@@ -27,28 +21,30 @@ abstract class BaseOnbaordingFragment(
     ): View? {
         val activity = requireActivity() as OnboradingActivity
         activity.setOnClickNext {
-            onClickNext()
-            viewModel.progress.value = viewModel.progress.value!!+1
-            nextPage()
+            if (onClickNext()) {
+                viewModel.progress.value = viewModel.progress.value!!+1
+                nextPage()
+            }
         }
         activity.setOnClickBack {
-            onClickBack()
-            viewModel.progress.value = viewModel.progress.value!!-1
-            prevPage()
+            if (onClickBack()) {
+                viewModel.progress.value = viewModel.progress.value!!-1
+                prevPage()
+            }
         }
         return inflater.inflate(layoutID, container, false)
     }
 
 
-    abstract fun onClickNext()
+    abstract fun onClickNext() : Boolean
 
-    abstract fun onClickBack()
+    abstract fun onClickBack() : Boolean
 
-    fun nextPage() {
+    private fun nextPage() {
         Navigation.findNavController(requireView()).navigate(nextNavigationActionID)
     }
 
-    private fun prevPage() {
+    protected fun prevPage() {
         Navigation.findNavController(requireView()).navigate(prevNavigationActionID)
     }
 

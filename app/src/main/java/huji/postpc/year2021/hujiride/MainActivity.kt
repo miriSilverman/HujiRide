@@ -27,32 +27,24 @@ import kotlinx.coroutines.*
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val SHARED = "shared"
-    private val DONE_ONBOARDING = "done onboarding"
-    private val FIRST_NAME = "first name"
-    private val LAST_NAME = "last name"
-    private val PHONE_NUMBER = "phone num"
-    val db : Database = Database()
-
-    private var drawer: DrawerLayout? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
-
-
         setContentView(R.layout.activity_main)
+    }
 
+    private fun placesSearch() {
         // places search bar
         Places.initialize(this, "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
         val placesClient = Places.createClient(this)
 
         // Initialize the AutocompleteSupportFragment.
+//        val autocompleteFragment =
+//            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+//                    as AutocompleteSupportFragment
+
         val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+            supportFragmentManager.findFragmentById(-1)
                     as AutocompleteSupportFragment
         // Specify the types of place data to return.
         autocompleteFragment
@@ -73,101 +65,6 @@ class MainActivity : AppCompatActivity() {
                 Log.i(TAG, "An error occurred: $status")
             }
         })
-
-
-        var toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-
-
-        drawer = findViewById(R.id.drawer_layout)
-        val toggle = ActionBarDrawerToggle(this, drawer, toolbar,
-        R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close)
-
-        drawer?.addDrawerListener(toggle)
-        toggle.syncState()
-
-
-         //DB things
-        GlobalScope.launch(Dispatchers.IO) {
-            db.newClient("TEST2", "TEST1", "000", "TEST2")
-            val f = db.findClient("TEST2")?.firstName
-            withContext(Dispatchers.Main) {
-            }
-
-            db.newRide(Ride("TEST", "TEST", "NOW", arrayListOf(), arrayListOf(),
-                "Stephan", "TEST", "87567", UUID.randomUUID()),
-                "TEST1")
-            db.registerClientToGroup("TEST1", 11)
-            db.registerClientToGroup("TEST1", 152)
-            db.registerClientToGroup("TEST1", 30)
-            print("######### $f")
-            // not show loading
-        }
-
-
-
-        val sp: SharedPreferences = this.getSharedPreferences(SHARED, Context.MODE_PRIVATE)
-
-        val doneOnboarding = sp.getBoolean(DONE_ONBOARDING, false)
-
-        if (doneOnboarding) {
-//            doneOnboardingCase()
-        }
-            else {
-            onboardingCase(sp)
-        }
-    }
-
-
-
-    private fun onboardingCase(sp: SharedPreferences) {
-
-        val sharedVM = ViewModelProvider(this).get(OnBoardingVM::class.java)
-        val userDetails = HujiRideApplication.getInstance().userDetails
-
-        sharedVM.doneArr.observe(this, Observer { arr ->
-
-            var num = 0
-            for (task in arr) {
-                if (task) num++
-            }
-            findViewById<ProgressBar>(R.id.progressBar).progress = num
-        })
-
-
-        sharedVM.doneOnBoard.observe(this, Observer { b ->
-            if (b) {
-//                doneOnboardingCase()
-                val editor: SharedPreferences.Editor = sp.edit()
-                editor.putBoolean(DONE_ONBOARDING, true)
-                editor.putString(FIRST_NAME, userDetails.userFirstName)
-                editor.putString(LAST_NAME, userDetails.userLastName)
-                editor.putString(PHONE_NUMBER, userDetails.userPhoneNumber)
-                editor.apply()
-            }
-        })
-    }
-
-
-
-//    private fun doneOnboardingCase() {
-//        setContentView(R.layout.home)
-//        val bottomNavView = findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-//        val navController = findNavController(R.id.nav_host_fragment)
-//        bottomNavView.setupWithNavController(navController)
-//    }
-
-
-    override fun onBackPressed() {
-        if (drawer!!.isDrawerOpen(GravityCompat.START)){
-            drawer!!.closeDrawer(GravityCompat.START)
-        }
-        else{
-
-            super.onBackPressed()
-        }
-
     }
 
 }
