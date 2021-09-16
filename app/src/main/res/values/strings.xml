@@ -32,6 +32,8 @@
     <string name="your_phone_mandatoryField">Your Phone*</string>
     <string name="id_mandatoryField">ID*</string>
     <string name="successful_onb_tip">Tap next to proceed to the app!</string>
+    <string name="searchGroupTitle">Search for New Group:</string>
+    <string name="addGroupBtnText">add\ngroups</string>
 
     <string-array name="sorting_list">
         <item>time</item>
