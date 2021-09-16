@@ -4,40 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Onboarding.log_1">
+    tools:context=".Onboarding.log_1"
+    >
 
 
     <EditText
-        android:id="@+id/up_edit_txt"
-        android:layout_width="217dp"
-        android:layout_height="55dp"
+        android:id="@+id/first_name_edit_text"
+        style="@style/OnboardingStyle.TextFields"
         android:layout_marginTop="44dp"
-        android:background="#86AFD8"
         android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        android:gravity="center"
-        android:hint="First Name*"
-        android:maxLength="20"
-        android:textSize="12dp"
+        android:hint="@string/first_name_mandatoryField"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/lower_edit_txt"
-        android:layout_width="217dp"
-        android:layout_height="55dp"
+        android:id="@+id/last_name_edit_text"
+        style="@style/OnboardingStyle.TextFields"
         android:layout_marginTop="60dp"
-        android:background="#86AFD8"
         android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-        android:gravity="center"
-        android:hint="Last Name*"
-        android:maxLength="20"
-        android:textSize="12dp"
+        android:hint="@string/last_name_mandatoryField"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/up_edit_txt" />
+        app:layout_constraintTop_toBottomOf="@+id/first_name_edit_text" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

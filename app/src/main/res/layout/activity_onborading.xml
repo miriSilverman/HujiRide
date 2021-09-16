@@ -1,75 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Onboarding.OnboradingActivity"
+    android:background="@color/onb_background"
     >
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/top_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.15"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/bottom_guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.80"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <ProgressBar
-        android:id="@+id/onbaording_progressbar"
-        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_marginHorizontal="15dp"
-        android:max="4"
-        android:progress="1"
-        android:scaleY="8"
-        app:layout_constraintBottom_toTopOf="@+id/top_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+            <ProgressBar
+                android:id="@+id/onbaording_progressbar"
+                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginHorizontal="25dp"
+                android:layout_marginTop="10dp"
+                android:max="400"
+                android:progress="100"
+                android:scaleY="8"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/onborading_nav_fragment_container"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/top_guideline"
-        app:navGraph="@navigation/nav_onbaording"
-        />
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/onborading_nav_fragment_container"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_onbaording" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="@+id/bottom_guideline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center"
-        android:layout_marginHorizontal="30dp"
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="40dp"
         >
 
         <ImageButton
             android:id="@+id/back_btn"
-            android:layout_height="match_parent"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_baseline_arrow_back_24"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_round_navigate_before_24"
+            android:background="@drawable/hollow_circle"
+            android:backgroundTint="@color/onb_colorPrimary"
+            android:backgroundTintMode="multiply"
+            app:tint="@color/onb_colorPrimary"
             />
 
 
@@ -80,16 +75,16 @@
 
         <ImageButton
             android:id="@+id/next_btn"
-            android:layout_height="match_parent"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_baseline_arrow_forward_24"
             android:scaleType="centerCrop"
-            />
+            android:src="@drawable/ic_round_navigate_next_24"
+            android:background="@drawable/hollow_circle"
+            android:backgroundTint="@color/onb_colorPrimary"
+            android:backgroundTintMode="multiply"
+            app:tint="@color/onb_colorPrimary" />
 
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

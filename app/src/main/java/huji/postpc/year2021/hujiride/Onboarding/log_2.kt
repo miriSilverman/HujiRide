@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
 
@@ -14,13 +15,13 @@ import huji.postpc.year2021.hujiride.R
  */
 class log_2 : BaseOnbaordingFragment(R.layout.fragment_log_2, R.id.action_log_2_to_scan, R.id.action_log_2_to_log_1) {
 
-    lateinit var phoneNumberView : EditText
-    lateinit var idNumberView : EditText
+    private lateinit var phoneNumberView : EditText
+    private lateinit var idNumberView : EditText
 
-    val phoneNumberInput : String
+    private val phoneNumberInput : String
         get() = phoneNumberView.text!!.toString()
 
-    val idNumberInput : String
+    private val idNumberInput : String
         get() = idNumberView.text!!.toString()
 
     override fun onCreateView(
@@ -32,19 +33,22 @@ class log_2 : BaseOnbaordingFragment(R.layout.fragment_log_2, R.id.action_log_2_
         phoneNumberView = view.findViewById(R.id.phone_number_edittext)
         idNumberView = view.findViewById(R.id.id_number_edittext)
 
+        phoneNumberView.setText(viewModel.phoneNumber)
+        idNumberView.setText(viewModel.idNumber)
+
         return view
     }
 
-    override fun onClickNext() {
+    override fun onClickNext(): Boolean {
         val phoneNumber = phoneNumberInput
         val idNumber = idNumberInput
-        if (!validatePhoneNumber(phoneNumber)) {
+        if (!validatePhoneNumber(phoneNumber) && !viewModel.bypassValidation) {
             alertInvalidPhoneNumber()
-            return
+            return false
         }
-        if (!validateID(idNumber)) {
+        if (!validateID(idNumber) && !viewModel.bypassValidation) {
             alertInvalidID()
-            return
+            return false
         }
 
         //TODO: MIRIS
@@ -52,25 +56,26 @@ class log_2 : BaseOnbaordingFragment(R.layout.fragment_log_2, R.id.action_log_2_
 
         viewModel.phoneNumber = phoneNumber
         viewModel.idNumber = idNumber
+        return true
     }
 
-    override fun onClickBack() {
-
+    override fun onClickBack() : Boolean {
+        return true
     }
 
     private fun alertInvalidPhoneNumber() {
-
+        Toast.makeText(requireContext(), "Invalid Phone Number! Please try again.", Toast.LENGTH_SHORT).show()
     }
 
     private fun alertInvalidID() {
-
+        Toast.makeText(requireContext(), "Invalid ID! Please try again.", Toast.LENGTH_SHORT).show()
     }
 
-    fun validateID(ID: String) : Boolean {
+    private fun validateID(ID: String) : Boolean {
         return validateIsraeliID(ID)
     }
 
-    fun validatePhoneNumber(phoneNumber: String): Boolean {
+    private fun validatePhoneNumber(phoneNumber: String): Boolean {
         val regex = Regex("^0(5[^7]|7[0-9])[0-9]{7}\$")
         return phoneNumber.matches(regex)
     }

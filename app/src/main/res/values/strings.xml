@@ -23,6 +23,15 @@
     <string name="trampistBtnText">TRAMPIST</string>
     <string name="searchRidesTitle">Search for Closest Rides:</string>
     <string name="dashboardText">Your Next Rides:</string>
+    <string name="cancel_reg_dialog_body">"Are you sure you want to cancel your registration?\nAll the data will be deleted!"</string>
+    <string name="cancel_reg_dialog_title">Cancel Registration?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="first_name_mandatoryField">First Name*</string>
+    <string name="last_name_mandatoryField">Last Name*</string>
+    <string name="your_phone_mandatoryField">Your Phone*</string>
+    <string name="id_mandatoryField">ID*</string>
+    <string name="successful_onb_tip">Tap next to proceed to the app!</string>
 
     <string-array name="sorting_list">
         <item>time</item>

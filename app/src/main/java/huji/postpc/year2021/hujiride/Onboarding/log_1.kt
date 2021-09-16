@@ -14,59 +14,65 @@ import huji.postpc.year2021.hujiride.R
  * log - first and last name
  */
 class log_1 : BaseOnbaordingFragment(R.layout.fragment_log_1, R.id.action_log_1_to_log_2, -1) {
-    private var firstNameView: EditText? = null
-    private var lastNameView: EditText? = null
+    private lateinit var firstNameView: EditText
+    private lateinit var lastNameView: EditText
 
     private val firstNameInput : String
-        get() = firstNameView!!.text.toString()
+        get() = firstNameView.text.toString()
 
     private val lastNameInput : String
-        get() = lastNameView!!.text.toString()
+        get() = lastNameView.text.toString()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)!!
-        firstNameView = view.findViewById(R.id.up_edit_txt)
-        lastNameView = view.findViewById(R.id.lower_edit_txt)
+        firstNameView = view.findViewById(R.id.first_name_edit_text)
+        lastNameView = view.findViewById(R.id.last_name_edit_text)
+
+        firstNameView.setText(viewModel.firstName)
+        lastNameView.setText(viewModel.lastName)
         (requireActivity() as OnboradingActivity).setOnClickBack(null)
         return view
     }
 
-    override fun onClickNext() {
+    override fun onClickNext() : Boolean{
         val firstName = firstNameInput
         val lastName = lastNameInput
-//        if (!validateFirstName(firstName)) {
-//            alertInvalidFirstName()
-//            return
-//        }
-//        if (!validateLastName(lastName)) {
-//            alertInvalidLastName()
-//            return
-//        }
+        if (!validateFirstName(firstName) && !viewModel.bypassValidation) {
+            alertInvalidFirstName()
+            println("${viewModel.bypassValidation}  ${!validateFirstName(firstName) || viewModel.bypassValidation}")
+            return false
+        }
+        if (!validateLastName(lastName) && !viewModel.bypassValidation) {
+            alertInvalidLastName()
+            return false
+        }
 
 
         // TODO: The next two lines needs to be deleted! MIRI ASKED FOR IT TO STAY!!!!
-        HujiRideApplication.getInstance().userDetails.userFirstName = firstNameView?.text.toString()
-        HujiRideApplication.getInstance().userDetails.userLastName = lastNameView?.text.toString()
+        HujiRideApplication.getInstance().userDetails.userFirstName = firstNameView.text.toString()
+        HujiRideApplication.getInstance().userDetails.userLastName = lastNameView.text.toString()
 
 
         viewModel.firstName = firstName
         viewModel.lastName = lastName
+        return true
     }
 
-    override fun onClickBack() {
+    override fun onClickBack() : Boolean {
         // Shouldn't do a thing!
+        return false
     }
 
 
     private fun alertInvalidFirstName() {
-        Toast.makeText(requireContext(), "Invalid First Name! try again!", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Invalid First Name! try again!", Toast.LENGTH_SHORT).show()
     }
 
     private fun alertInvalidLastName() {
-        Toast.makeText(requireContext(), "Invalid Last Name! try again!", Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), "Invalid Last Name! try again!", Toast.LENGTH_SHORT).show()
     }
 
     private fun validateFirstName(s: String) : Boolean {

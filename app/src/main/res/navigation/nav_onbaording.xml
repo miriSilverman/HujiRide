@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/scan"
-        android:name="huji.postpc.year2021.hujiride.Onboarding.scan"
+        android:name="huji.postpc.year2021.hujiride.Onboarding.Scan"
         android:label="fragment_scan"
         tools:layout="@layout/fragment_scan" >
         <action
@@ -60,12 +60,22 @@
     </fragment>
     <fragment
         android:id="@+id/successful_log"
-        android:name="huji.postpc.year2021.hujiride.Onboarding.successful_log"
+        android:name="huji.postpc.year2021.hujiride.Onboarding.Successful_log"
         android:label="fragment_successful_log"
         tools:layout="@layout/fragment_successful_log" >
         <action
             android:id="@+id/action_successful_log_self"
             app:destination="@id/successful_log" />
+        <action
+            android:id="@+id/action_successful_log_to_log1"
+            app:destination="@id/log_1"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left" />
     </fragment>
-    <action android:id="@+id/action_global_log_1" app:destination="@id/log_1" /><action android:id="@+id/action_global_log_2" app:destination="@id/log_2"/><action android:id="@+id/action_global_scan" app:destination="@id/scan"/><action android:id="@+id/action_global_successful_log" app:destination="@id/successful_log"/>
+    <action android:id="@+id/action_global_log_1" app:destination="@id/log_1" />
+    <action android:id="@+id/action_global_log_2" app:destination="@id/log_2" />
+    <action android:id="@+id/action_global_scan" app:destination="@id/scan" />
+    <action android:id="@+id/action_global_successful_log" app:destination="@id/successful_log" />
 </navigation>
