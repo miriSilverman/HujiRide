@@ -24,15 +24,23 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
             holder.checkBox.text = groupName
             holder.checkBox.isChecked = app.groupsData.getGroups().contains(groupName)
 
+            holder.checkBox.setOnClickListener{
+                if (holder.checkBox.isChecked){
+                    app.groupsData.addGroup(groupName)
+                }else{
+                    app.groupsData.removeGroup(groupName)
 
-            holder.checkBox.setOnCheckedChangeListener{ _, isChecked ->
-              if (isChecked){
-                  app.groupsData.addGroup(groupName)
-              }else{
-                  app.groupsData.removeGroup(groupName)
-
-              }
+                }
             }
+
+//            holder.checkBox.setOnCheckedChangeListener{ _, isChecked ->
+//              if (isChecked){
+//                  app.groupsData.addGroup(groupName)
+//              }else{
+//                  app.groupsData.removeGroup(groupName)
+//
+//              }
+//            }
 
         }
 

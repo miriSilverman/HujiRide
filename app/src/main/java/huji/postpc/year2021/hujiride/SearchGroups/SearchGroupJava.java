@@ -40,18 +40,9 @@ public class SearchGroupJava extends Fragment{
         RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
         EditText editText = view.findViewById(R.id.search_group_editText);
 
-        adapter = new SearchGroupAdapter();
         app = HujiRideApplication.getInstance();
+        adapter = new SearchGroupAdapter();
         neighborhoods =  app.getGroupsData().getNeighborhoods();
-
-//        bottomNavigationView = view.findViewById(R.id.bottom_nav_view);
-//        bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-
-
-        // init current changes to be empty
-//        clearChanges();
-//        app.getGroupsData().setCurrentChanges(new ArrayList<>());
 
         app.getGroupsData().setFiltered((ArrayList<String>) neighborhoods);
 
@@ -107,7 +98,6 @@ public class SearchGroupJava extends Fragment{
         ArrayList<String> filteredList = new ArrayList<>();
         for (int i = 0; i < neighborhoods.size(); i++) {
             if (neighborhoods.get(i).toLowerCase().contains(text.toLowerCase())) {
-//                filteredList.add(new SearchGroupItem(neighborhoods.get(i), neighborhoodsChecked.get(i)));
                 filteredList.add(neighborhoods.get(i));
             }
         }
