@@ -17,6 +17,7 @@ import huji.postpc.year2021.hujiride.Groups.GroupsHome
 import huji.postpc.year2021.hujiride.ToolBarFraments.About
 import huji.postpc.year2021.hujiride.ToolBarFraments.BugsReport
 import huji.postpc.year2021.hujiride.ToolBarFraments.Settings
+import huji.postpc.year2021.hujiride.ToolBarFraments.Share
 import huji.postpc.year2021.hujiride.Rides.Ride
 
 class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener{
@@ -88,19 +89,7 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.nav_bugs ->
                 supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, BugsReport()).commit()
             R.id.nav_share ->
-                Toast.makeText(this, "share", Toast.LENGTH_SHORT).show()
-
-            R.id.groups_home ->
-            {
-                println("###################### gggg")
-                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, GroupsHome()).commit()
-            }
-
-            R.id.dashboard ->
-                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, Dashboard()).commit()
-            R.id.search_home ->
-                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, SearchHome()).commit()
-
+                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, Share()).commit()
         }
 
         drawer.closeDrawer(GravityCompat.START)
