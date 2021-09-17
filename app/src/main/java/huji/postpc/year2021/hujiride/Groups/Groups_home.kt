@@ -60,14 +60,14 @@ class GroupsHome : Fragment() {
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
 
-        adapter.onItemClickCallback = {group: SearchGroupItem ->
-            vm.pressedGroup.value = group
+        adapter.onItemClickCallback = {group: String ->
+            vm.pressedGroup.value = SearchGroupItem(group, true)
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
         }
 
-        adapter.onDeleteIconCallback = { group : SearchGroupItem ->
+        adapter.onDeleteIconCallback = { group : String ->
             groupsData.removeGroup(group)
-            group.checked = false
+//            group.checked = false
         }
 
         activity?.let {

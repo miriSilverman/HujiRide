@@ -12,8 +12,8 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
 
 
-    var onItemClickCallback: ((SearchGroupItem)->Unit)? = null
-    var onDeleteIconCallback: ((SearchGroupItem)->Unit)? = null
+    var onItemClickCallback: ((String)->Unit)? = null
+    var onDeleteIconCallback: ((String)->Unit)? = null
 
 
 
@@ -41,7 +41,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
         val group = groupsList[position]
-        holder.name.text = group.name
+        holder.name.text = group
 
         holder.name.setOnClickListener {
             val callback = onItemClickCallback?: return@setOnClickListener

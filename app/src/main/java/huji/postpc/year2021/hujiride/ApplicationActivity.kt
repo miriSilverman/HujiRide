@@ -9,15 +9,18 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import huji.postpc.year2021.hujiride.Groups.GroupsHome
 import huji.postpc.year2021.hujiride.ToolBarFraments.About
 import huji.postpc.year2021.hujiride.ToolBarFraments.BugsReport
 import huji.postpc.year2021.hujiride.ToolBarFraments.Settings
+import huji.postpc.year2021.hujiride.ToolBarFraments.Share
 import huji.postpc.year2021.hujiride.Rides.Ride
 
-class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
+class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var drawer: DrawerLayout
     private lateinit var bottomNavigationView: BottomNavigationView
@@ -31,8 +34,15 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         val nav_view = findViewById<NavigationView>(R.id.nav_view)
         nav_view.setNavigationItemSelectedListener(this)
 
-//        bottomNavigationView = findViewById(R.id.bottom_nav_view)
+        bottomNavigationView = findViewById(R.id.bottom_nav_view)
+//        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+//        bottomNavigationView.setOnClickListener {
+//            println("###################### gggg")
+
+
+//        }
 //        bottomNavigationView.setOnNavigationItemSelectedListener(BottomNavHelper(supportFragmentManager))
+
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -79,8 +89,7 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             R.id.nav_bugs ->
                 supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, BugsReport()).commit()
             R.id.nav_share ->
-                Toast.makeText(this, "share", Toast.LENGTH_SHORT).show()
-
+                supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, Share()).commit()
         }
 
         drawer.closeDrawer(GravityCompat.START)

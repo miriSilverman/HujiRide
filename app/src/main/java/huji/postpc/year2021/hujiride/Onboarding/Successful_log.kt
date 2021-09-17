@@ -1,48 +1,71 @@
 package huji.postpc.year2021.hujiride.Onboarding
 
+import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import androidx.lifecycle.ViewModelProvider
+import android.widget.ProgressBar
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.HujiRideApplication
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
-/**
- * screen of successful log
- */
-class successful_log : Fragment() {
+class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, -1, R.id.action_successful_log_to_log1) {
 
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
-
+    private lateinit var loadingBar: ProgressBar
+    private lateinit var cancelRegDialog: AlertDialog
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_successful_log, container, false)
-        val vm = ViewModelProvider(requireActivity()).get(OnBoardingVM::class.java)
-        view.findViewById<Button>(R.id.keep_going).setOnClickListener {
-            onNextBtn(vm, view)
-        }
+        val view = super.onCreateView(inflater, container, savedInstanceState)!!
+        loadingBar = view.findViewById(R.id.complete_reg_loading)
+        loadingBar.visibility = View.INVISIBLE
+
+        cancelRegDialog = AlertDialog.Builder(requireActivity())
+            .setMessage(getString(R.string.cancel_reg_dialog_body))
+            .setTitle(getString(R.string.cancel_reg_dialog_title))
+            .setPositiveButton(getString(R.string.yes)) { dialog, id ->
+                viewModel.progress.value = 0
+                viewModel.resetData()
+                prevPage()
+            }
+            .setNegativeButton(getString(R.string.no)) { dialog, id ->
+
+            }
+            .create()
         return view
     }
 
+    override fun onClickNext(): Boolean {
+        val db = (requireActivity().application as HujiRideApplication).db
+        loadingBar.visibility = View.VISIBLE
 
-    fun onNextBtn(vm: OnBoardingVM, view: View) : Boolean
-    {
-        vm.doneTask(4)
-        return true
+        GlobalScope.launch (Dispatchers.IO) {
+            db.newClient(
+                firstName = viewModel.firstName!!,
+                lastName = viewModel.lastName!!,
+                phoneNumber = viewModel.phoneNumber!!,
+                uniqueID = viewModel.clientUniqueID!!
+            )
+            withContext(Dispatchers.Main) {
+                loadingBar.visibility = View.INVISIBLE
+            }
+        }
+        return false
     }
 
+    override fun onClickBack(): Boolean {
+        throwCancelRegDialog()
+        return false
+    }
+
+    private fun throwCancelRegDialog() {
+        cancelRegDialog.show()
+    }
 
 }

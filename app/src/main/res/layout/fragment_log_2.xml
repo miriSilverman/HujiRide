@@ -9,14 +9,9 @@
 
     <EditText
         android:id="@+id/phone_number_edittext"
-        android:layout_width="217dp"
-        android:layout_height="55dp"
+        style="@style/OnboardingStyle.TextFields"
         android:layout_marginTop="48dp"
-        android:background="#86AFD8"
-        android:gravity="center"
-        android:hint="Your Phone*"
-        android:maxLength="10"
-        android:textSize="12dp"
+        android:hint="@string/your_phone_mandatoryField"
         android:ems="10"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -25,14 +20,10 @@
 
     <EditText
         android:id="@+id/id_number_edittext"
-        android:layout_width="217dp"
-        android:layout_height="55dp"
+        style="@style/OnboardingStyle.TextFields"
         android:layout_marginTop="60dp"
-        android:background="#86AFD8"
-        android:gravity="center"
-        android:hint="ID*"
+        android:hint="@string/id_mandatoryField"
         android:maxLength="9"
-        android:textSize="12dp"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

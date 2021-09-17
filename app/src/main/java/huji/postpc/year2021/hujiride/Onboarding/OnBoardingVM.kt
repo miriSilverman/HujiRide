@@ -3,8 +3,12 @@ package huji.postpc.year2021.hujiride.Onboarding
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class OnBoardingVM: ViewModel()  {
+class OnBoardingVM: ViewModel() {
+    var clientUniqueID: String? = null
     val progress: MutableLiveData<Int> by lazy { MutableLiveData<Int>(0) }
+
+    var onClickNext: (() -> Unit)? = null
+    var onClickBack: (() -> Unit)? = null
 
     var firstName: String? = null
     var lastName: String? = null
@@ -12,30 +16,13 @@ class OnBoardingVM: ViewModel()  {
     var phoneNumber: String? = null
     var idNumber: String? = null
 
+    val bypassValidation = false  // For debugging and testing only! TODO: make it false!
 
-    var tasksArr = booleanArrayOf(true, false, false, false)
-    var doneArr : MutableLiveData<BooleanArray> = MutableLiveData(tasksArr)
-    var doneOnBoard: MutableLiveData<Boolean> = MutableLiveData(false)
-
-    fun doneTask(taskNum: Int)
-    {
-        if (taskNum == (tasksArr.size))
-        {
-            doneOnBoard.value = true;
-        }else
-        {
-            tasksArr[taskNum] = true;
-            doneArr.value = tasksArr
-        }
+    fun resetData() {
+        firstName = null
+        lastName = null
+        phoneNumber = null
+        idNumber = null
     }
-
-
-    fun unDoneTask(taskNum: Int)
-    {
-        tasksArr[taskNum] = false;
-        doneArr.value = tasksArr
-    }
-
-
 
 }
