@@ -19,3 +19,21 @@ pushes:
 0. notifications of registered rides for each user.
 1. find locations api (search engine)               V
 2. automate ride deletion once it's over
+
+
+
+
+more todos:
+1. delete ride when its arrival time is passed
+2. maybe add date to ride (not only time)
+3. comments - a way to select multiple + add "your own"
+4. notifications: add notification when:
+    - new ride is added
+    - a ride in a certain group is added
+    - a way in the setting to decide which notifications you want
+5. settings, about, share, bug report
+6.fix add new group
+7.add validations when needed
+8. connect to the database + save locally whats needed.
+9. fix seeing in the background the setting when navigating in the app
+10. explanation how the app works somewhere
