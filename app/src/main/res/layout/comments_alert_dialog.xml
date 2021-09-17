@@ -1,0 +1,72 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <CheckBox
+        android:id="@+id/smokingCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="No smoking"
+        />
+
+    <CheckBox
+        android:id="@+id/vaccineCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/smokingCheckBox"
+
+        android:text="Vaccinated only" />
+
+    <CheckBox
+        android:id="@+id/womenCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/vaccineCheckBox"
+
+        android:text="Women only" />
+
+    <CheckBox
+        android:id="@+id/distanceCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text="I have parked far"
+        android:layout_below="@+id/womenCheckBox"
+        />
+
+    <CheckBox
+        android:id="@+id/StopsCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/distanceCheckBox"
+
+        android:text="I have to make a stop on the way" />
+
+    <CheckBox
+        android:id="@+id/onTimeCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/StopsCheckBox"
+
+        android:text="Be on time, I won't wait" />
+
+    <EditText
+        android:id="@+id/othersText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/onTimeCheckBox"
+        android:layout_alignParentLeft="true"
+        android:ems="10"
+        android:hint="other..."
+        android:minHeight="48dp">
+
+        <requestFocus />
+    </EditText>
+
+</RelativeLayout>

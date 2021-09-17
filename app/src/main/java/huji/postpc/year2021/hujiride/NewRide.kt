@@ -13,12 +13,23 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import huji.postpc.year2021.hujiride.Rides.Ride
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import java.util.*
+import android.widget.RadioButton
+
+import android.content.DialogInterface
+
+import android.app.AlertDialog
+
+import android.widget.EditText
+
+import android.widget.RadioGroup
+
+import android.widget.CheckBox
+import kotlin.collections.ArrayList
 
 
 /**
@@ -28,12 +39,14 @@ class NewRide : Fragment() {
 
     private lateinit var aView: View
     private lateinit var timerTextView: TextView
+    private lateinit var commentsTextView: TextView
     private var timeHour: Int = 0
     private var timeMinutes: Int = 0
     private lateinit var srcET: EditText
     private lateinit var destET: EditText
-    private lateinit var stops: AutoCompleteTextView
-    private lateinit var comments: AutoCompleteTextView
+    private lateinit var comments: kotlin.collections.ArrayList<String>
+    //private lateinit var stops: AutoCompleteTextView
+    //private lateinit var comments: AutoCompleteTextView
 
     private lateinit var srcDestImg: ImageView
     private lateinit var switchDirectionBtn: Button
@@ -50,17 +63,17 @@ class NewRide : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        val stopsSortItems = resources.getStringArray(R.array.stops_list)
-        val stopsArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, stopsSortItems)
-        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)
-            ?.setAdapter(stopsArrayAdapter)
-
-
-        val commentsSortItems = resources.getStringArray(R.array.comments_list)
-        val commentsArrayAdapter =
-            ArrayAdapter(requireContext(), R.layout.sort_item, commentsSortItems)
-        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteComments)
-            ?.setAdapter(commentsArrayAdapter)
+//        val stopsSortItems = resources.getStringArray(R.array.stops_list)
+//        val stopsArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, stopsSortItems)
+//        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)
+//          //  ?.setAdapter(stopsArrayAdapter)
+//
+//
+//        val commentsSortItems = resources.getStringArray(R.array.comments_list)
+//        val commentsArrayAdapter =
+//            ArrayAdapter(requireContext(), R.layout.sort_item, commentsSortItems)
+//        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteComments)
+//            ?.setAdapter(commentsArrayAdapter)
 
     }
 
@@ -76,7 +89,7 @@ class NewRide : Fragment() {
         findViews()
         setSrcOrDest()
 
-
+        comments=ArrayList()
         switchDirectionBtn.setOnClickListener {
             setDetails()
             setDirection()
@@ -84,6 +97,10 @@ class NewRide : Fragment() {
 
         timerTextView.setOnClickListener {
             timeDialog()
+        }
+
+        commentsTextView.setOnClickListener{
+            commentsDialog()
         }
 
         audioNotification()
@@ -173,8 +190,9 @@ class NewRide : Fragment() {
     private fun findViews() {
         srcET = aView.findViewById(R.id.source_edit_text)
         destET = aView.findViewById(R.id.dest_edit_text)
-        stops = aView.findViewById(R.id.autoCompleteStops)
-        comments = aView.findViewById(R.id.autoCompleteComments)
+     //   stops = aView.findViewById(R.id.autoCompleteStops)
+       // comments = aView.findViewById(R.id.autoCompleteComments)
+        commentsTextView = aView.findViewById(R.id.comments_edit_btn)
         timerTextView = aView.findViewById(R.id.time_edit_btn)
         srcDestImg = aView.findViewById(R.id.srcDestImg)
         switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
@@ -185,8 +203,10 @@ class NewRide : Fragment() {
             srcET.text.toString(),
             destET.text.toString(),
             "$timeHour : $timeMinutes",
-            arrayListOf(stops.text.toString()),
-            arrayListOf(comments.text.toString()),
+            ArrayList<String>(),
+                    // arrayListOf(stops.text.toString()),
+            //arrayListOf(comments.text.toString()),
+            comments,
             app.userDetails.userFirstName,
             app.userDetails.userLastName,
             app.userDetails.userPhoneNumber,
@@ -211,6 +231,54 @@ class NewRide : Fragment() {
         timePickerDialog.updateTime(timeHour, timeMinutes)
         timePickerDialog.show()
     }
+
+    private fun getTextFromBox(box: CheckBox)
+    {
+        if (box.isChecked()){
+            comments.add(box.text.toString())
+        }
+
+    }
+
+
+
+
+    private fun commentsDialog(){
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(activity)
+        val boxes = ArrayList<android.widget.CheckBox>()
+
+        val view = layoutInflater.inflate(R.layout.comments_alert_dialog, null)
+        val smokingCheckBox : CheckBox = view.findViewById(R.id.smokingCheckBox)
+        val vaccineCheckBox : CheckBox = view.findViewById(R.id.vaccineCheckBox)
+        val womenCheckBox : CheckBox = view.findViewById(R.id.womenCheckBox)
+        val distanceCheckBox : CheckBox = view.findViewById(R.id.distanceCheckBox)
+        val StopsCheckBox : CheckBox = view.findViewById(R.id.StopsCheckBox)
+        val onTimeCheckBox : CheckBox = view.findViewById(R.id.onTimeCheckBox)
+        val otherText : EditText = view.findViewById(R.id.othersText)
+
+        builder.setView(view)
+        builder.setTitle("Comments")
+        builder.setPositiveButton("Done",
+            DialogInterface.OnClickListener { d, m ->
+                getTextFromBox(smokingCheckBox)
+                getTextFromBox(vaccineCheckBox)
+                getTextFromBox(womenCheckBox)
+                getTextFromBox(distanceCheckBox)
+                getTextFromBox(StopsCheckBox)
+                getTextFromBox(onTimeCheckBox)
+                comments.add(otherText.text.toString())
+
+
+            })
+        dialog = builder.create()
+        dialog.show()
+
+
+    }
+
+
+
 
     private fun designSwitchDirection(
         img: ImageView, constWay: EditText,

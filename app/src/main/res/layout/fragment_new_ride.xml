@@ -80,6 +80,22 @@
             app:layout_constraintTop_toBottomOf="@+id/dest_edit_text" />
 
 
+        <TextView
+            android:id="@+id/comments_edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:background="@color/teal_700"
+            android:drawableStart="@drawable/ic_add"
+            android:drawablePadding="16dp"
+            android:hint="Add Comments"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />
 
 
 
@@ -108,7 +124,7 @@
             app:layout_constraintTop_toBottomOf="@+id/done_btn"
             app:srcCompat="@drawable/ic_baseline_linear_scale_24" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <!--com.google.android.material.textfield.TextInputLayout
             android:id="@+id/stops_edit_btn"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             tools:layout_editor_absoluteX="211dp"
@@ -119,7 +135,7 @@
             android:layout_marginTop="44dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:hint="stops"
+            android:hint="@string/stops"
             app:layout_constraintTop_toBottomOf="@+id/time_edit_btn">
 
             <AutoCompleteTextView
@@ -128,17 +144,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:inputType="none"
-                android:text="add a stop ..." />
+                android:text="@string/add_a_stop" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-
+        </com.google.android.material.textfield.TextInputLayout-->
 
 
 
 
 
-        <com.google.android.material.textfield.TextInputLayout
+
+
+        <!--com.google.android.material.textfield.TextInputLayout
             android:id="@+id/comments_edit_btn"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             tools:layout_editor_absoluteX="190dp"
@@ -159,9 +175,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:inputType="none"
-                android:text="add a comment ..." />
+                android:text="@string/add_a_comment" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout-->
 
         <ImageView
             android:id="@+id/srcDestImg"
