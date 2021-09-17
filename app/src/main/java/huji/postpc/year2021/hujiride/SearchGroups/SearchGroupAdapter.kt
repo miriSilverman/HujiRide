@@ -2,6 +2,7 @@ package huji.postpc.year2021.hujiride.SearchGroups
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.*
 
@@ -27,9 +28,10 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
             holder.checkBox.setOnClickListener{
                 if (holder.checkBox.isChecked){
                     app.groupsData.addGroup(groupName)
+                    Toast.makeText(app, "$groupName was added to your groups", Toast.LENGTH_SHORT).show()
                 }else{
                     app.groupsData.removeGroup(groupName)
-
+                    Toast.makeText(app, "$groupName was removed from your groups", Toast.LENGTH_SHORT).show()
                 }
             }
 

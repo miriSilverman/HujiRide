@@ -30,13 +30,11 @@ public class SearchGroupJava extends Fragment{
 
     private SearchGroupAdapter adapter;
     List<String> neighborhoods;
-    private BottomNavigationView bottomNavigationView;
     private HujiRideApplication app;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_group, container, false);
-        FloatingActionButton addGroupBtn = view.findViewById(R.id.add_floating_btn);
         RecyclerView groupsRecycler = view.findViewById(R.id.search_recycler);
         EditText editText = view.findViewById(R.id.search_group_editText);
 
@@ -67,24 +65,7 @@ public class SearchGroupJava extends Fragment{
             }
         });
 
-        addGroupBtn.setOnClickListener(view1 -> {
-            Navigation.findNavController(view1).navigate(R.id.action_searchGroup_to_groups_home);
-
-
-//            // add now all the checked groups todo - change
-//            final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
-//            for (SearchGroupItem group: checkedGroups) {
-//                if (group.getChecked()){
-//                    app.getGroupsData().addGroup(group);
-//                }else {
-//                    app.getGroupsData().removeGroup(group);
-//                }
-//            }
-
-//            app.getGroupsData().setCurrentChanges(new ArrayList<>());
-
-
-        });
+//
 
         return view;
     }
@@ -110,39 +91,3 @@ public class SearchGroupJava extends Fragment{
 
 
 }
-
-
-
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == R.id.groups_home)
-//        {
-//            Toast.makeText(getActivity(), "grouppp", Toast.LENGTH_SHORT).show();
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
-//
-//    private void clearChanges(){
-//
-//        for (SearchGroupItem gr : app.getGroupsData().getCurrentChanges()){
-//            System.out.println("## "+ gr.getName()+" "+gr.getChecked());
-//        }
-//
-//
-//        final List<SearchGroupItem> checkedGroups =  app.getGroupsData().getCurrentChanges();
-//        for (SearchGroupItem group: checkedGroups) {
-//
-//            for (SearchGroupItem g: app.getGroupsData().getNeighborhoods()){
-//                if (g.getName().equals(group.getName())){
-//                    group.setChecked(g.getChecked());
-//                }
-//            }
-//        }
-//        adapter.notifyDataSetChanged();
-//        app.getGroupsData().setCurrentChanges(new ArrayList<>());
-//
-//
-//    }
