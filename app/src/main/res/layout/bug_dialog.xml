@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/title_bug_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please tell us what bug did you find"
+        />
+    
+    <EditText
+        android:id="@+id/bug_comment_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="insert you comment here ..."
+        android:layout_below="@+id/title_bug_report"
+        android:layout_alignParentStart="true"/>
+
+</RelativeLayout>
