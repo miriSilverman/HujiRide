@@ -3,6 +3,7 @@ package huji.postpc.year2021.hujiride;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
 import huji.postpc.year2021.hujiride.MyRides.MyRides;
@@ -68,5 +69,9 @@ public class HujiRideApplication extends Application {
     public static HujiRideApplication getInstance()
     {
         return instance;
+    }
+
+    public void addBug(String bug){
+        Toast.makeText(this, "added "+bug, Toast.LENGTH_SHORT).show();
     }
 }

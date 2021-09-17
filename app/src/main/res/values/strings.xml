@@ -35,9 +35,7 @@
     <string name="searchGroupTitle">Search for New Group:</string>
     <string name="addGroupBtnText">add\ngroups</string>
     <string name="noRidesInTheNearFuture">You have no rides\nin the near future</string>
-    <string name="add_a_comment">add a comment ...</string>
-    <string name="add_a_stop">add a stop ...</string>
-    <string name="stops">stops</string>
+    <string name="afterReportingBugText">Thanks for helping us \nimprove our app!</string>
 
     <string-array name="sorting_list">
         <item>time</item>

@@ -24,11 +24,26 @@ import huji.postpc.year2021.hujiride.Onboarding.OnBoardingVM
 import huji.postpc.year2021.hujiride.Rides.Ride
 import huji.postpc.year2021.hujiride.database.Database
 import kotlinx.coroutines.*
+import org.opencv.android.OpenCVLoader
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val TAG = "MainActivity"
+
+        if (OpenCVLoader.initDebug())
+
+        {
+            Log.d(TAG, "OpenCV Loaded")
+        }
+        else
+        {
+            Log.d(TAG, "OpenCV not Loaded")
+        }
 
         setContentView(R.layout.activity_main)
     }
