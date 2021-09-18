@@ -27,6 +27,7 @@ import android.app.AlertDialog
 import android.widget.EditText
 
 import android.widget.RadioGroup
+import huji.postpc.year2021.hujiride.database.Ride as ClientRide
 
 import android.widget.CheckBox
 import kotlin.collections.ArrayList
@@ -113,11 +114,18 @@ class NewRide : Fragment() {
         return aView
     }
 
+
     private fun onPressedAddNewRide() {
         if (validateAllFields()){
             val newRide: Ride = createNewRide(app)
+            val r = ClientRide(newRide.time, newRide.stops, newRide.comments,
+                null, newRide.dest, 0.0, 0.0, "",
+                newRide.toHuji)
             val pressedGroup = vm.pressedGroup
             app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
+
+//            app.db.newRide(newRide, "") // todo: how to get id?
+
             vm.srcOrDest = ""
 
 

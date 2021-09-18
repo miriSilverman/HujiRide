@@ -36,6 +36,7 @@
     <string name="addGroupBtnText">add\ngroups</string>
     <string name="noRidesInTheNearFuture">You have no rides\nin the near future</string>
     <string name="afterReportingBugText">Thanks for helping us \nimprove our app!</string>
+    <string name="settingsTitle">Settings</string>
 
     <string-array name="sorting_list">
         <item>time</item>

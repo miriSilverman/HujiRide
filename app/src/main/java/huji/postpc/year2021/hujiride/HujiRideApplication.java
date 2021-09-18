@@ -41,7 +41,7 @@ public class HujiRideApplication extends Application {
         SharedPreferences sp = this.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
         userDetails = new UserDetails(sp.getString(FIRST_NAME, ""),
                 sp.getString(LAST_NAME, ""),
-                sp.getString(PHONE_NUMBER, ""));
+                sp.getString(PHONE_NUMBER, ""), true, false);
 
         db = new Database();
 
