@@ -46,9 +46,11 @@ class NewRide : Fragment() {
     private lateinit var srcET: EditText
     private lateinit var destET: EditText
     private lateinit var comments: kotlin.collections.ArrayList<String>
+    private var otherComment = ""
     //private lateinit var stops: AutoCompleteTextView
     //private lateinit var comments: AutoCompleteTextView
 
+    private var checkedComments : ArrayList<Boolean> = arrayListOf(false, false, false, false, false, false)
     private lateinit var srcDestImg: ImageView
     private lateinit var switchDirectionBtn: Button
     private var toHuji: Boolean = true
@@ -265,17 +267,44 @@ class NewRide : Fragment() {
         val onTimeCheckBox : CheckBox = view.findViewById(R.id.onTimeCheckBox)
         val otherText : EditText = view.findViewById(R.id.othersText)
 
+
+        setCheckBoxes(
+            smokingCheckBox,
+            vaccineCheckBox,
+            womenCheckBox,
+            distanceCheckBox,
+            StopsCheckBox,
+            onTimeCheckBox,
+            otherText
+        )
+
         builder.setView(view)
         builder.setTitle("Comments")
         builder.setPositiveButton("Done",
             DialogInterface.OnClickListener { d, m ->
+                comments.clear()
                 getTextFromBox(smokingCheckBox)
                 getTextFromBox(vaccineCheckBox)
                 getTextFromBox(womenCheckBox)
                 getTextFromBox(distanceCheckBox)
                 getTextFromBox(StopsCheckBox)
                 getTextFromBox(onTimeCheckBox)
-                comments.add(otherText.text.toString())
+                if (!otherText.text.isEmpty()){
+                    comments.add(otherText.text.toString())
+                }
+
+
+                showComments()
+
+                setCheckedArr(
+                    smokingCheckBox,
+                    vaccineCheckBox,
+                    womenCheckBox,
+                    distanceCheckBox,
+                    StopsCheckBox,
+                    onTimeCheckBox,
+                    otherText
+                )
 
 
             })
@@ -285,7 +314,50 @@ class NewRide : Fragment() {
 
     }
 
+    private fun showComments() {
+        var commentStr = ""
+        for (c in comments) {
+            commentStr += c
+            commentStr += "\n"
+        }
+        commentsTextView.setText(commentStr)
+    }
 
+    private fun setCheckedArr(
+        smokingCheckBox: CheckBox,
+        vaccineCheckBox: CheckBox,
+        womenCheckBox: CheckBox,
+        distanceCheckBox: CheckBox,
+        StopsCheckBox: CheckBox,
+        onTimeCheckBox: CheckBox,
+        otherText: EditText
+    ) {
+        checkedComments[0] = smokingCheckBox.isChecked
+        checkedComments[1] = vaccineCheckBox.isChecked
+        checkedComments[2] = womenCheckBox.isChecked
+        checkedComments[3] = distanceCheckBox.isChecked
+        checkedComments[4] = StopsCheckBox.isChecked
+        checkedComments[5] = onTimeCheckBox.isChecked
+        otherComment = otherText.text.toString()
+    }
+
+    private fun setCheckBoxes(
+        smokingCheckBox: CheckBox,
+        vaccineCheckBox: CheckBox,
+        womenCheckBox: CheckBox,
+        distanceCheckBox: CheckBox,
+        StopsCheckBox: CheckBox,
+        onTimeCheckBox: CheckBox,
+        otherText: EditText
+    ) {
+        smokingCheckBox.isChecked = checkedComments[0]
+        vaccineCheckBox.isChecked = checkedComments[1]
+        womenCheckBox.isChecked = checkedComments[2]
+        distanceCheckBox.isChecked = checkedComments[3]
+        StopsCheckBox.isChecked = checkedComments[4]
+        onTimeCheckBox.isChecked = checkedComments[5]
+        otherText.setText(otherComment)
+    }
 
 
     private fun designSwitchDirection(
