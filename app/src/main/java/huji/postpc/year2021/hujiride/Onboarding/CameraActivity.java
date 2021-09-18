@@ -66,6 +66,8 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     private Boolean barcode_find=false;
     private Boolean text_find=false;
 
+    private Boolean isStud=false;
+
 
 
     private ImageView current_img;
@@ -236,8 +238,10 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
                                                         if (txt_read.contains(barcode_read) && txt_read.contains("THE HEBREW UNIVERSITY OF JERUSALEM") && txt_read.contains("STUDENT CARD")){
                                                             Toast toaster =Toast.makeText(getApplicationContext(),"VERTIFIED STUDENT!",Toast.LENGTH_SHORT);
                                                             toaster.show();
+                                                            isStud=true;
                                                             //todo: go back to before activity as student
-
+                                                            setResult(RESULT_OK);
+                                                            finish();
 
                                                         }
                                                         else {
@@ -317,7 +321,15 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
         }
         else{
-            super.onBackPressed();
+            if (isStud)
+            {
+                setResult(RESULT_OK);
+            }
+            else
+            {
+                setResult(RESULT_CANCELED);
+            }
+            finish();
         }
 
     }
@@ -401,11 +413,14 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
                 popupWindow.dismiss();
                 startActivity(new Intent(getApplicationContext(), CameraActivity.class));
                 finish();
+                //todo: go back to before activity as not student
+
                 return true;
             }
         });
 
-        //todo: go back to before activity as not student
+//        setResult(RESULT_CANCELED);
+//        finish();
 
     }
 
