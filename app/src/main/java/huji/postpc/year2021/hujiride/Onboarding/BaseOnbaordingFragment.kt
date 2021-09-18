@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.Navigation
 
@@ -21,26 +23,28 @@ abstract class BaseOnbaordingFragment(
     ): View? {
         val activity = requireActivity() as OnboradingActivity
         activity.setOnClickNext {
-            if (onClickNext()) {
-                viewModel.progress.value = viewModel.progress.value!!+1
-                nextPage()
-            }
+            handleClickNext()
         }
         activity.setOnClickBack {
-            if (onClickBack()) {
-                viewModel.progress.value = viewModel.progress.value!!-1
-                prevPage()
-            }
+            handleClickBack()
         }
         return inflater.inflate(layoutID, container, false)
     }
 
+    protected fun setLastEditTextToNextPage(lastEditText: EditText) {
+        lastEditText.setOnEditorActionListener { _, id, _ ->
+            if (id == EditorInfo.IME_ACTION_NEXT) {
+                handleClickNext()
+            }
+            return@setOnEditorActionListener true
+        }
+    }
 
     abstract fun onClickNext() : Boolean
 
     abstract fun onClickBack() : Boolean
 
-    private fun nextPage() {
+    protected fun nextPage() {
         Navigation.findNavController(requireView()).navigate(nextNavigationActionID)
     }
 
@@ -48,4 +52,17 @@ abstract class BaseOnbaordingFragment(
         Navigation.findNavController(requireView()).navigate(prevNavigationActionID)
     }
 
+    protected fun handleClickNext() {
+        if (onClickNext()) {
+            viewModel.progress.value = viewModel.progress.value!!+1
+            nextPage()
+        }
+    }
+
+    protected fun handleClickBack() {
+        if (onClickBack()) {
+            viewModel.progress.value = viewModel.progress.value!!-1
+            prevPage()
+        }
+    }
 }

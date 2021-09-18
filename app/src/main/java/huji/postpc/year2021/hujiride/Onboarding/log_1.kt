@@ -1,9 +1,11 @@
 package huji.postpc.year2021.hujiride.Onboarding
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.Toast
 import huji.postpc.year2021.hujiride.HujiRideApplication
@@ -17,10 +19,10 @@ class log_1 : BaseOnbaordingFragment(R.layout.fragment_log_1, R.id.action_log_1_
     private lateinit var firstNameView: EditText
     private lateinit var lastNameView: EditText
 
-    private val firstNameInput : String
+    private val firstNameInput: String
         get() = firstNameView.text.toString()
 
-    private val lastNameInput : String
+    private val lastNameInput: String
         get() = lastNameView.text.toString()
 
     override fun onCreateView(
@@ -33,11 +35,14 @@ class log_1 : BaseOnbaordingFragment(R.layout.fragment_log_1, R.id.action_log_1_
 
         firstNameView.setText(viewModel.firstName)
         lastNameView.setText(viewModel.lastName)
+
+        setLastEditTextToNextPage(lastNameView)
+
         (requireActivity() as OnboradingActivity).setOnClickBack(null)
         return view
     }
 
-    override fun onClickNext() : Boolean{
+    override fun onClickNext(): Boolean {
         val firstName = firstNameInput
         val lastName = lastNameInput
         if (!validateFirstName(firstName) && !viewModel.bypassValidation) {
@@ -61,26 +66,27 @@ class log_1 : BaseOnbaordingFragment(R.layout.fragment_log_1, R.id.action_log_1_
         return true
     }
 
-    override fun onClickBack() : Boolean {
+    override fun onClickBack(): Boolean {
         // Shouldn't do a thing!
         return false
     }
 
 
     private fun alertInvalidFirstName() {
-        Toast.makeText(requireContext(), "Invalid First Name! try again!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "Invalid First Name! try again!", Toast.LENGTH_SHORT)
+            .show()
     }
 
     private fun alertInvalidLastName() {
         Toast.makeText(requireContext(), "Invalid Last Name! try again!", Toast.LENGTH_SHORT).show()
     }
 
-    private fun validateFirstName(s: String) : Boolean {
+    private fun validateFirstName(s: String): Boolean {
         val regex = Regex("[A-Za-z]{2,9}|[א-ת]")
         return s.matches(regex)
     }
 
-    private fun validateLastName(s: String) : Boolean {
+    private fun validateLastName(s: String): Boolean {
         val regex = Regex("[A-Za-z]{2,9}|[א-ת]")
         return s.matches(regex)
     }

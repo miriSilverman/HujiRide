@@ -12,21 +12,24 @@
         android:id="@+id/first_name_edit_text"
         style="@style/OnboardingStyle.TextFields"
         android:layout_marginTop="44dp"
-        android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:hint="@string/first_name_mandatoryField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:inputType="textCapWords"
+        />
 
     <EditText
         android:id="@+id/last_name_edit_text"
         style="@style/OnboardingStyle.TextFields"
         android:layout_marginTop="60dp"
-        android:digits="abcdefghijklmnopqrstuvwxyz' ABCDEFGHIJKLMNOPQRSTUVWXYZ"
         android:hint="@string/last_name_mandatoryField"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/first_name_edit_text" />
+        app:layout_constraintTop_toBottomOf="@+id/first_name_edit_text"
+        android:inputType="textCapWords"
+        android:imeOptions="actionNext"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

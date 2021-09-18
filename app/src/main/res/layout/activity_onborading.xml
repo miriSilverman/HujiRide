@@ -60,11 +60,9 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_round_navigate_before_24"
-            android:background="@drawable/hollow_circle"
-            android:backgroundTint="@color/onb_colorPrimary"
-            android:backgroundTintMode="multiply"
-            app:tint="@color/onb_colorPrimary"
+            android:src="@drawable/back_circle_btn"
+            android:backgroundTint="#0000"
+            app:tint="@color/enabled_disabled_btn"
             />
 
 
@@ -79,11 +77,10 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_round_navigate_next_24"
-            android:background="@drawable/hollow_circle"
-            android:backgroundTint="@color/onb_colorPrimary"
-            android:backgroundTintMode="multiply"
-            app:tint="@color/onb_colorPrimary" />
+            android:src="@drawable/next_circle_btn"
+            android:backgroundTint="#0000"
+            app:tint="@color/enabled_disabled_btn"
+            />
 
     </LinearLayout>
 

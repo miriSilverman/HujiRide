@@ -31,6 +31,8 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/onb_colorPrimary</item>
         <item name="fontFamily">@font/catamaran_medium</item>
+        <item name="singleLine">true</item>
+        <item name="android:maxEms">12</item>
     </style>
     <style name="OnboardingStyle.NavigationButtons">
 

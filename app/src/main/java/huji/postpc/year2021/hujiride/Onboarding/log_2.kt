@@ -36,6 +36,8 @@ class log_2 : BaseOnbaordingFragment(R.layout.fragment_log_2, R.id.action_log_2_
         phoneNumberView.setText(viewModel.phoneNumber)
         idNumberView.setText(viewModel.idNumber)
 
+        setLastEditTextToNextPage(idNumberView)
+
         return view
     }
 
