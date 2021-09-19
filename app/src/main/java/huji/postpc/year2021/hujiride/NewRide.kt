@@ -120,9 +120,6 @@ class NewRide : Fragment() {
     private fun onPressedAddNewRide() {
         if (validateAllFields()){
             val newRide: Ride = createNewRide(app)
-            val r = ClientRide(newRide.time, newRide.stops, newRide.comments,
-                null, newRide.dest, 0.0, 0.0, "",
-                newRide.toHuji)
             val pressedGroup = vm.pressedGroup
             app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
 

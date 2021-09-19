@@ -99,6 +99,54 @@ class Database {
 
 
 
+
+
+
+    ///////////////////////////////////////
+    ////////////  more funcs  /////////////
+    ///////////////////////////////////////
+
+
+    /**
+     * adds a ride go the rideList of a certain group + the func adds the ride to the "all rides"
+     * list
+     */
+    fun addRide(ride: ClientRide, groupName: String){}
+
+
+    /**
+     * given groups name returns a list of the rides in this group (also "all" group)
+     */
+    fun getRidesListOfGroup(groupName: String) : ArrayList<ClientRide>{
+
+        return arrayListOf()
+    }
+
+
+    /**
+     * returns the list of all the rides that the client has signed up for
+     */
+    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
+        return arrayListOf()
+    }
+
+
+    /**
+     * return a list of the names of the groups that the client has signed up for
+     */
+    fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String>{
+        return arrayListOf()
+    }
+
+    /**
+     * cancels registration of a client to group
+     */
+    fun unregisterClientToGroup(clientUniqueID: String, groupsName: String){}
+
+
+
+
+
 }
 
 

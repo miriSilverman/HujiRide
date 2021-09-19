@@ -2,6 +2,7 @@ package huji.postpc.year2021.hujiride
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 
@@ -28,6 +34,7 @@ class SearchHome : Fragment() {
     private lateinit var srcET: EditText
     private lateinit var destET: EditText
     private lateinit var vm: RidesViewModel
+    private var srcOrDestStr = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,6 +72,50 @@ class SearchHome : Fragment() {
             setDetails()
             Navigation.findNavController(view).navigate(R.id.action_search_home_to_ridesList)
         }
+
+
+
+
+
+
+
+
+
+
+        // places search bar
+        Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
+        val placesClient = Places.createClient(requireActivity())
+
+        // Initialize the AutocompleteSupportFragment.
+//        val autocompleteFragment =
+//            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+//                    as AutocompleteSupportFragment
+
+        val autocompleteFragment =
+            childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
+                    as AutocompleteSupportFragment
+        // Specify the types of place data to return.
+        autocompleteFragment
+            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+            .setCountry("IL")
+            .setHint("חפש מוצא...") // TODO translated version?
+
+        val TAG = "SEARCH"
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
+                srcOrDestStr = place.name.toString()
+            }
+
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: $status")
+            }
+        })
+
+
         return view
     }
 
@@ -86,8 +137,10 @@ class SearchHome : Fragment() {
     }
 
     private fun syncVmAndET(editText: EditText) {
-        if (editText.text?.isEmpty() != true) {
-            vm.srcOrDest = editText.text.toString()
+        if (srcOrDestStr.isNotEmpty()) {
+//        if (editText.text?.isEmpty() != true) {
+//            vm.srcOrDest = editText.text.toString()
+            vm.srcOrDest = srcOrDestStr
         } else {
             vm.srcOrDest = ""
         }
@@ -121,6 +174,8 @@ class SearchHome : Fragment() {
             notConstWay.text?.clear()
         }
     }
+
+
 
 
 
