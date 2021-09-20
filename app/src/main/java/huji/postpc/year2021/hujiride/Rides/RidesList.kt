@@ -31,6 +31,7 @@ class RidesList : Fragment() {
     private lateinit var sortAs: TextInputLayout
     private lateinit var adapter: RidesAdapter
     private lateinit var vm: RidesViewModel
+    private lateinit var app: HujiRideApplication
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +54,7 @@ class RidesList : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         aView = inflater.inflate(R.layout.fragment_rides_list, container, false)
-
+        app = HujiRideApplication()
         aView.findViewById<Button>(R.id.add_new_ride)?.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_newRide2)
         }
@@ -77,14 +78,15 @@ class RidesList : Fragment() {
 
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         val curGroup = vm.pressedGroup
-        val ridesPerGroup = HujiRideApplication.getInstance().ridesPerGroup
 
-        val rides: GroupsRides? = ridesPerGroup.map[curGroup.value?.name]
+//        val ridesPerGroup = HujiRideApplication.getInstance().ridesPerGroup
+//        val rides: GroupsRides? = ridesPerGroup.map[curGroup.value?.name]
+//        if (rides != null) {
+//            adapter.setRidesList(rides.ridesList)
+//        }
 
+        adapter.setRidesList(app.db.getRidesListOfGroup(curGroup.value?.name.toString()))
 
-        if (rides != null) {
-            adapter.setRidesList(rides.ridesList)
-        }
 
 
         val ridesRecycler: RecyclerView = aView.findViewById(R.id.rides_list_recyclerView)

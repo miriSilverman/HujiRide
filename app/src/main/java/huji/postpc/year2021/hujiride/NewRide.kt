@@ -116,12 +116,23 @@ class NewRide : Fragment() {
         return aView
     }
 
+    private fun getIdOfGroup(groupName: String) :String{
+        val allGroups = app.jerusalemNeighborhoods
+        for (pair in allGroups){
+            if (pair.value.equals(groupName)){
+                return pair.key
+            }
+        }
+        return ""
+    }
+
 
     private fun onPressedAddNewRide() {
         if (validateAllFields()){
             val newRide: Ride = createNewRide(app)
             val pressedGroup = vm.pressedGroup
-            app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
+//            app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
+            app.db.addRide(newRide, getIdOfGroup(pressedGroup.value!!.name))
 
 //            app.db.newRide(newRide, "") // todo: how to get id?
 

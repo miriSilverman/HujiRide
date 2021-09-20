@@ -41,6 +41,7 @@ class Settings: Fragment() {
             }else{
                 app.userDetails.allNotifications = false
             }
+            app.saveNotificationsState(app.userDetails.allNotifications, app.userDetails.justGroupNotifications);
 
             Toast.makeText(activity, "all: ${app.userDetails.allNotifications},\n groups: ${app.userDetails.justGroupNotifications}", Toast.LENGTH_SHORT).show()
         })
@@ -56,6 +57,7 @@ class Settings: Fragment() {
                 app.userDetails.justGroupNotifications = false
             }
             Toast.makeText(activity, "all: ${app.userDetails.allNotifications},\n groups: ${app.userDetails.justGroupNotifications}", Toast.LENGTH_SHORT).show()
+            app.saveNotificationsState(app.userDetails.allNotifications, app.userDetails.justGroupNotifications);
 
         })
         return view
