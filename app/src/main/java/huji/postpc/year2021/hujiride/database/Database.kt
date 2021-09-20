@@ -20,11 +20,12 @@ class Database {
 
     suspend fun newClient(firstName: String, lastName: String, phoneNumber: String, uniqueID: String): Boolean {
 
-        val newClient = Client(firstName, lastName, false, phoneNumber)
+        val newClient = Client(firstName, lastName, true, phoneNumber)
         try {
             clients.document(uniqueID).set(newClient).await()
             return true
         }catch (e: Exception) {
+            println("${e.message}  |$uniqueID|" )
             return false
         }
     }

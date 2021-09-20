@@ -46,9 +46,10 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
     override fun onClickNext(): Boolean {
         val db = (requireActivity().application as HujiRideApplication).db
         loadingBar.visibility = View.VISIBLE
+        println("$%%$%$%$%%$")
 
         GlobalScope.launch (Dispatchers.IO) {
-            db.newClient(
+            val e = db.newClient(
                 firstName = viewModel.firstName!!,
                 lastName = viewModel.lastName!!,
                 phoneNumber = viewModel.phoneNumber!!,
@@ -56,6 +57,7 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
             )
             withContext(Dispatchers.Main) {
                 loadingBar.visibility = View.INVISIBLE
+                println("################$e")
             }
         }
         return false
