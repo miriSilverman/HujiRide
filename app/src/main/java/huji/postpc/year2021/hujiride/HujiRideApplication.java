@@ -86,6 +86,12 @@ public class HujiRideApplication extends Application {
         Toast.makeText(this, "duvah", Toast.LENGTH_SHORT).show();
     }
 
+    public void saveNotificationsState(boolean allNotifications, boolean justGroupsNotifications){
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putBoolean(ALL_NOTIFICATIONS, allNotifications);
+        editor.putBoolean(GROUPS_NOTIFICATIONS, justGroupsNotifications);
+        editor.apply();
+    }
     public HashMap<String, String> getJerusalemNeighborhoods() {
         return jerusalemNeighborhoods;
     }

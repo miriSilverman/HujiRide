@@ -11,6 +11,7 @@ import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
 
+    private lateinit var app :HujiRideApplication
 
     var onItemClickCallback: ((String)->Unit)? = null
     var onDeleteIconCallback: ((String)->Unit)? = null
@@ -20,18 +21,23 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val contex = parent.context
         val view = LayoutInflater.from(contex).inflate(R.layout.group_item, parent, false)
+        app = HujiRideApplication()
+
+        val clientId = app.userDetails.clientUniqueID
 
         val holder = GroupViewHolder(view)
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
-            val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+//            val groupsList = app.groupsData.getGroups()
+            val groupsList = app.db.getGroupsOfClient(clientId)
             val group = groupsList[holder.adapterPosition]
             callback(group)
         }
 
         view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
             val callback = onDeleteIconCallback?: return@setOnClickListener
-            val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+//            val groupsList = app.groupsData.getGroups()
+            val groupsList = app.db.getGroupsOfClient(clientId)
             val group = groupsList[holder.adapterPosition]
             callback(group)
         }
@@ -39,7 +45,11 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
-        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+        val clientId = app.userDetails.clientUniqueID
+        val groupsList = app.db.getGroupsOfClient(clientId)
+
+
+//        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
         val group = groupsList[position]
         holder.name.text = group
 
@@ -50,7 +60,10 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+//        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
+        val clientId = app.userDetails.clientUniqueID
+        val groupsList = app.db.getGroupsOfClient(clientId)
+
         return groupsList.size
     }
 }
