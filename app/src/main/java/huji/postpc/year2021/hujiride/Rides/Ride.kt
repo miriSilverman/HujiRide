@@ -12,7 +12,6 @@ data class Ride (
     val drivers_first_name: String,
     val drivers_last_name: String,
     val drivers_phone_number: String,
-    val id: UUID,
     val toHuji: Boolean = true
 
 )

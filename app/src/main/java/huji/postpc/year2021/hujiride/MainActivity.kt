@@ -62,7 +62,6 @@ class MainActivity : AppCompatActivity() {
             comments = arrayListOf(),
             drivers_last_name = "LAST",
             drivers_phone_number = "000123",
-            id = UUID.randomUUID(),
             toHuji = true
         )
 

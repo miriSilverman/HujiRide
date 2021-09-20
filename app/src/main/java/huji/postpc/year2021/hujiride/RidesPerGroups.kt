@@ -23,14 +23,14 @@ class RidesPerGroups{
     )
 
 
-    fun addRide(ride: Ride, group: String){
-        val groupList = map[group]
-        if (groupList != null) {
-            groupList.addRide(ride)
-
-        }
-        ridesAll.addRide(ride)
-    }
+//    fun addRide(ride: Ride, group: String){
+//        val groupList = map[group]
+//        if (groupList != null) {
+//            groupList.addRide(ride)
+//
+//        }
+//        ridesAll.addRide(ride)
+//    }
 
 
 

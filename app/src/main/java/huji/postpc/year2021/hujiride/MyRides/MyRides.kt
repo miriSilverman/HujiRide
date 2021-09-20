@@ -10,13 +10,13 @@ class MyRides {
     private var idSet: Set<UUID> = setOf()
 
 
-    fun addRide(ride: Ride){
-        val id = ride.id
-        if (!idSet.contains(id)){
-            idSet = idSet + id
-            ridesList.add(ride)
-        }
-    }
+//    fun addRide(ride: Ride){
+//        val id = ride.id
+//        if (!idSet.contains(id)){
+//            idSet = idSet + id
+//            ridesList.add(ride)
+//        }
+//    }
 
 
     fun getRidesList() : ArrayList<Ride>

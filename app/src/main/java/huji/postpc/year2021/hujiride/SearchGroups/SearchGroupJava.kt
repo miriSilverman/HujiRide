@@ -46,16 +46,14 @@ class SearchGroupJava : Fragment() {
         })
 
 
-        val clientId = app.getUserDetails().clientUniqueID
+        val clientId = app.userDetails.clientUniqueID
         adapter = SearchGroupAdapter()
 
         GlobalScope.launch(Dispatchers.IO) {
 
             val groups = app.db.getGroupsOfClient(clientId)
-            if (groups != null) {
-                adapter.setGroupsList(groups)
-                adapter.notifyDataSetChanged()
-            }
+            adapter.setGroupsList(groups)
+            adapter.notifyDataSetChanged()
             withContext(Dispatchers.Main) {
                 groupsRecycler.adapter = adapter
                 groupsRecycler.layoutManager =

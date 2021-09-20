@@ -46,7 +46,7 @@ class DriversDetails : Fragment() {
         view.findViewById<Button>(R.id.add_to_my_rides).setOnClickListener {
 
         val app = HujiRideApplication.getInstance()
-            app.myRides.addRide(vm.pressedRide.value!!)
+//            app.myRides.addRide(vm.pressedRide.value!!)
             Navigation.findNavController(view).navigate(R.id.action_driversDetails_to_dashboard)
 
         }

@@ -239,7 +239,6 @@ class NewRide : Fragment() {
             app.userDetails.userFirstName,
             app.userDetails.userLastName,
             app.userDetails.userPhoneNumber,
-            UUID.randomUUID(),
             toHuji
         )
     }
