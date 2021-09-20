@@ -199,36 +199,13 @@ class Database {
         })
     }
 
-//    /**
-//     * returns the list of all the rides that the client has signed up for
-//     */
-//    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
-//    suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
-//        val stringRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<String>
-//
-//        return ArrayList(stringRides.mapNotNull { sr ->
-//            rides.document(sr).get().await().toObject(Ride::class.java)
-//        })
-//        return arrayListOf()
-//    }
-
-//    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
-//        return ArrayList()
-//    }
-
 
     /**
      * return a list of the names of the groups that the client has signed up for
      */
     suspend fun getGroupsOfClient(clientUniqueID: String): ArrayList<String> {
-        val arr: ArrayList<String> = arrayListOf()
-        val groups = clients.document(clientUniqueID).get().await()
-            .get(FIELD_REGTERED_GROUPS) as ArrayList<*>
-        for (g in groups) {
-            arr.add(g.toString())
-        }
-//        return clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as ArrayList<String>?
-        return arr
+        val groups = clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as List<*>
+        return ArrayList(groups.mapNotNull { g -> g.toString() })
     }
 
 
