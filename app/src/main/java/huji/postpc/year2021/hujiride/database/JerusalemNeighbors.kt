@@ -1,7 +1,11 @@
 package huji.postpc.year2021.hujiride.database
 
+import com.google.gson.Gson
+import java.io.File
+import java.io.FileWriter
+
 // From: https://he.wikipedia.org/wiki/%D7%A7%D7%98%D7%92%D7%95%D7%A8%D7%99%D7%94:%D7%99%D7%A8%D7%95%D7%A9%D7%9C%D7%99%D7%9D:_%D7%A9%D7%9B%D7%95%D7%A0%D7%95%D7%AA
-val JERUSALEM_NEIGHBORHOODS = arrayListOf(
+val __JERUSALEM_NEIGHBORHOODS = arrayListOf(
         "א-טור",
         "אבו תור",
         "אוהל שלמה",
@@ -72,3 +76,14 @@ val JERUSALEM_NEIGHBORHOODS = arrayListOf(
         "חוץ לעיר (צפון)",
 )
 
+fun main() {
+        val m = mutableMapOf<String, String>()
+        __JERUSALEM_NEIGHBORHOODS.map {
+                m[__JERUSALEM_NEIGHBORHOODS.indexOf(it).toString()] = it
+        }
+        File("${System.getProperty("user.dir")}/app/src/main/java/huji/postpc/year2021/hujiride/database/JerusalemNeighborhoods.json")
+                .writeText(
+                        Gson().toJson(m).toString()
+                )
+
+}
