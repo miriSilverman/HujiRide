@@ -37,25 +37,6 @@ class Database {
         } catch (e: Exception) { null }
     }
 
-    suspend fun newRide(ride: ClientRide, driverID: String): Boolean {
-        val dbRide = Ride(
-            time = ride.time,
-            stops = ride.stops,
-            comments = ride.comments,
-            driverID = clients.document(driverID),
-            destName = ride.dest,
-            lat = 0.0,
-            long = 0.0,
-            geoHash = "",
-            isDestinationHuji = false
-        )
-        try {
-            rides.document(ride.id.toString()).set(dbRide).await()
-            return true
-        }catch (e: Exception) {
-            return false
-        }
-    }
 
     suspend fun registerClientToGroup(clientUniqueID: String, groupID: Int) : Boolean {
         // TODO: Validate Group ID
@@ -109,17 +90,39 @@ class Database {
     ///////////////////////////////////////
 
 
+    suspend fun newRide(ride: ClientRide, driverID: String): Boolean {
+        val dbRide = Ride(
+            time = ride.time,
+            stops = ride.stops,
+            comments = ride.comments,
+            driverID = clients.document(driverID),
+            destName = ride.dest,
+            lat = 0.0,
+            long = 0.0,
+            geoHash = "",
+            isDestinationHuji = false
+        )
+        try {
+            rides.document(ride.id.toString()).set(dbRide).await()
+            return true
+        }catch (e: Exception) {
+            return false
+        }
+    }
+
     /**
      * adds a ride go the rideList of a certain group + the func adds the ride to the "all rides"
      * list
      */
-    fun addRide(ride: ClientRide, groupName: String){}
+    suspend fun addRide(ride: ClientRide, clientUniqueID: String, groupID: String?) {
+
+    }
 
 
     /**
      * given groups name returns a list of the rides in this group (also "all" group)
      */
-    fun getRidesListOfGroup(groupName: String) : ArrayList<ClientRide>{
+    fun getRidesListOfGroup(groupID: String) : ArrayList<ClientRide>{
 
         return arrayListOf()
     }
@@ -128,8 +131,12 @@ class Database {
     /**
      * returns the list of all the rides that the client has signed up for
      */
-    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
-        return arrayListOf()
+    suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
+        val stringRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<String>
+
+        return ArrayList(stringRides.mapNotNull { sr ->
+            rides.document(sr).get().await().toObject(Ride::class.java)
+        })
     }
 
 
