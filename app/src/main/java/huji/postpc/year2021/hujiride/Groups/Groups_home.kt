@@ -17,6 +17,10 @@ import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -39,9 +43,7 @@ class GroupsHome : Fragment() {
         val app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         val groupsData = app.groupsData
-        val adapter = GroupsAdapter()
-        val groupsRecycler: RecyclerView = view.findViewById(R.id.groups_list_recyclerView)
-
+        val clientId = app.userDetails.clientUniqueID
         view.findViewById<Button>(R.id.search_new_group_btn).setOnClickListener {
 
 //            val builder = AlertDialog.Builder(activity)
@@ -56,25 +58,43 @@ class GroupsHome : Fragment() {
         }
 
 
-        groupsRecycler.adapter = adapter
+        val adapter = GroupsAdapter()
+        val groupsRecycler: RecyclerView = view.findViewById(R.id.groups_list_recyclerView)
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
+        GlobalScope.launch(Dispatchers.IO) {
+            val groupsList = app.db.getGroupsOfClient(clientId)
+            withContext(Dispatchers.Main) {
+                if (groupsList != null) {
+                    adapter.setGroupsList(groupsList)
+                }
+                groupsRecycler.adapter = adapter
 
-        adapter.onItemClickCallback = {group: String ->
-            vm.pressedGroup.value = SearchGroupItem(group, true)
-            Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
+
+                adapter.onItemClickCallback = { group: String ->
+                    vm.pressedGroup.value = SearchGroupItem(group, true)
+                    Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
+                }
+
+                adapter.onDeleteIconCallback = { group: String ->
+                    groupsData.removeGroup(group)
+                }
+
+
+            }
+
         }
 
-        adapter.onDeleteIconCallback = { group : String ->
-            groupsData.removeGroup(group)
-//            group.checked = false
-        }
 
-        activity?.let {
-            groupsData.liveDataGroups.observe(it, { groupsList ->
-                adapter.notifyDataSetChanged()
-            })
-        }
+
+
+
+
+//        activity?.let {
+//            groupsData.liveDataGroups.observe(it, { groupsList ->
+//                adapter.notifyDataSetChanged()
+//            })
+//        }
 
         return view
     }

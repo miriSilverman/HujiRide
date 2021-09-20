@@ -31,8 +31,9 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
         if (groupName != null) {
             holder.checkBox.text = groupName
             var clientId = app.userDetails.clientUniqueID
+
             GlobalScope.launch(Dispatchers.IO) {
-                holder.checkBox.isChecked = app.db.getGroupsOfClient(clientId).contains(groupName)
+                holder.checkBox.isChecked = app.db.getGroupsOfClient(clientId)!!.contains(groupName)
 
             }
 
@@ -40,8 +41,6 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
             holder.checkBox.setOnClickListener {
                 GlobalScope.launch(Dispatchers.IO) {
                     if (holder.checkBox.isChecked) {
-
-//                        clientId = "2007e0b0-5b90-48ac-8d4c-c42f28c49032"
                         app.db.registerClientToGroup(clientId, getIdOfGroup(groupName).toInt())
 
                         withContext(Dispatchers.Main) {
