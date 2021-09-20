@@ -65,7 +65,9 @@ class GroupsHome : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             val groupsList = app.db.getGroupsOfClient(clientId)
             withContext(Dispatchers.Main) {
-                adapter.setGroupsList(groupsList)
+                if (groupsList != null) {
+                    adapter.setGroupsList(groupsList)
+                }
                 groupsRecycler.adapter = adapter
 
 

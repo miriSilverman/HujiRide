@@ -55,8 +55,8 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 //            val groupsList = app.groupsData.getGroups()
             GlobalScope.launch (Dispatchers.IO) {
                 val groupsList = app.db.getGroupsOfClient(clientId)
-                val group = groupsList[holder.adapterPosition]
-                callback(group)
+                val group = groupsList?.get(holder.adapterPosition)
+                group?.let { it1 -> callback(it1) }
             }
         }
         return holder
@@ -65,22 +65,29 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         app = HujiRideApplication.getInstance()
 
-        val clientId = app.userDetails.clientUniqueID
-
-        GlobalScope.launch (Dispatchers.IO) {
-            val groupsList = app.db.getGroupsOfClient(clientId)
-
-            withContext(Dispatchers.Main) {
-                val group = groupsList[position]
-                holder.name.text = group
-                holder.name.setOnClickListener {
-                    val callback = onItemClickCallback?: return@setOnClickListener
-                    callback(group)
-                }
-            }
-
-
+//        val clientId = app.userDetails.clientUniqueID
+        val group = clientsGroupsList[position]
+        holder.name.text = group
+        holder.name.setOnClickListener {
+            val callback = onItemClickCallback?: return@setOnClickListener
+            callback(group)
         }
+
+
+//        GlobalScope.launch (Dispatchers.IO) {
+//            val groupsList = app.db.getGroupsOfClient(clientId)
+//
+//            withContext(Dispatchers.Main) {
+//                val group = groupsList[position]
+//                holder.name.text = group
+//                holder.name.setOnClickListener {
+//                    val callback = onItemClickCallback?: return@setOnClickListener
+//                    callback(group)
+//                }
+//            }
+//
+//
+//        }
 
 
 
