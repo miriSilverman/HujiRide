@@ -52,7 +52,6 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
         view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
             val callback = onDeleteIconCallback?: return@setOnClickListener
-//            val groupsList = app.groupsData.getGroups()
             GlobalScope.launch (Dispatchers.IO) {
                 val groupsList = app.db.getGroupsOfClient(clientId)
                 val group = groupsList?.get(holder.adapterPosition)
