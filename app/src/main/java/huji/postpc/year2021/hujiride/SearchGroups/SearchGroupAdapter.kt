@@ -41,7 +41,7 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
                 GlobalScope.launch(Dispatchers.IO) {
                     if (holder.checkBox.isChecked) {
 
-                        clientId = "2007e0b0-5b90-48ac-8d4c-c42f28c49032"
+//                        clientId = "2007e0b0-5b90-48ac-8d4c-c42f28c49032"
                         app.db.registerClientToGroup(clientId, getIdOfGroup(groupName).toInt())
 
                         withContext(Dispatchers.Main) {
