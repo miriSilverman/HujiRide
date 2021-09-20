@@ -137,7 +137,7 @@ class Database {
      * return a list of the names of the groups that the client has signed up for
      */
     suspend fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String>? {
-        return clients.document(clientUniqueID).get().await().getField(FIELD_REGTERED_GROUPS)
+        return clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as ArrayList<String>?
     }
 
     /**
