@@ -25,7 +25,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     @SuppressLint("NotifyDataSetChanged")
     fun setGroupsList(list: ArrayList<String>){
         clientsGroupsList = list
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
 

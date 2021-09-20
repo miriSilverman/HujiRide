@@ -70,7 +70,8 @@ class Scan : BaseOnbaordingFragment(
             return true
         }
         Toast.makeText(requireContext(), "Please scan your Student Card first!", Toast.LENGTH_SHORT).show()
-        return false
+//        return false
+        return true
     }
 
     override fun onClickBack(): Boolean {

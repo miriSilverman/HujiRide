@@ -27,7 +27,7 @@ import kotlinx.coroutines.withContext
  * A simple [Fragment] subclass.
  */
 class GroupsHome : Fragment() {
-    private lateinit var app : HujiRideApplication
+    private lateinit var app: HujiRideApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,17 +43,9 @@ class GroupsHome : Fragment() {
         val view = inflater.inflate(R.layout.fragment_groups_home, container, false)
         app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
-        val groupsData = app.groupsData
         val clientId = app.userDetails.clientUniqueID
         view.findViewById<Button>(R.id.search_new_group_btn).setOnClickListener {
 
-//            val builder = AlertDialog.Builder(activity)
-//            builder.setTitle("Add groups")
-//            builder.setMultiChoiceItems(groupsData.neighborhoods, groupsData.checkedItems,
-//            DialogInterface.OnMultiChoiceClickListener({
-//                dialogInterface, i, b ->
-//
-//            }))
 
             Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchGroup)
         }
@@ -66,29 +58,32 @@ class GroupsHome : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             val groupsList = app.db.getGroupsOfClient(clientId)
             withContext(Dispatchers.Main) {
-                if (groupsList != null) {
-                    adapter.setGroupsList(groupsList)
-                }
+                adapter.setGroupsList(groupsList)
+                adapter.notifyDataSetChanged()
+
                 groupsRecycler.adapter = adapter
 
 
                 adapter.onItemClickCallback = { group: String ->
                     vm.pressedGroup.value = SearchGroupItem(group, true)
-                    Navigation.findNavController(view).navigate(R.id.action_groups_home_to_ridesList)
+                    Navigation.findNavController(view)
+                        .navigate(R.id.action_groups_home_to_ridesList)
                 }
-
                 adapter.onDeleteIconCallback = { group: String ->
-                    groupsData.removeGroup(group)
+                    GlobalScope.launch(Dispatchers.IO) {
+                        app.db.unregisterClientToGroup(clientId, group)
+                        adapter.setGroupsList(app.db.getGroupsOfClient(clientId))
+                        withContext(Dispatchers.Main) {
+                            adapter.notifyDataSetChanged()
+                        }
+
+                    }
                 }
 
 
             }
 
         }
-
-
-
-
 
 
 //        activity?.let {
@@ -100,7 +95,15 @@ class GroupsHome : Fragment() {
         return view
     }
 
-
+    private fun getIdOfGroup(groupName: String): String {
+        val allGroups = app.jerusalemNeighborhoods
+        for (pair in allGroups) {
+            if (pair.value.equals(groupName)) {
+                return pair.key
+            }
+        }
+        return ""
+    }
 
 
 }
