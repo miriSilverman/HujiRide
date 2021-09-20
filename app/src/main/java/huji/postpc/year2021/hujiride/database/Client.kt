@@ -7,3 +7,5 @@ data class Client (
     val phoneNumber: String = "",
     val registeredGroups: ArrayList<Int> = ArrayList()
 )
+
+val FIELD_REGTERED_GROUPS = "registeredGroups"
