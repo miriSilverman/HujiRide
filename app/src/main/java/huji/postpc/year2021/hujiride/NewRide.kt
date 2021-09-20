@@ -137,7 +137,7 @@ class NewRide : Fragment() {
             val pressedGroup = vm.pressedGroup
 
             GlobalScope.launch (Dispatchers.IO) {
-                app.db.addRide(newRide, getIdOfGroup(pressedGroup.value!!.name))
+                app.db.addRide(newRide, app.userDetails.clientUniqueID, getIdOfGroup(pressedGroup.value!!.name))
                 withContext(Dispatchers.Main) {
                     vm.srcOrDest = ""
 

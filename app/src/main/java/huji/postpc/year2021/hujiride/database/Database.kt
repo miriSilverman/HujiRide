@@ -128,23 +128,41 @@ class Database {
     }
 
 
+//    /**
+//     * returns the list of all the rides that the client has signed up for
+//     */
+//    suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
+//        val stringRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<String>
+//
+//        return ArrayList(stringRides.mapNotNull { sr ->
+//            rides.document(sr).get().await().toObject(Ride::class.java)
+//        })
+//    }
+
     /**
      * returns the list of all the rides that the client has signed up for
      */
-    suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
-        val stringRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<String>
-
-        return ArrayList(stringRides.mapNotNull { sr ->
-            rides.document(sr).get().await().toObject(Ride::class.java)
-        })
+    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
+//        val stringRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<String>
+//
+//        return ArrayList(stringRides.mapNotNull { sr ->
+//            rides.document(sr).get().await().toObject(Ride::class.java)
+//        })
+        return arrayListOf()
     }
 
 
     /**
      * return a list of the names of the groups that the client has signed up for
      */
-    suspend fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String>? {
-        return clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as ArrayList<String>?
+    suspend fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String> {
+        val arr : ArrayList<String> = arrayListOf()
+        val groups = clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as ArrayList<*>
+        for (g in groups){
+            arr.add(g.toString())
+        }
+//        return clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as ArrayList<String>?
+        return arr
     }
 
     /**

@@ -40,14 +40,8 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         val holder = GroupViewHolder(view)
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
-//            val groupsList = app.groupsData.getGroups()
             val group = clientsGroupsList[holder.adapterPosition]
             callback(group)
-//            GlobalScope.launch (Dispatchers.IO) {
-//                val groupsList = app.db.getGroupsOfClient(clientId)
-//                val group = groupsList[holder.adapterPosition]
-//                callback(group)
-//            }
         }
 
         view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
@@ -61,50 +55,25 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         return holder
     }
 
+    fun getGroupsName(id: String) : String?{
+        return app.jerusalemNeighborhoods[id]
+    }
+
+
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         app = HujiRideApplication.getInstance()
 
-//        val clientId = app.userDetails.clientUniqueID
-        val group = clientsGroupsList[position]
-        holder.name.text = group
+        val group = clientsGroupsList.toArray()[position]
+        holder.name.text = getGroupsName(group.toString())
         holder.name.setOnClickListener {
             val callback = onItemClickCallback?: return@setOnClickListener
-            callback(group)
+            callback(group.toString())
         }
-
-
-//        GlobalScope.launch (Dispatchers.IO) {
-//            val groupsList = app.db.getGroupsOfClient(clientId)
-//
-//            withContext(Dispatchers.Main) {
-//                val group = groupsList[position]
-//                holder.name.text = group
-//                holder.name.setOnClickListener {
-//                    val callback = onItemClickCallback?: return@setOnClickListener
-//                    callback(group)
-//                }
-//            }
-//
-//
-//        }
-
-
-
-
 
 
     }
 
     override fun getItemCount(): Int {
-//        app = HujiRideApplication.getInstance()
-
-//        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
-//        val clientId = app.userDetails.clientUniqueID
-
-//        val groupsList = app.db.getGroupsOfClient(clientId)
-
-
-//        return groupsList.size
         return clientsGroupsList.size
     }
 }

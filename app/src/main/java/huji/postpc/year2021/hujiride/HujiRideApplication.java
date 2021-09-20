@@ -15,10 +15,12 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
 import huji.postpc.year2021.hujiride.MyRides.MyRides;
 import huji.postpc.year2021.hujiride.database.Database;
+import kotlin.Pair;
 
 public class HujiRideApplication extends Application {
 
@@ -131,4 +133,21 @@ public class HujiRideApplication extends Application {
         this.userDetails.setUserLastName(lastName);
         this.userDetails.setUserPhoneNumber(phoneNumber);
     }
+
+
+//    private fun getIdOfGroup(groupName: String): String {
+//        val allGroups = app.jerusalemNeighborhoods
+//        for (pair in allGroups) {
+//            if (pair.value.equals(groupName)) {
+//                return pair.key
+//            }
+//        }
+//        return ""
+//    }
+
+
+
+
+
+
 }

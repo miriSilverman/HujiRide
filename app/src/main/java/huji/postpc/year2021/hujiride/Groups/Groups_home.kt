@@ -27,6 +27,7 @@ import kotlinx.coroutines.withContext
  * A simple [Fragment] subclass.
  */
 class GroupsHome : Fragment() {
+    private lateinit var app : HujiRideApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class GroupsHome : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_groups_home, container, false)
-        val app = HujiRideApplication.getInstance()
+        app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         val groupsData = app.groupsData
         val clientId = app.userDetails.clientUniqueID
@@ -98,5 +99,8 @@ class GroupsHome : Fragment() {
 
         return view
     }
+
+
+
 
 }

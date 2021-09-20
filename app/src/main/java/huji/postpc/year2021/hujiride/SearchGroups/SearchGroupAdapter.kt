@@ -1,5 +1,6 @@
 package huji.postpc.year2021.hujiride.SearchGroups
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -14,6 +15,13 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
 
     private lateinit var app: HujiRideApplication
+    private var clientsGroupsList = ArrayList<String>()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setGroupsList(list: ArrayList<String>) {
+        clientsGroupsList = list
+//        notifyDataSetChanged()
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchGroupViewHolder {
@@ -27,43 +35,37 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
     override fun onBindViewHolder(holder: SearchGroupViewHolder, position: Int) {
         app = HujiRideApplication.getInstance()
-        val groupName = app.groupsData.mutableDataFilteredGroups.get(position).second
-        if (groupName != null) {
-            holder.checkBox.text = groupName
-            var clientId = app.userDetails.clientUniqueID
+        val groupName = app.groupsData.mutableDataFilteredGroups[position].second
+        holder.checkBox.text = groupName
+        val clientId = app.userDetails.clientUniqueID
+        val a = getIdOfGroup(groupName)
+        holder.checkBox.isChecked = clientsGroupsList.toArray().contains(a)
 
+
+
+        holder.checkBox.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
-                holder.checkBox.isChecked = app.db.getGroupsOfClient(clientId)!!.contains(groupName)
+                if (holder.checkBox.isChecked) {
+                    app.db.registerClientToGroup(clientId, getIdOfGroup(groupName).toInt())
+                    app.db.getGroupsOfClient(clientId)?.let { it1 -> setGroupsList(it1) }
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            app,
+                            "$groupName was added to your groups",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-            }
-
-
-            holder.checkBox.setOnClickListener {
-                GlobalScope.launch(Dispatchers.IO) {
-                    if (holder.checkBox.isChecked) {
-                        app.db.registerClientToGroup(clientId, getIdOfGroup(groupName).toInt())
-
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                app,
-                                "$groupName was added to your groups",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                        }
-
-                    } else {
-                        app.db.unregisterClientToGroup(clientId, getIdOfGroup(groupName))
-                        withContext(Dispatchers.Main) {
-                            Toast.makeText(
-                                app,
-                                "$groupName was removed from your groups",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
                     }
 
-
+                } else {
+                    app.db.unregisterClientToGroup(clientId, getIdOfGroup(groupName))
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            app,
+                            "$groupName was removed from your groups",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
 
 
@@ -71,6 +73,7 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
 
         }
+
 
     }
 
