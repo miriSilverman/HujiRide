@@ -5,7 +5,7 @@ data class Client (
     val lastName: String = "",
     @field:JvmField val isAuth: Boolean = false,
     val phoneNumber: String = "",
-    val registeredGroups: ArrayList<Int> = ArrayList(),
+    val registeredGroups: ArrayList<String> = ArrayList(),
     val rides: ArrayList<String> = ArrayList(),
 )
 

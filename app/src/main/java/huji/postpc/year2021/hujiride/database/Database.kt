@@ -26,19 +26,24 @@ class Database {
         Log.d("DB FB", m)
     }
 
-    suspend fun newClient(firstName: String, lastName: String, phoneNumber: String, uniqueID: String): Boolean {
+    suspend fun newClient(
+        firstName: String,
+        lastName: String,
+        phoneNumber: String,
+        uniqueID: String
+    ): Boolean {
 
         val newClient = Client(firstName, lastName, true, phoneNumber)
         try {
             clients.document(uniqueID).set(newClient).await()
             return true
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return false
         }
     }
 
-    suspend fun findClient(uniqueID: String) : Client? {
+    suspend fun findClient(uniqueID: String): Client? {
         return try {
             clients.document(uniqueID).get().await().toObject(Client::class.java)
         } catch (e: Exception) {
@@ -48,24 +53,54 @@ class Database {
     }
 
 
-    suspend fun registerClientToGroup(clientUniqueID: String, groupID: Int) : Boolean {
+    suspend fun registerClientToGroup(clientUniqueID: String, groupID: String): Boolean {
         // TODO: Validate Group ID
-        val client: Client? = findClient(clientUniqueID)
-        if (client == null) {
+//        val client: Client? = findClient(clientUniqueID)
+//        if (client == null) {
+//            return false
+//        } else {
+//            if (client.registeredGroups.contains(groupID)) { // if already has it, don't add again!
+//                return true
+//            }
+//            client.registeredGroups.add(groupID)
+//            clients.document(clientUniqueID).set(client).await()
+//            return true
+//        }
+        try {
+            clients.document(clientUniqueID)
+                .update(mapOf(FIELD_REGTERED_GROUPS to FieldValue.arrayUnion(groupID))).await()
+
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
             return false
-        } else {
-            if (client.registeredGroups.contains(groupID)) { // if already has it, don't add again!
-                return true
-            }
-            client.registeredGroups.add(groupID)
-            clients.document(clientUniqueID).set(client).await()
-            return true
         }
+        return true
     }
 
-    suspend fun sortRidesAccordingToALocation(latLng: LatLng) : List<Ride> {
+    /**
+     * cancels registration of a client to group
+     */
+    suspend fun unregisterClientToGroup(clientUniqueID: String, groupId: String): Boolean {
+        try {
+            clients.document(clientUniqueID)
+                .update(mapOf(FIELD_REGTERED_GROUPS to FieldValue.arrayRemove(groupId))).await()
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            return false
+        }
+        return true
+    }
+
+    suspend fun sortRidesAccordingToALocation(latLng: LatLng): List<Ride> {
         val closeRidesSnaps = rides.orderBy(FIELD_GEO_HASH)
-            .startAt(GeoFireUtils.getGeoHashForLocation(GeoLocation(latLng.latitude, latLng.longitude)))
+            .startAt(
+                GeoFireUtils.getGeoHashForLocation(
+                    GeoLocation(
+                        latLng.latitude,
+                        latLng.longitude
+                    )
+                )
+            )
             .get()
             .await()
 
@@ -79,10 +114,10 @@ class Database {
     /**
      * Returns null if the client does not even exist
      */
-    suspend fun isClientAuth(clientUniqueID: String) : Boolean? {
+    suspend fun isClientAuth(clientUniqueID: String): Boolean? {
         return try {
             clients.document(clientUniqueID).get().await()?.getBoolean(FIELD_IS_AUTH)
-        }catch (e : Exception) {
+        } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             null
         }
@@ -92,9 +127,9 @@ class Database {
      * Returns null if the client does not even exist, else, a map containing the data
      */
     suspend fun getClientData(clientUniqueID: String): MutableMap<String, Any>? {
-        return try{
+        return try {
             clients.document(clientUniqueID).get().await()?.data
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             null
         }
@@ -116,7 +151,7 @@ class Database {
             val id = UUID.randomUUID().toString()
             rides.document(id).set(dbRide).await()
             return id
-        }catch (e: Exception) {
+        } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return null
         }
@@ -126,11 +161,16 @@ class Database {
      * adds a ride go the rideList of a certain group + the func adds the ride to the "all rides"
      * list
      */
-    suspend fun addRide(ride: ClientRide, clientUniqueID: String, groupID: String? = null): Boolean {
+    suspend fun addRide(
+        ride: ClientRide,
+        clientUniqueID: String,
+        groupID: String? = null
+    ): Boolean {
         val id = newRide(ride, clientUniqueID) ?: return false
         if (groupID == null) return true
         try {
-            groups.document(groupID).set(mapOf("rides" to FieldValue.arrayUnion(id)), SetOptions.merge())
+            groups.document(groupID)
+                .set(mapOf("rides" to FieldValue.arrayUnion(id)), SetOptions.merge())
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return false
@@ -142,7 +182,7 @@ class Database {
     /**
      * given groups name returns a list of the rides in this group (also "all" group)
      */
-    fun getRidesListOfGroup(groupID: String) : ArrayList<ClientRide> {
+    fun getRidesListOfGroup(groupID: String): ArrayList<ClientRide> {
 
         return arrayListOf()
     }
@@ -180,21 +220,16 @@ class Database {
     /**
      * return a list of the names of the groups that the client has signed up for
      */
-    suspend fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String> {
-        val arr : ArrayList<String> = arrayListOf()
-        val groups = clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as ArrayList<*>
-        for (g in groups){
+    suspend fun getGroupsOfClient(clientUniqueID: String): ArrayList<String> {
+        val arr: ArrayList<String> = arrayListOf()
+        val groups = clients.document(clientUniqueID).get().await()
+            .get(FIELD_REGTERED_GROUPS) as ArrayList<*>
+        for (g in groups) {
             arr.add(g.toString())
         }
 //        return clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as ArrayList<String>?
         return arr
     }
-
-    /**
-     * cancels registration of a client to group
-     */
-    suspend fun unregisterClientToGroup(clientUniqueID: String, groupId: String){}
-
 
 
 
