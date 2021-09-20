@@ -12,7 +12,9 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import huji.postpc.year2021.hujiride.Onboarding.OnboradingActivity
+import huji.postpc.year2021.hujiride.Rides.Ride
 import huji.postpc.year2021.hujiride.database.Client
+import huji.postpc.year2021.hujiride.database.Database
 import kotlinx.coroutines.*
 import org.opencv.android.OpenCVLoader
 import java.util.*
@@ -23,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val TAG = "MainActivity"
+
+//        TESTS()
 
         if (OpenCVLoader.initDebug()) {
             Log.d(TAG, "OpenCV Loaded")
@@ -47,8 +51,29 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun TESTS() {
+        val db = Database()
+        val cRide = Ride(
+            src="TEST",
+            dest="TEST",
+            drivers_first_name = "YAIR",
+            time = "",
+            stops = arrayListOf(),
+            comments = arrayListOf(),
+            drivers_last_name = "LAST",
+            drivers_phone_number = "000123",
+            id = UUID.randomUUID(),
+            toHuji = true
+        )
 
-private fun getUniqueID(): String {
+        GlobalScope.launch {
+            val id = db.addRide(cRide, "TEST1", "0")
+            println("DONE ######$id")
+        }
+    }
+
+
+    private fun getUniqueID(): String {
     val sp = getSharedPreferences("huji.rides.unique.id.sp", Context.MODE_PRIVATE)
     val spKey = "huji.rides.yair.unique.id.client"
     val uniqueID = sp.getString(spKey, null)

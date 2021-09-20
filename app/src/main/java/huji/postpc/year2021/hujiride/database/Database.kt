@@ -3,18 +3,25 @@ package huji.postpc.year2021.hujiride.database
 import android.util.Log
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.type.LatLng
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.util.*
+import kotlin.collections.ArrayList
 import huji.postpc.year2021.hujiride.Rides.Ride as ClientRide
 
 class Database {
+    private val TAG = "Database"
     val db = Firebase.firestore
     val clients = db.collection("Clients")
     val rides = db.collection("Rides")
-
+    val groups = db.collection("Groups")
     fun print(m: String) {
         Log.d("DB FB", m)
     }
@@ -26,7 +33,7 @@ class Database {
             clients.document(uniqueID).set(newClient).await()
             return true
         }catch (e: Exception) {
-            println("${e.message}  |$uniqueID|" )
+            Log.e(TAG, e.message!!)
             return false
         }
     }
@@ -34,7 +41,10 @@ class Database {
     suspend fun findClient(uniqueID: String) : Client? {
         return try {
             clients.document(uniqueID).get().await().toObject(Client::class.java)
-        } catch (e: Exception) { null }
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            null
+        }
     }
 
 
@@ -70,27 +80,27 @@ class Database {
      * Returns null if the client does not even exist
      */
     suspend fun isClientAuth(clientUniqueID: String) : Boolean? {
-        return clients.document(clientUniqueID).get().await()?.getBoolean(FIELD_IS_AUTH)
+        return try {
+            clients.document(clientUniqueID).get().await()?.getBoolean(FIELD_IS_AUTH)
+        }catch (e : Exception) {
+            Log.e(TAG, e.message!!)
+            null
+        }
     }
 
     /**
      * Returns null if the client does not even exist, else, a map containing the data
      */
     suspend fun getClientData(clientUniqueID: String): MutableMap<String, Any>? {
-        return clients.document(clientUniqueID).get().await()?.data
+        return try{
+            clients.document(clientUniqueID).get().await()?.data
+        } catch (e : Exception) {
+            Log.e(TAG, e.message!!)
+            null
+        }
     }
 
-
-
-
-
-
-    ///////////////////////////////////////
-    ////////////  more funcs  /////////////
-    ///////////////////////////////////////
-
-
-    suspend fun newRide(ride: ClientRide, driverID: String): Boolean {
+    suspend private fun newRide(ride: ClientRide, driverID: String): String? {
         val dbRide = Ride(
             time = ride.time,
             stops = ride.stops,
@@ -103,10 +113,12 @@ class Database {
             isDestinationHuji = false
         )
         try {
-            rides.document(ride.id.toString()).set(dbRide).await()
-            return true
+            val id = UUID.randomUUID().toString()
+            rides.document(id).set(dbRide).await()
+            return id
         }catch (e: Exception) {
-            return false
+            Log.e(TAG, e.message!!)
+            return null
         }
     }
 
@@ -114,15 +126,23 @@ class Database {
      * adds a ride go the rideList of a certain group + the func adds the ride to the "all rides"
      * list
      */
-    suspend fun addRide(ride: ClientRide, clientUniqueID: String, groupID: String?) {
-
+    suspend fun addRide(ride: ClientRide, clientUniqueID: String, groupID: String? = null): Boolean {
+        val id = newRide(ride, clientUniqueID) ?: return false
+        if (groupID == null) return true
+        try {
+            groups.document(groupID).set(mapOf("rides" to FieldValue.arrayUnion(id)), SetOptions.merge())
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            return false
+        }
+        return true
     }
 
 
     /**
      * given groups name returns a list of the rides in this group (also "all" group)
      */
-    fun getRidesListOfGroup(groupID: String) : ArrayList<ClientRide>{
+    fun getRidesListOfGroup(groupID: String) : ArrayList<ClientRide> {
 
         return arrayListOf()
     }
@@ -139,16 +159,21 @@ class Database {
 //        })
 //    }
 
-    /**
-     * returns the list of all the rides that the client has signed up for
-     */
-    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
+//    /**
+//     * returns the list of all the rides that the client has signed up for
+//     */
+//    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
+//    suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
 //        val stringRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<String>
 //
 //        return ArrayList(stringRides.mapNotNull { sr ->
 //            rides.document(sr).get().await().toObject(Ride::class.java)
 //        })
-        return arrayListOf()
+//        return arrayListOf()
+//    }
+
+    fun getRidesOfClient(clientUniqueID: String): ArrayList<ClientRide> {
+        return ArrayList()
     }
 
 
@@ -175,7 +200,3 @@ class Database {
 
 
 }
-
-
-
-

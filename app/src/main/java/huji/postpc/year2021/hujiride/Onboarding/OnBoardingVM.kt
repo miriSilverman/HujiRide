@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class OnBoardingVM: ViewModel() {
-    var clientUniqueID: String? = null
     val progress: MutableLiveData<Int> by lazy { MutableLiveData<Int>(0) }
 
     var onClickNext: (() -> Unit)? = null
@@ -16,7 +15,9 @@ class OnBoardingVM: ViewModel() {
     var phoneNumber: String? = null
     var idNumber: String? = null
 
-    val bypassValidation = true  // For debugging and testing only! TODO: make it false!
+    var isScanCompleted : Boolean = false
+
+    val bypassValidation = false  // For debugging and testing only! TODO: make it false!
 
     fun resetData() {
         firstName = null
