@@ -1,11 +1,13 @@
 package huji.postpc.year2021.hujiride.Onboarding
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import huji.postpc.year2021.hujiride.ApplicationActivity
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import kotlinx.coroutines.Dispatchers
@@ -46,7 +48,6 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
     override fun onClickNext(): Boolean {
         val db = (requireActivity().application as HujiRideApplication).db
         loadingBar.visibility = View.VISIBLE
-        println("$%%$%$%$%%$")
 
         GlobalScope.launch (Dispatchers.IO) {
             val e = db.newClient(
@@ -57,8 +58,10 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
             )
             withContext(Dispatchers.Main) {
                 loadingBar.visibility = View.INVISIBLE
-                println("################$e")
             }
+            val activity = requireActivity()
+            activity.startActivity(Intent(requireContext(), ApplicationActivity::class.java))
+            activity.finish()
         }
         return false
     }

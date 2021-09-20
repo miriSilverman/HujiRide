@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -40,21 +41,18 @@ class Scan : BaseOnbaordingFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
+        println("######$$$$$")
+        val view = super.onCreateView(inflater, container, savedInstanceState)!!
         val imm =
             requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
-        if (view != null) {
-            img_but = view.findViewById(R.id.camera)
-            img_but.setOnClickListener {
-                startActivityForResult(
-                    Intent(
-                        activity,
-                        CameraActivity::class.java
-                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP), 1
-                )
-
-            }
+        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        img_but = view.findViewById(R.id.camera)
+        img_but.setOnClickListener {
+            startActivityForResult(
+                Intent(
+                    activity,
+                    CameraActivity::class.java
+                ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP), 1)
         }
 
 
@@ -63,18 +61,16 @@ class Scan : BaseOnbaordingFragment(
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            Log.d("check id", "YES")
-        } else {
-            Log.d("check id", "NO")
-
-        }
+        viewModel.isScanCompleted = resultCode == RESULT_OK
     }
 
 
     override fun onClickNext(): Boolean {
-
-        return true
+        if (viewModel.isScanCompleted) {
+            return true
+        }
+        Toast.makeText(requireContext(), "Please scan your Student Card first!", Toast.LENGTH_SHORT).show()
+        return false
     }
 
     override fun onClickBack(): Boolean {
