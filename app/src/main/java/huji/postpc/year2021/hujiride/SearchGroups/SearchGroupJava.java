@@ -18,18 +18,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
 import huji.postpc.year2021.hujiride.HujiRideApplication;
 import huji.postpc.year2021.hujiride.R;
+import kotlin.Pair;
 
 public class SearchGroupJava extends Fragment{
 
 
 
     private SearchGroupAdapter adapter;
-    List<String> neighborhoods;
+//    List<String> neighborhoods;
+    HashMap<String, String> neighborhoods;
     private HujiRideApplication app;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,9 +43,11 @@ public class SearchGroupJava extends Fragment{
 
         app = HujiRideApplication.getInstance();
         adapter = new SearchGroupAdapter();
-        neighborhoods =  app.getGroupsData().getNeighborhoods();
+//        neighborhoods =  app.getGroupsData().getNeighborhoods();
+//        app.getGroupsData().setFiltered((ArrayList<String>) neighborhoods);
+        neighborhoods =  app.getJerusalemNeighborhoods();
 
-        app.getGroupsData().setFiltered((ArrayList<String>) neighborhoods);
+        app.getGroupsData().setFiltered(neighborhoods);
 
         groupsRecycler.setAdapter(adapter);
         groupsRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
@@ -72,21 +77,36 @@ public class SearchGroupJava extends Fragment{
 
 
 
-
-
     @SuppressLint("NotifyDataSetChanged")
     private void filter(String text) {
-        ArrayList<String> filteredList = new ArrayList<>();
-        for (int i = 0; i < neighborhoods.size(); i++) {
-            if (neighborhoods.get(i).toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(neighborhoods.get(i));
+//        HashMap<String, String> filteredList = new HashMap<>();
+        ArrayList<Pair<String, String>> filteredList = new ArrayList<>();
+        for (String groupId: neighborhoods.keySet()){
+            String groupsName = neighborhoods.get(groupId);
+            if (groupsName.toLowerCase().contains(text.toLowerCase())){
+                filteredList.add(new Pair(groupId, groupsName));
             }
+
         }
         app.getGroupsData().setFiltered(filteredList);
         adapter.notifyDataSetChanged();
     }
 
 
+//
+//    @SuppressLint("NotifyDataSetChanged")
+//    private void filter(String text) {
+//        ArrayList<String> filteredList = new ArrayList<>();
+//        for (int i = 0; i < neighborhoods.size(); i++) {
+//            if (neighborhoods.get(i).toLowerCase().contains(text.toLowerCase())) {
+//                filteredList.add(neighborhoods.get(i));
+//            }
+//        }
+//        app.getGroupsData().setFiltered(filteredList);
+//        adapter.notifyDataSetChanged();
+//    }
+//
+//
 
 
 

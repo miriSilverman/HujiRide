@@ -9,6 +9,7 @@ import huji.postpc.year2021.hujiride.*
 class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
 
+    private lateinit var app : HujiRideApplication
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchGroupViewHolder {
@@ -18,19 +19,25 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
     }
 
+
+
     override fun onBindViewHolder(holder: SearchGroupViewHolder, position: Int) {
-        val app = HujiRideApplication.getInstance()
-        val groupName = app.groupsData.mutableDataFilteredGroups.value?.get(position)
+        app = HujiRideApplication.getInstance()
+//        val groupName = app.groupsData.mutableDataFilteredGroups.value?.get(position)
+        val groupName = app.groupsData.mutableDataFilteredGroups.get(position).second
         if (groupName != null) {
             holder.checkBox.text = groupName
-            holder.checkBox.isChecked = app.groupsData.getGroups().contains(groupName)
-
+            val clientId = app.userDetails.clientUniqueID
+//            holder.checkBox.isChecked = app.groupsData.getGroups().contains(groupName)
+            holder.checkBox.isChecked = app.db.getGroupsOfClient(clientId).contains(groupName)
             holder.checkBox.setOnClickListener{
                 if (holder.checkBox.isChecked){
                     app.groupsData.addGroup(groupName)
+//                    app.db.registerClientToGroup(clientId, getIdOfGroup(groupName))
                     Toast.makeText(app, "$groupName was added to your groups", Toast.LENGTH_SHORT).show()
                 }else{
-                    app.groupsData.removeGroup(groupName)
+//                    app.groupsData.removeGroup(groupName)
+                    app.db.unregisterClientToGroup(clientId, getIdOfGroup(groupName))
                     Toast.makeText(app, "$groupName was removed from your groups", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -50,9 +57,19 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
 
     override fun getItemCount(): Int {
-        val app = HujiRideApplication.getInstance()
+        app = HujiRideApplication.getInstance()
+        return app.groupsData.mutableDataFilteredGroups.size
+    }
 
-        return app.groupsData.mutableDataFilteredGroups.value?.size!!
+
+    private fun getIdOfGroup(groupName: String) :String{
+        val allGroups = app.jerusalemNeighborhoods
+        for (pair in allGroups){
+            if (pair.value.equals(groupName)){
+                return pair.key
+            }
+        }
+        return ""
     }
 
 

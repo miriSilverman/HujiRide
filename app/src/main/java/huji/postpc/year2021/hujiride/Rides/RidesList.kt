@@ -54,7 +54,7 @@ class RidesList : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         aView = inflater.inflate(R.layout.fragment_rides_list, container, false)
-        app = HujiRideApplication()
+        app = HujiRideApplication.getInstance()
         aView.findViewById<Button>(R.id.add_new_ride)?.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_newRide2)
         }
