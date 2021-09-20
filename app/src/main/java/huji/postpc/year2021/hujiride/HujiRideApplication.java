@@ -18,7 +18,13 @@ public class HujiRideApplication extends Application {
     private RidesPerGroups ridesPerGroups;
     private UserDetails userDetails;
     private MyRides myRides;
-    private final HashMap<String, String> jerusalemNeighborhoods = new HashMap<>();
+    private final HashMap<String, String> jerusalemNeighborhoods = new HashMap<String, String>(){{
+      put("454", "מלחה");
+      put("125", "גילה");
+      put("744", "פסגת זאב");
+      put("693", "רחביה");
+    }
+    };
 
     private static final String ALL_NOTIFICATIONS = "all_notifiactions";
     private static final String GROUPS_NOTIFICATIONS = "groups_notifactions";

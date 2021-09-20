@@ -21,7 +21,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val contex = parent.context
         val view = LayoutInflater.from(contex).inflate(R.layout.group_item, parent, false)
-        app = HujiRideApplication()
+        app = HujiRideApplication.getInstance()
 
         val clientId = app.userDetails.clientUniqueID
 
@@ -45,6 +45,8 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
+        app = HujiRideApplication.getInstance()
+
         val clientId = app.userDetails.clientUniqueID
         val groupsList = app.db.getGroupsOfClient(clientId)
 
@@ -60,6 +62,8 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+        app = HujiRideApplication.getInstance()
+
 //        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
         val clientId = app.userDetails.clientUniqueID
         val groupsList = app.db.getGroupsOfClient(clientId)

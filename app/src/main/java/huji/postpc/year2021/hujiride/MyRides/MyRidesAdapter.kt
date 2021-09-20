@@ -11,6 +11,8 @@ class MyRidesAdapter: RecyclerView.Adapter<MyRidesViewHolder>() {
 
 
     var onItemClickCallback: ((Ride)->Unit)? = null
+    private var app: HujiRideApplication = HujiRideApplication()
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyRidesViewHolder {
@@ -18,7 +20,9 @@ class MyRidesAdapter: RecyclerView.Adapter<MyRidesViewHolder>() {
 
         val holder = MyRidesViewHolder(view)
 
-        val ridesList = HujiRideApplication.getInstance().myRides.getRidesList()
+//        val ridesList = app.myRides.getRidesList()
+        val clientId = app.userDetails.clientUniqueID
+        val ridesList = app.db.getRidesOfClient(clientId)
 
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
@@ -29,7 +33,9 @@ class MyRidesAdapter: RecyclerView.Adapter<MyRidesViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyRidesViewHolder, position: Int) {
-        val ridesList = HujiRideApplication.getInstance().myRides.getRidesList()
+//        val ridesList = app.myRides.getRidesList()
+        val clientId = app.userDetails.clientUniqueID
+        val ridesList = app.db.getRidesOfClient(clientId)
 
         val ride = ridesList[position]
         holder.source.text = ride.src
