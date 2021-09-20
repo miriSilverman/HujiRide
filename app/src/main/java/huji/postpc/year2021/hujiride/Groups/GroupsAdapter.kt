@@ -7,6 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
@@ -29,17 +33,21 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
 //            val groupsList = app.groupsData.getGroups()
-            val groupsList = app.db.getGroupsOfClient(clientId)
-            val group = groupsList[holder.adapterPosition]
-            callback(group)
+            GlobalScope.launch (Dispatchers.IO) {
+                val groupsList = app.db.getGroupsOfClient(clientId)
+                val group = groupsList[holder.adapterPosition]
+                callback(group)
+            }
         }
 
         view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
             val callback = onDeleteIconCallback?: return@setOnClickListener
 //            val groupsList = app.groupsData.getGroups()
-            val groupsList = app.db.getGroupsOfClient(clientId)
-            val group = groupsList[holder.adapterPosition]
-            callback(group)
+            GlobalScope.launch (Dispatchers.IO) {
+                val groupsList = app.db.getGroupsOfClient(clientId)
+                val group = groupsList[holder.adapterPosition]
+                callback(group)
+            }
         }
         return holder
     }
@@ -48,17 +56,27 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         app = HujiRideApplication.getInstance()
 
         val clientId = app.userDetails.clientUniqueID
-        val groupsList = app.db.getGroupsOfClient(clientId)
+
+        GlobalScope.launch (Dispatchers.IO) {
+            val groupsList = app.db.getGroupsOfClient(clientId)
+
+            withContext(Dispatchers.Main) {
+                val group = groupsList[position]
+                holder.name.text = group
+                holder.name.setOnClickListener {
+                    val callback = onItemClickCallback?: return@setOnClickListener
+                    callback(group)
+                }
+            }
 
 
-//        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
-        val group = groupsList[position]
-        holder.name.text = group
-
-        holder.name.setOnClickListener {
-            val callback = onItemClickCallback?: return@setOnClickListener
-            callback(group)
         }
+
+
+
+
+
+
     }
 
     override fun getItemCount(): Int {
@@ -66,6 +84,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
 //        val groupsList = HujiRideApplication.getInstance().groupsData.getGroups()
         val clientId = app.userDetails.clientUniqueID
+
         val groupsList = app.db.getGroupsOfClient(clientId)
 
         return groupsList.size
