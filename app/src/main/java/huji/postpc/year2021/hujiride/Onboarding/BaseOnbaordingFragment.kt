@@ -33,7 +33,7 @@ abstract class BaseOnbaordingFragment(
 
     protected fun setLastEditTextToNextPage(lastEditText: EditText) {
         lastEditText.setOnEditorActionListener { _, id, _ ->
-            if (id == EditorInfo.IME_ACTION_NEXT) {
+            if (id == EditorInfo.IME_ACTION_NEXT || id == EditorInfo.IME_ACTION_DONE) {
                 handleClickNext()
             }
             return@setOnEditorActionListener true

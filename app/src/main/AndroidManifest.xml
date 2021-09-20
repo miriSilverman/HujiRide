@@ -39,8 +39,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Onboarding.CameraActivity"  >
-        android:exported="true"</activity>
+        <activity android:name=".Onboarding.CameraActivity"
+            android:exported="true">
+        </activity>
 
 
 
