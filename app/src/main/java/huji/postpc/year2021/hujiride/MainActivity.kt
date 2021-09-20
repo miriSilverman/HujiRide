@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         app = application as HujiRideApplication
         val userUniqueID = getUniqueID()
+        app.userDetails.clientUniqueID = userUniqueID
 
         GlobalScope.launch(Dispatchers.IO) {
             val client = app.db.findClient(userUniqueID)
