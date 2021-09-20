@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 
 class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, -1, R.id.action_successful_log_to_log1) {
 
+    private lateinit var app: HujiRideApplication
     private lateinit var loadingBar: ProgressBar
     private lateinit var cancelRegDialog: AlertDialog
     override fun onCreateView(
@@ -38,6 +39,7 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
 
             }
             .create()
+        app = requireActivity().application as HujiRideApplication
         return view
     }
 
@@ -50,7 +52,7 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
                 firstName = viewModel.firstName!!,
                 lastName = viewModel.lastName!!,
                 phoneNumber = viewModel.phoneNumber!!,
-                uniqueID = viewModel.clientUniqueID!!
+                uniqueID = app.userDetails.clientUniqueID
             )
             withContext(Dispatchers.Main) {
                 loadingBar.visibility = View.INVISIBLE
