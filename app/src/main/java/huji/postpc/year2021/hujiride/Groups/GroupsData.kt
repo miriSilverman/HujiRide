@@ -3,14 +3,12 @@ package huji.postpc.year2021.hujiride.Groups
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
-import huji.postpc.year2021.hujiride.database.JERUSALEM_NEIGHBORHOODS
 import java.security.KeyStore
 import kotlin.collections.ArrayList
 
 class GroupsData {
 
 
-    val neighborhoods = JERUSALEM_NEIGHBORHOODS
 
 
 
