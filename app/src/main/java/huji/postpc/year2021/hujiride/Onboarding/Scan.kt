@@ -62,6 +62,7 @@ class Scan : BaseOnbaordingFragment(
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         viewModel.isScanCompleted = resultCode == RESULT_OK
+        Log.d("Result Code", (resultCode == RESULT_OK).toString())
     }
 
 

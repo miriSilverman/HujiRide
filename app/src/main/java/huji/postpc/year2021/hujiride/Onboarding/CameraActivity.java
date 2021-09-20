@@ -236,9 +236,9 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
                                                     if (text_find && barcode_find)
                                                     {
                                                         if (txt_read.contains(barcode_read) && txt_read.contains("THE HEBREW UNIVERSITY OF JERUSALEM") && txt_read.contains("STUDENT CARD")){
+                                                            isStud=true;
                                                             Toast toaster =Toast.makeText(getApplicationContext(),"VERTIFIED STUDENT!",Toast.LENGTH_SHORT);
                                                             toaster.show();
-                                                            isStud=true;
                                                             //todo: go back to before activity as student
                                                             setResult(RESULT_OK);
                                                             finish();
