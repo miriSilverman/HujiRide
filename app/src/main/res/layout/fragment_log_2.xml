@@ -10,7 +10,6 @@
     <EditText
         android:id="@+id/phone_number_edittext"
         style="@style/OnboardingStyle.TextFields"
-        android:layout_marginTop="48dp"
         android:hint="@string/your_phone_mandatoryField"
         android:ems="10"
         android:inputType="phone"

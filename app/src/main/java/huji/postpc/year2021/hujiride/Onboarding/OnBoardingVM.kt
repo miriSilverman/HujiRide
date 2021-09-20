@@ -16,7 +16,7 @@ class OnBoardingVM: ViewModel() {
     var phoneNumber: String? = null
     var idNumber: String? = null
 
-    val bypassValidation = false  // For debugging and testing only! TODO: make it false!
+    val bypassValidation = true  // For debugging and testing only! TODO: make it false!
 
     fun resetData() {
         firstName = null

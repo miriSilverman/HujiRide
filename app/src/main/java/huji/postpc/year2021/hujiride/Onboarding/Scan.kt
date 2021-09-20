@@ -25,31 +25,33 @@ import javax.xml.datatype.DatatypeFactory.newInstance
 import huji.postpc.year2021.hujiride.MainActivity
 
 
-
-
-
 /**
  * log - scan students card
  */
-class Scan : BaseOnbaordingFragment(R.layout.fragment_scan, R.id.action_scan_to_successful_log, R.id.action_scan_to_log_2) {
+class Scan : BaseOnbaordingFragment(
+    R.layout.fragment_scan,
+    R.id.action_scan_to_successful_log,
+    R.id.action_scan_to_log_2
+) {
 
-    private lateinit var img_but:ImageView
+    private lateinit var img_but: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = super.onCreateView(inflater, container, savedInstanceState)
-        val imm = requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
         if (view != null) {
-            img_but=view.findViewById(R.id.camera)
+            img_but = view.findViewById(R.id.camera)
             img_but.setOnClickListener {
                 startActivityForResult(
                     Intent(
                         activity,
                         CameraActivity::class.java
-                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP),1
+                    ).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP), 1
                 )
 
             }
@@ -61,21 +63,19 @@ class Scan : BaseOnbaordingFragment(R.layout.fragment_scan, R.id.action_scan_to_
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode== RESULT_OK){
-            Log.d("check id","YES")
-        }
-        else
-        {
-            Log.d("check id","NO")
+        if (resultCode == RESULT_OK) {
+            Log.d("check id", "YES")
+        } else {
+            Log.d("check id", "NO")
 
         }
     }
 
 
-
     override fun onClickNext(): Boolean {
 
-            return true}
+        return true
+    }
 
     override fun onClickBack(): Boolean {
         return true
