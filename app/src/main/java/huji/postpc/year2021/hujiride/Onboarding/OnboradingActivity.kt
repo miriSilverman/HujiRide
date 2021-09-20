@@ -23,8 +23,6 @@ class OnboradingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        handleUniqueID()
-
         setContentView(R.layout.activity_onborading)
 
         nextBtn = findViewById(R.id.next_btn)
@@ -39,22 +37,7 @@ class OnboradingActivity : AppCompatActivity() {
         })
     }
 
-    private fun handleUniqueID() {
-        val sp = getSharedPreferences("huji.rides.unique.id.sp", Context.MODE_PRIVATE)
 
-        val spKey = "huji.rides.yair.unique.id.client"
-        val uniqueID = sp.getString(spKey, null)
-        if (uniqueID != null) {
-            viewModel.clientUniqueID = uniqueID
-            return
-        }
-        val newUniqueID = UUID.randomUUID().toString()
-        sp.edit {
-            putString(spKey, newUniqueID)
-            viewModel.clientUniqueID = newUniqueID
-        }
-
-    }
 
     private fun chooseFragment() {
         val actionID = when (viewModel.progress.value) {
@@ -74,6 +57,7 @@ class OnboradingActivity : AppCompatActivity() {
         nextBtn.apply{
             setOnClickListener { viewModel.onClickNext?.invoke() }
             isEnabled = onClick != null
+            isActivated = onClick != null
         }
     }
 
@@ -82,6 +66,7 @@ class OnboradingActivity : AppCompatActivity() {
         backBtn.apply{
             setOnClickListener { viewModel.onClickBack?.invoke() }
             isEnabled = onClick != null
+            isActivated = onClick != null
         }
     }
 

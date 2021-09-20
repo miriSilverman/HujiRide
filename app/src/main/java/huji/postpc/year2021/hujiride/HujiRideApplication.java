@@ -3,8 +3,17 @@ package huji.postpc.year2021.hujiride;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.DocumentsContract;
 import android.widget.Toast;
 
+import com.google.common.base.Joiner;
+import com.google.gson.Gson;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
@@ -18,13 +27,8 @@ public class HujiRideApplication extends Application {
     private RidesPerGroups ridesPerGroups;
     private UserDetails userDetails;
     private MyRides myRides;
-    private final HashMap<String, String> jerusalemNeighborhoods = new HashMap<String, String>(){{
-      put("454", "מלחה");
-      put("125", "גילה");
-      put("744", "פסגת זאב");
-      put("693", "רחביה");
-    }
-    };
+    private final HashMap<String, String> jerusalemNeighborhoods = new HashMap<>();
+    private final String JERUSALEM_NEIGHBORS_JSON_FILENAME = "JerusalemNeighborhoods.json";
 
     private static final String ALL_NOTIFICATIONS = "all_notifiactions";
     private static final String GROUPS_NOTIFICATIONS = "groups_notifactions";
@@ -34,8 +38,6 @@ public class HujiRideApplication extends Application {
     private String PHONE_NUMBER = "phone num";
     private Database db;
     private SharedPreferences sp;
-
-
 
     @Override
     public void onCreate() {
@@ -58,9 +60,30 @@ public class HujiRideApplication extends Application {
         // TODO get unique ID
 
         db = new Database();
+        fillJerusNeighMap();
+    }
 
-        // fill the hashmap
 
+
+
+    private void fillJerusNeighMap() {
+        String neighborhoodsJson = null;
+        try {
+            InputStream is = getAssets().open(JERUSALEM_NEIGHBORS_JSON_FILENAME);
+
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+
+            neighborhoodsJson = new String(buffer, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        Gson gson = new Gson();
+        jerusalemNeighborhoods.putAll(gson.fromJson(neighborhoodsJson, jerusalemNeighborhoods.getClass()));
     }
 
     public GroupsData getGroupsData()
@@ -100,5 +123,12 @@ public class HujiRideApplication extends Application {
     }
     public HashMap<String, String> getJerusalemNeighborhoods() {
         return jerusalemNeighborhoods;
+    }
+
+    public void setClientData(String firstName, String lastName,String phoneNumber, String uniqueID) {
+        this.userDetails.setClientUniqueID(uniqueID);
+        this.userDetails.setUserFirstName(firstName);
+        this.userDetails.setUserLastName(lastName);
+        this.userDetails.setUserPhoneNumber(phoneNumber);
     }
 }
