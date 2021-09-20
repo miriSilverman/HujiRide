@@ -5,51 +5,71 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
 
-    private lateinit var app : HujiRideApplication
+    private lateinit var app: HujiRideApplication
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchGroupViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.search_group_item, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.search_group_item, parent, false)
 
         return SearchGroupViewHolder(view)
 
     }
 
 
-
     override fun onBindViewHolder(holder: SearchGroupViewHolder, position: Int) {
         app = HujiRideApplication.getInstance()
-//        val groupName = app.groupsData.mutableDataFilteredGroups.value?.get(position)
         val groupName = app.groupsData.mutableDataFilteredGroups.get(position).second
         if (groupName != null) {
             holder.checkBox.text = groupName
-            val clientId = app.userDetails.clientUniqueID
-//            holder.checkBox.isChecked = app.groupsData.getGroups().contains(groupName)
-            holder.checkBox.isChecked = app.db.getGroupsOfClient(clientId).contains(groupName)
-            holder.checkBox.setOnClickListener{
-                if (holder.checkBox.isChecked){
-                    app.groupsData.addGroup(groupName)
-//                    app.db.registerClientToGroup(clientId, getIdOfGroup(groupName))
-                    Toast.makeText(app, "$groupName was added to your groups", Toast.LENGTH_SHORT).show()
-                }else{
-//                    app.groupsData.removeGroup(groupName)
-                    app.db.unregisterClientToGroup(clientId, getIdOfGroup(groupName))
-                    Toast.makeText(app, "$groupName was removed from your groups", Toast.LENGTH_SHORT).show()
-                }
+            var clientId = app.userDetails.clientUniqueID
+            GlobalScope.launch(Dispatchers.IO) {
+                holder.checkBox.isChecked = app.db.getGroupsOfClient(clientId).contains(groupName)
+
             }
 
-//            holder.checkBox.setOnCheckedChangeListener{ _, isChecked ->
-//              if (isChecked){
-//                  app.groupsData.addGroup(groupName)
-//              }else{
-//                  app.groupsData.removeGroup(groupName)
-//
-//              }
-//            }
+
+            holder.checkBox.setOnClickListener {
+                GlobalScope.launch(Dispatchers.IO) {
+                    if (holder.checkBox.isChecked) {
+
+//                        clientId = "2007e0b0-5b90-48ac-8d4c-c42f28c49032"
+                        app.db.registerClientToGroup(clientId, getIdOfGroup(groupName).toInt())
+
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                app,
+                                "$groupName was added to your groups",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+
+                    } else {
+                        app.db.unregisterClientToGroup(clientId, getIdOfGroup(groupName))
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(
+                                app,
+                                "$groupName was removed from your groups",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+
+
+                }
+
+
+            }
+
 
         }
 
@@ -62,10 +82,10 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
     }
 
 
-    private fun getIdOfGroup(groupName: String) :String{
+    private fun getIdOfGroup(groupName: String): String {
         val allGroups = app.jerusalemNeighborhoods
-        for (pair in allGroups){
-            if (pair.value.equals(groupName)){
+        for (pair in allGroups) {
+            if (pair.value.equals(groupName)) {
                 return pair.key
             }
         }

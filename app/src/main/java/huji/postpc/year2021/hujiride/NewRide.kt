@@ -30,6 +30,10 @@ import android.widget.RadioGroup
 import huji.postpc.year2021.hujiride.database.Ride as ClientRide
 
 import android.widget.CheckBox
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.collections.ArrayList
 
 
@@ -131,17 +135,24 @@ class NewRide : Fragment() {
         if (validateAllFields()){
             val newRide: Ride = createNewRide(app)
             val pressedGroup = vm.pressedGroup
-//            app.ridesPerGroup.addRide(newRide, pressedGroup.value?.name!!)
-            app.db.addRide(newRide, getIdOfGroup(pressedGroup.value!!.name))
 
-//            app.db.newRide(newRide, "") // todo: how to get id?
+            GlobalScope.launch (Dispatchers.IO) {
+                app.db.addRide(newRide, getIdOfGroup(pressedGroup.value!!.name))
+                withContext(Dispatchers.Main) {
+                    vm.srcOrDest = ""
 
-            vm.srcOrDest = ""
+
+                    sendNotification()
+
+                    Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
+
+                }
+
+            }
 
 
-            sendNotification()
 
-            Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
+
         }
     }
 

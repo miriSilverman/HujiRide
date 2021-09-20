@@ -143,7 +143,7 @@ class Database {
     /**
      * cancels registration of a client to group
      */
-    fun unregisterClientToGroup(clientUniqueID: String, groupId: String){}
+    suspend fun unregisterClientToGroup(clientUniqueID: String, groupId: String){}
 
 
 
