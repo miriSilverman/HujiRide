@@ -135,7 +135,7 @@ class Database {
     /**
      * return a list of the names of the groups that the client has signed up for
      */
-    fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String>{
+    suspend fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String>{
         return arrayListOf()
     }
 
