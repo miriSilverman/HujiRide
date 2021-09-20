@@ -5,6 +5,7 @@ import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.getField
 import com.google.type.LatLng
 import kotlinx.coroutines.tasks.await
 import huji.postpc.year2021.hujiride.Rides.Ride as ClientRide
@@ -135,8 +136,8 @@ class Database {
     /**
      * return a list of the names of the groups that the client has signed up for
      */
-    suspend fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String>{
-        return arrayListOf()
+    suspend fun getGroupsOfClient(clientUniqueID: String) : ArrayList<String>? {
+        return clients.document(clientUniqueID).get().await().getField(FIELD_REGTERED_GROUPS)
     }
 
     /**
