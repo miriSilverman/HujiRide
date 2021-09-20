@@ -15,7 +15,7 @@ class OnBoardingVM: ViewModel() {
     var phoneNumber: String? = null
     var idNumber: String? = null
 
-    var isScanCompleted : Boolean = false
+    var isScanCompleted : Boolean = true
 
     val bypassValidation = true  // For debugging and testing only! TODO: make it false!
 
