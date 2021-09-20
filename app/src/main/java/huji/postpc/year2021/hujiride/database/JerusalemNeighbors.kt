@@ -71,3 +71,4 @@ val JERUSALEM_NEIGHBORHOODS = arrayListOf(
         "חוץ לעיר (דרום)",
         "חוץ לעיר (צפון)",
 )
+

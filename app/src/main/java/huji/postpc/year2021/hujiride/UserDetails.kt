@@ -6,5 +6,5 @@ data class UserDetails (
         var userPhoneNumber: String = "",
         var allNotifications: Boolean = true,
         var justGroupNotifications: Boolean = false,
-
+        var clientUniqueID: String = ""
         )
