@@ -180,7 +180,7 @@ class Database {
     /**
      * given groups name returns a list of the rides in this group (also "all" group)
      */
-    fun getRidesListOfGroup(groupID: String): ArrayList<ClientRide> {
+    suspend fun getRidesListOfGroup(groupID: String): ArrayList<ClientRide> {
 
         return arrayListOf()
     }

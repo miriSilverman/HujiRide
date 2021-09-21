@@ -1,5 +1,6 @@
 package huji.postpc.year2021.hujiride.Rides
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,10 @@ import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.GroupsRides
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.MyRides.MyRidesAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -49,6 +54,7 @@ class RidesList : Fragment() {
             ?.setAdapter(arrayAdapter)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -85,10 +91,6 @@ class RidesList : Fragment() {
 //            adapter.setRidesList(rides.ridesList)
 //        }
 
-        adapter.setRidesList(app.db.getRidesListOfGroup(curGroup.value?.name.toString()))
-
-
-
         val ridesRecycler: RecyclerView = aView.findViewById(R.id.rides_list_recyclerView)
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -99,10 +101,17 @@ class RidesList : Fragment() {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_ridesDetails)
         }
 
-        if (adapter.itemCount == 0) {
-            noNearRidesCase()
-        } else {
-            thereAreRidesCase()
+        GlobalScope.launch(Dispatchers.IO) {
+            adapter.setRidesList(app.db.getRidesListOfGroup(curGroup.value?.name.toString()))
+            withContext(Dispatchers.Main) {
+                adapter.notifyDataSetChanged()
+                if (adapter.itemCount == 0) {
+                    noNearRidesCase()
+                } else {
+                    thereAreRidesCase()
+                }
+            }
+
         }
 
         return aView
@@ -140,7 +149,6 @@ class RidesList : Fragment() {
         sortAs.visibility = View.VISIBLE
         srcDestImg.visibility = View.VISIBLE
         switchDirectionBtn.visibility = View.VISIBLE
-
 
 
     }

@@ -42,7 +42,7 @@ class Dashboard : Fragment() {
     }
 
 
-    private fun convertSingleDbRideToAppRide(dbRide: DbRide) : Ride{
+    private suspend fun convertSingleDbRideToAppRide(dbRide: DbRide) : Ride?{
         var src = "HUJI"
         var dest = "HUJI"
         if (dbRide.isDestinationHuji){
@@ -50,22 +50,25 @@ class Dashboard : Fragment() {
         }else{
             dest = dbRide.destName
         }
-        GlobalScope.launch(Dispatchers.IO) {
-            val driver = app.db.findClient(dbRide.driverID.toString())
+        val driver = app.db.findClient(dbRide.driverID.toString())
 
-
+        if (driver != null) {
+            return Ride(src, dest, dbRide.time, dbRide.stops,
+                dbRide.comments, driver.firstName,driver.lastName,
+                driver.phoneNumber, dbRide.isDestinationHuji)
         }
-
-        return Ride(src, dest, dbRide.time, dbRide.stops,
-        dbRide.comments, driver.firstName,driver.lastName,
-        driver.phoneNumber, dbRide.isDestinationHuji)
+        return null
     }
 
-    private fun convertDbRidesToAppRides(dbRides: ArrayList<DbRide>): ArrayList<Ride>{
+
+
+    private suspend fun convertDbRidesToAppRides(dbRides: ArrayList<DbRide>): ArrayList<Ride>{
         val list : ArrayList<Ride> = arrayListOf()
         for (dbRide in dbRides){
             val appRide = convertSingleDbRideToAppRide(dbRide)
-            list.add(appRide)
+            if (appRide != null) {
+                list.add(appRide)
+            }
         }
         return list
     }
