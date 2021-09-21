@@ -22,9 +22,7 @@ class Database {
     val clients = db.collection("Clients")
     val rides = db.collection("Rides")
     val groups = db.collection("Groups")
-    fun print(m: String) {
-        Log.d("DB FB", m)
-    }
+
 
     suspend fun newClient(
         firstName: String,
@@ -140,7 +138,7 @@ class Database {
             time = ride.time,
             stops = ride.stops,
             comments = ride.comments,
-            driverID = clients.document(driverID),
+            driverID = driverID,
             destName = ride.dest,
             lat = 0.0,
             long = 0.0,
