@@ -9,7 +9,7 @@ data class Ride (
     val time: String = "",
     val stops: ArrayList<String> = arrayListOf(),
     val comments: ArrayList<String> = arrayListOf(),
-    val driverID: DocumentReference? = null,
+    val driverID: String = "",
     val destName: String = "",
     val lat: Double = 0.0,
     val long: Double = 0.0,

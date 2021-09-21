@@ -66,8 +66,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         GlobalScope.launch {
-            val id = db.addRide(cRide, "TEST1", "0")
-            println("DONE ######$id")
+            val r = db.getGroupsOfClient("2007e0b0-5b90-48ac-8d4c-c42f28c49032")
+            println("DONE ######$r")
         }
     }
 
