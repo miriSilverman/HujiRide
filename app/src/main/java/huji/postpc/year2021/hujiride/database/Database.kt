@@ -178,11 +178,22 @@ class Database {
 
 
     /**
+     * given groups id returns a list of the rides ID in this group (also "all" group)
+     */
+    suspend fun getRidesIDOfGroup(groupID: String): ArrayList<String> {
+        try {
+            return ArrayList((groups.document(groupID).get().await().get("rides") as ArrayList<String>).mapNotNull { rideID -> rideID.toString() })
+        } catch (e : Exception) {
+            Log.e(TAG, e.message!!)
+            return arrayListOf()
+        }
+    }
+
+    /**
      * given groups name returns a list of the rides in this group (also "all" group)
      */
-    suspend fun getRidesListOfGroup(groupID: String): ArrayList<ClientRide> {
-
-        return arrayListOf()
+    suspend fun getRidesListOfGroup(groupID: String): ArrayList<Ride> {
+        return ArrayList(getRidesIDOfGroup(groupID).mapNotNull {id -> rides.document(id).get().await().toObject(Ride::class.java)})
     }
 
 
