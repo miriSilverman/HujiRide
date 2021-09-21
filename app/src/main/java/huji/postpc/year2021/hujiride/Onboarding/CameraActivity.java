@@ -1,6 +1,8 @@
 package huji.postpc.year2021.hujiride.Onboarding;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -109,6 +111,115 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         Log.i(TAG,"Instantiated new "+this.getClass());
     }
 
+    private void scan()
+    {
+
+        InputImage image=InputImage.fromBitmap(bitmap,0);
+        //setting up to read barcodes
+
+        options =
+                new BarcodeScannerOptions.Builder()
+                        .setBarcodeFormats(
+                                Barcode.FORMAT_CODE_128)
+                        .build();
+
+        BarcodeScanner scanner = BarcodeScanning.getClient();
+
+        Task<List<Barcode>> result = scanner.process(image)
+                .addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
+                    @Override
+                    public void onSuccess(List<Barcode> barcodes) {
+                        if (!barcodes.isEmpty()) {
+                            barcode_find=true;
+                            barcode_read= barcodes.get(0).getRawValue();
+
+//                                            String rawValue =
+//                                            String all = " id read =" + rawValue;
+//                                            current_txt.setText(all);
+//                            Toast toast =Toast.makeText(getApplicationContext(),"found barcode...",Toast.LENGTH_SHORT);
+//                            toast.show();
+
+
+                            //setting up to read text
+                            Task<Text> results= textRecognizer.process(image).addOnSuccessListener(new OnSuccessListener<Text>() {
+                                @Override
+                                public void onSuccess( Text text) {
+                                    //showing the text that was returned
+                                    text_find=true;
+                                    txt_read=text.getText();
+//                                String all = current_txt.getText()+"\n" +text.getText();
+//                                current_txt.setText(all);
+                                    Log.d("read",text.getText());
+//                                    compareToast =Toast.makeText(getApplicationContext(),"comparing text...",Toast.LENGTH_SHORT);
+//                                    compareToast.show();
+
+
+                                    //comparing barcode to id, and searching for key words
+                                    if (text_find && barcode_find)
+                                    {
+                                        if (txt_read.contains(barcode_read) && txt_read.contains("THE HEBREW UNIVERSITY OF JERUSALEM") && txt_read.contains("STUDENT CARD")){
+                                              isStud=true;
+                                              foundStudCard();
+//                                            Toast toaster =Toast.makeText(getApplicationContext(),"VERTIFIED STUDENT!",Toast.LENGTH_SHORT);
+//                                            toaster.show();
+//                                            setResult(RESULT_OK);
+//                                            finish();
+
+                                        }
+                                        else {
+                                            no_Student_card_detected();
+                                        }
+
+                                    }
+                                    else {
+                                        no_Student_card_detected();
+                                    }
+
+
+
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    text_find=false;
+                                    txt_read=null;
+                                    Log.d("read","here");
+                                    no_Student_card_detected();
+
+                                }
+                            });
+
+
+
+                        }
+                        else {
+
+                            barcode_find=false;
+
+                            Log.e("NOAM","couldntRead");
+                            no_Student_card_detected();
+
+                            //    current_txt.setText("No Barcode Found!!!!");
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+//                                        barcode_read="NO";
+                        barcode_find=false;
+                        no_Student_card_detected();
+                        // current_txt.setText("not a card!!!");
+
+
+
+                    }
+                });
+
+
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +278,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
                         Utils.matToBitmap(mRgba,bitmap);
                         mOpenCvCameraView.disableView();
                         cam_time=false;
+                        scan();
                     }
                     return true;
                 }
@@ -174,139 +286,6 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
             }
         });
 
-        this.read_but =findViewById(R.id.read_button);
-        read_but.setOnTouchListener(new View.OnTouchListener() {
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction()==MotionEvent.ACTION_DOWN)
-                {
-                    read_but.setColorFilter(Color.DKGRAY);
-
-                    return true;
-                }
-                if (event.getAction()==MotionEvent.ACTION_UP)
-                {
-                    read_but.setColorFilter(Color.parseColor("#BEE3DB"));
-                    if (!cam_time)
-                    {
-                        // current_txt.setVisibility(View.VISIBLE);
-
-                        InputImage image=InputImage.fromBitmap(bitmap,0);
-                        //setting up to read barcodes
-
-                        options =
-                                new BarcodeScannerOptions.Builder()
-                                        .setBarcodeFormats(
-                                                Barcode.FORMAT_CODE_128)
-                                        .build();
-
-                        BarcodeScanner scanner = BarcodeScanning.getClient();
-
-                        Task<List<Barcode>> result = scanner.process(image)
-                                .addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
-                                    @Override
-                                    public void onSuccess(List<Barcode> barcodes) {
-                                        if (!barcodes.isEmpty()) {
-                                            barcode_find=true;
-                                            barcode_read= barcodes.get(0).getRawValue();
-
-//                                            String rawValue =
-//                                            String all = " id read =" + rawValue;
-//                                            current_txt.setText(all);
-                                            Toast toast =Toast.makeText(getApplicationContext(),"found barcode...",Toast.LENGTH_SHORT);
-                                            toast.show();
-
-
-                                            //setting up to read text
-                                            Task<Text> results= textRecognizer.process(image).addOnSuccessListener(new OnSuccessListener<Text>() {
-                                                @Override
-                                                public void onSuccess( Text text) {
-                                                    //showing the text that was returned
-                                                    text_find=true;
-                                                    txt_read=text.getText();
-//                                String all = current_txt.getText()+"\n" +text.getText();
-//                                current_txt.setText(all);
-                                                    Log.d("read",text.getText());
-                                                    compareToast =Toast.makeText(getApplicationContext(),"comparing text...",Toast.LENGTH_SHORT);
-                                                    compareToast.show();
-
-
-                                                    //comparing barcode to id, and searching for key words
-                                                    if (text_find && barcode_find)
-                                                    {
-                                                        if (txt_read.contains(barcode_read) && txt_read.contains("THE HEBREW UNIVERSITY OF JERUSALEM") && txt_read.contains("STUDENT CARD")){
-                                                            isStud=true;
-                                                            Toast toaster =Toast.makeText(getApplicationContext(),"VERTIFIED STUDENT!",Toast.LENGTH_SHORT);
-                                                            toaster.show();
-                                                            //todo: go back to before activity as student
-                                                            setResult(RESULT_OK);
-                                                            finish();
-
-                                                        }
-                                                        else {
-                                                            no_Student_card_detected();
-                                                        }
-
-                                                    }
-                                                    else {
-                                                        no_Student_card_detected();
-                                                    }
-
-
-
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    text_find=false;
-                                                    txt_read=null;
-                                                    Log.d("read","here");
-                                                    no_Student_card_detected();
-
-                                                }
-                                            });
-
-
-
-                                        }
-                                        else {
-
-                                            barcode_find=false;
-
-                                            Log.e("NOAM","couldntRead");
-                                            no_Student_card_detected();
-
-                                            //    current_txt.setText("No Barcode Found!!!!");
-
-                                        }
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-//                                        barcode_read="NO";
-                                        barcode_find=false;
-                                        no_Student_card_detected();
-                                        // current_txt.setText("not a card!!!");
-
-
-
-                                    }
-                                });
-
-
-
-
-                    }
-
-
-
-                    return true;
-                }
-                return false;
-            }
-        });
 
 
     }
@@ -314,23 +293,15 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
     @Override
     public void onBackPressed() {
         //when pressing back after photo was taken -> user can take pic again
-        if (tookpic){
-            startActivity(new Intent(this, CameraActivity.class));
-            finish();
-
-
+        if (isStud)
+        {
+            setResult(RESULT_OK);
         }
-        else{
-            if (isStud)
-            {
-                setResult(RESULT_OK);
-            }
-            else
-            {
-                setResult(RESULT_CANCELED);
-            }
-            finish();
+        else {
+            setResult(RESULT_CANCELED);
         }
+        finish();
+
 
     }
 
@@ -383,44 +354,102 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
     }
 
+    private void foundStudCard(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.found_card_dialog, null)).setTitle("Verified student!")
+                .setMessage("\n\nFound a student card of The Hebrew University of Jerusalem\n\nid: "+  barcode_read.toString())
+                .setPositiveButton("Thanks, Lets continue!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        setResult(RESULT_OK);
+                        finish();
+
+
+                    }
+                });
+
+
+        AlertDialog alert = builder.create();
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {}
+        });
+
+        alert.show();
+
+    }
+
     private void no_Student_card_detected()
     {
-        //this functions show pop-up when no student card is found
-        if (compareToast!=null)
-        {
-            compareToast.cancel();
-
-        }
-//        Toast toaster =Toast.makeText(getApplicationContext(),"DID NOT DETECT A STUDENT CARD, PLEASE TRY AGAIN!",Toast.LENGTH_LONG);
-//        toaster.show();
-        // inflate the layout of the popup window
-        LayoutInflater inflater = (LayoutInflater)
-                getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_notstud, null);
-
-        // create the popup window
-        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
-        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        boolean focusable = true; // lets taps outside the popup also dismiss it
-        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
-
-        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
-
-        // dismiss the popup window when touched
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                popupWindow.dismiss();
-                startActivity(new Intent(getApplicationContext(), CameraActivity.class));
-                finish();
-                //todo: go back to before activity as not student
-
-                return true;
-            }
-        });
+//        //this functions show pop-up when no student card is found
+//        if (compareToast!=null)
+//        {
+//            compareToast.cancel();
+//
+//        }
+////        Toast toaster =Toast.makeText(getApplicationContext(),"DID NOT DETECT A STUDENT CARD, PLEASE TRY AGAIN!",Toast.LENGTH_LONG);
+////        toaster.show();
+//        // inflate the layout of the popup window
+//        LayoutInflater inflater = (LayoutInflater)
+//                getSystemService(LAYOUT_INFLATER_SERVICE);
+//        View popupView = inflater.inflate(R.layout.popup_notstud, null);
+//
+//        // create the popup window
+//        int width = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        boolean focusable = true; // lets taps outside the popup also dismiss it
+//        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+//
+//        popupWindow.showAtLocation(popupView, Gravity.CENTER, 0, 0);
+//
+//        // dismiss the popup window when touched
+//        popupView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                popupWindow.dismiss();
+//                startActivity(new Intent(getApplicationContext(), CameraActivity.class));
+//                finish();
+//                //todo: go back to before activity as not student
+//
+//                return true;
+//            }
+//        });
 
 //        setResult(RESULT_CANCELED);
 //        finish();
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+
+        builder.setView(inflater.inflate(R.layout.found_card_dialog, null)).setTitle("No Student Card Found")
+                .setMessage("\n\nSorry, the picture does not match a student id card. It might have been too blurry...")
+                .setPositiveButton("Try Again!", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        recreate();
+
+                    }
+                })
+                .setNegativeButton("Give up:(", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        onBackPressed();
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {}
+                });
+
+        AlertDialog alert = builder.create();
+
+        alert.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {}
+        });
+
+        alert.show();
+
 
     }
 

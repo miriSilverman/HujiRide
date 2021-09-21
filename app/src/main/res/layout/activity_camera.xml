@@ -46,16 +46,16 @@
 
             android:src = "@drawable/camera_button"/>
 
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:id="@+id/read_button"
-            android:layout_marginRight="60dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="10dp"
+<!--        <ImageView-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:id="@+id/read_button"-->
+<!--            android:layout_marginRight="60dp"-->
+<!--            android:layout_marginLeft="60dp"-->
+<!--            android:layout_marginTop="10dp"-->
 
 
-            android:src = "@drawable/read_button"/>
+<!--            android:src = "@drawable/read_button"/>-->
 
 
     </LinearLayout>
