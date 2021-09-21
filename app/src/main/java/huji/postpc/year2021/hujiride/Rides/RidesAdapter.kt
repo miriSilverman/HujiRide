@@ -17,7 +17,7 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
     fun setRidesList(newRidesList: List<Ride>){
         _ridesList.clear()
         _ridesList.addAll(newRidesList)
-        notifyDataSetChanged()
+//        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RideViewHolder {

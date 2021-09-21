@@ -42,7 +42,7 @@ class Dashboard : Fragment() {
     }
 
 
-    private suspend fun convertSingleDbRideToAppRide(dbRide: DbRide) : Ride?{
+    suspend fun convertSingleDbRideToAppRide(dbRide: DbRide) : Ride?{
         var src = "HUJI"
         var dest = "HUJI"
         if (dbRide.isDestinationHuji){
@@ -62,7 +62,7 @@ class Dashboard : Fragment() {
 
 
 
-    private suspend fun convertDbRidesToAppRides(dbRides: ArrayList<DbRide>): ArrayList<Ride>{
+    suspend fun convertDbRidesToAppRides(dbRides: ArrayList<DbRide>): ArrayList<Ride>{
         val list : ArrayList<Ride> = arrayListOf()
         for (dbRide in dbRides){
             val appRide = convertSingleDbRideToAppRide(dbRide)
