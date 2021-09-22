@@ -105,9 +105,14 @@ class RidesList : Fragment() {
         }
 
         GlobalScope.launch(Dispatchers.IO) {
-            val dbRidesArr = app.db.getRidesListOfGroup(curGroup.value?.name.toString())
+            val group = curGroup.value?.name
+//            var groupsName: String? = null
+//            if (group != null){
+//                groupsName = group.toString()
+//            }
+            // todo: change to null
+            val dbRidesArr = app.db.getRidesListOfGroup(group.toString())
 
-//            val appRidesArr = convertDbRidesToAppRides(dbRidesArr)
             adapter.setRidesList(dbRidesArr)
             withContext(Dispatchers.Main) {
                 adapter.notifyDataSetChanged()
@@ -124,36 +129,6 @@ class RidesList : Fragment() {
     }
 
 
-//    suspend fun convertSingleDbRideToAppRide(dbRide: huji.postpc.year2021.hujiride.database.Ride) : Ride?{
-//        var src = "HUJI"
-//        var dest = "HUJI"
-//        if (dbRide.isDestinationHuji){
-//            src = dbRide.destName
-//        }else{
-//            dest = dbRide.destName
-//        }
-//        val driver = app.db.findClient(dbRide.driverID.toString())
-//
-//        if (driver != null) {
-//            return Ride(src, dest, dbRide.time, dbRide.stops,
-//                dbRide.comments, driver.firstName,driver.lastName,
-//                driver.phoneNumber, dbRide.isDestinationHuji)
-//        }
-//        return null
-//    }
-//
-//
-//
-//    suspend fun convertDbRidesToAppRides(dbRides: ArrayList<huji.postpc.year2021.hujiride.database.Ride>): ArrayList<Ride>{
-//        val list : ArrayList<Ride> = arrayListOf()
-//        for (dbRide in dbRides){
-//            val appRide = convertSingleDbRideToAppRide(dbRide)
-//            if (appRide != null) {
-//                list.add(appRide)
-//            }
-//        }
-//        return list
-//    }
 
     private fun setDirection() {
 
