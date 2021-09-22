@@ -14,7 +14,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.*
 import kotlin.collections.ArrayList
-import huji.postpc.year2021.hujiride.Rides.Ride as ClientRide
 
 class Database {
     private val TAG = "Database"
@@ -133,18 +132,18 @@ class Database {
         }
     }
 
-    suspend private fun newRide(ride: ClientRide, driverID: String): String? {
-        val dbRide = Ride(
-            time = ride.time,
-            stops = ride.stops,
-            comments = ride.comments,
-            driverID = driverID,
-            destName = ride.dest,
-            lat = 0.0,
-            long = 0.0,
-            geoHash = "",
-            isDestinationHuji = false
-        )
+    suspend private fun newRide(dbRide: Ride, driverID: String): String? {
+//        val dbRide = Ride(
+//            time = ride.time,
+//            stops = ride.stops,
+//            comments = ride.comments,
+//            driverID = driverID,
+//            destName = ride.dest,
+//            lat = 0.0,
+//            long = 0.0,
+//            geoHash = "",
+//            isDestinationHuji = false
+//        )
         try {
             val id = UUID.randomUUID().toString()
             rides.document(id).set(dbRide).await()
@@ -160,7 +159,7 @@ class Database {
      * list
      */
     suspend fun addRide(
-        ride: ClientRide,
+        ride: Ride,
         clientUniqueID: String,
         groupID: String? = null
     ): Boolean {
@@ -215,6 +214,11 @@ class Database {
     suspend fun getGroupsOfClient(clientUniqueID: String): ArrayList<String> {
         val groups = clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as List<*>
         return ArrayList(groups.mapNotNull { g -> g.toString() })
+    }
+
+
+    suspend fun addRideToClientsRides(clientId : String, ride:Ride){
+
     }
 
 

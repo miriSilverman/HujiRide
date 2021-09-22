@@ -14,8 +14,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.MyRides.MyRidesAdapter
-import huji.postpc.year2021.hujiride.Rides.Ride
-import huji.postpc.year2021.hujiride.database.Ride as DbRide
+import huji.postpc.year2021.hujiride.database.Ride
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -42,36 +41,36 @@ class Dashboard : Fragment() {
     }
 
 
-    suspend fun convertSingleDbRideToAppRide(dbRide: DbRide) : Ride?{
-        var src = "HUJI"
-        var dest = "HUJI"
-        if (dbRide.isDestinationHuji){
-            src = dbRide.destName
-        }else{
-            dest = dbRide.destName
-        }
-        val driver = app.db.findClient(dbRide.driverID.toString())
-
-        if (driver != null) {
-            return Ride(src, dest, dbRide.time, dbRide.stops,
-                dbRide.comments, driver.firstName,driver.lastName,
-                driver.phoneNumber, dbRide.isDestinationHuji)
-        }
-        return null
-    }
-
-
-
-    suspend fun convertDbRidesToAppRides(dbRides: ArrayList<DbRide>): ArrayList<Ride>{
-        val list : ArrayList<Ride> = arrayListOf()
-        for (dbRide in dbRides){
-            val appRide = convertSingleDbRideToAppRide(dbRide)
-            if (appRide != null) {
-                list.add(appRide)
-            }
-        }
-        return list
-    }
+//    suspend fun convertSingleDbRideToAppRide(dbRide: DbRide) : Ride?{
+//        var src = "HUJI"
+//        var dest = "HUJI"
+//        if (dbRide.isDestinationHuji){
+//            src = dbRide.destName
+//        }else{
+//            dest = dbRide.destName
+//        }
+//        val driver = app.db.findClient(dbRide.driverID.toString())
+//
+//        if (driver != null) {
+//            return Ride(src, dest, dbRide.time, dbRide.stops,
+//                dbRide.comments, driver.firstName,driver.lastName,
+//                driver.phoneNumber, dbRide.isDestinationHuji)
+//        }
+//        return null
+//    }
+//
+//
+//
+//    suspend fun convertDbRidesToAppRides(dbRides: ArrayList<DbRide>): ArrayList<Ride>{
+//        val list : ArrayList<Ride> = arrayListOf()
+//        for (dbRide in dbRides){
+//            val appRide = convertSingleDbRideToAppRide(dbRide)
+//            if (appRide != null) {
+//                list.add(appRide)
+//            }
+//        }
+//        return list
+//    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -90,7 +89,7 @@ class Dashboard : Fragment() {
 
             val rides = app.db.getRidesOfClient(clientId)
 
-            adapter.setClientsRides(convertDbRidesToAppRides(rides))
+            adapter.setClientsRides(rides)
             adapter.notifyDataSetChanged()
         }
 

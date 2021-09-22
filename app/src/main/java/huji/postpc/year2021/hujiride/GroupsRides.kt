@@ -1,5 +1,6 @@
 package huji.postpc.year2021.hujiride
-import huji.postpc.year2021.hujiride.Rides.Ride
+import huji.postpc.year2021.hujiride.database.Ride
+
 
 import java.util.*
 

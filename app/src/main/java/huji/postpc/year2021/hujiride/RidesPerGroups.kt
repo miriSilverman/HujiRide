@@ -1,5 +1,4 @@
 package huji.postpc.year2021.hujiride
-import huji.postpc.year2021.hujiride.Rides.Ride
 
 class RidesPerGroups{
 

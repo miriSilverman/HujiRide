@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
-import huji.postpc.year2021.hujiride.Rides.Ride
+import huji.postpc.year2021.hujiride.database.Ride
 
 class MyRidesAdapter: RecyclerView.Adapter<MyRidesViewHolder>() {
 
@@ -43,8 +43,13 @@ class MyRidesAdapter: RecyclerView.Adapter<MyRidesViewHolder>() {
 //        val ridesList = app.db.getRidesOfClient(clientId)
 
         val ride = ridesList[position]
-        holder.source.text = ride.src
-        holder.dest.text = ride.dest
+        holder.source.text = "HUJI"
+        holder.dest.text = "HUJI"
+        if (ride.isDestinationHuji){
+            holder.source.text = ride.destName
+        }else{
+            holder.dest.text = ride.destName
+        }
         holder.time.text = ride.time
 
         holder.infoImg.setOnClickListener {

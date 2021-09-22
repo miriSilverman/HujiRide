@@ -8,7 +8,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
-import huji.postpc.year2021.hujiride.Rides.Ride
 
 class BugDialog: AppCompatDialogFragment() {
     private lateinit var comment : EditText

@@ -18,7 +18,6 @@ import huji.postpc.year2021.hujiride.ToolBarFraments.About
 import huji.postpc.year2021.hujiride.ToolBarFraments.BugsReport
 import huji.postpc.year2021.hujiride.ToolBarFraments.Settings
 import huji.postpc.year2021.hujiride.ToolBarFraments.Share
-import huji.postpc.year2021.hujiride.Rides.Ride
 
 class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemSelectedListener{
 

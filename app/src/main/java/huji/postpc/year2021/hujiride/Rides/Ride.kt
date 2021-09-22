@@ -3,7 +3,7 @@ package huji.postpc.year2021.hujiride.Rides
 import java.util.*
 import kotlin.collections.ArrayList
 
-data class Ride (
+data class appRide (
     val src: String,
     val dest: String,
     val time: String,

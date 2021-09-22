@@ -15,8 +15,9 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import huji.postpc.year2021.hujiride.Rides.Ride
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
+import huji.postpc.year2021.hujiride.database.Ride
+
 import java.util.*
 import android.widget.RadioButton
 
@@ -138,7 +139,7 @@ class NewRide : Fragment() {
 
             GlobalScope.launch (Dispatchers.IO) {
                 app.db.addRide(newRide, app.userDetails.clientUniqueID,
-                    pressedGroup.value!!.name?.let { getIdOfGroup(it) })
+                    pressedGroup.value!!.name)
                 withContext(Dispatchers.Main) {
                     vm.srcOrDest = ""
 
@@ -229,19 +230,24 @@ class NewRide : Fragment() {
     }
 
     private fun createNewRide(app: HujiRideApplication): Ride {
-        return Ride(
-            srcET.text.toString(),
-            destET.text.toString(),
-            "$timeHour : $timeMinutes",
+
+        var dest = ""
+        if (toHuji){
+            dest = srcET.text.toString()
+        }else{
+            dest = destET.text.toString()
+        }
+        return Ride("$timeHour : $timeMinutes",
             ArrayList<String>(),
-                    // arrayListOf(stops.text.toString()),
-            //arrayListOf(comments.text.toString()),
             comments,
-            app.userDetails.userFirstName,
-            app.userDetails.userLastName,
-            app.userDetails.userPhoneNumber,
+            app.userDetails.clientUniqueID,
+            dest,
+            0.0,
+            0.0,
+            "",
             toHuji
         )
+
     }
 
     private fun timeDialog() {
