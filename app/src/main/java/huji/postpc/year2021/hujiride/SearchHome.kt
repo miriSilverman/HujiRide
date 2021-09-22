@@ -14,10 +14,12 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 
@@ -31,10 +33,14 @@ class SearchHome : Fragment() {
     private lateinit var switchDirectionBtn: Button
     private var toHuji: Boolean = true
 
-    private lateinit var srcET: EditText
-    private lateinit var destET: EditText
+    private lateinit var srcET: AutocompleteSupportFragment
+    private lateinit var destET: AutocompleteSupportFragment
+    private lateinit var destTextView: TextView
+    private lateinit var srcTextView: TextView
+
     private lateinit var vm: RidesViewModel
     private var srcOrDestStr = ""
+    private var latLng: LatLng? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +58,11 @@ class SearchHome : Fragment() {
         vm.pressedGroup.value = SearchGroupItem(null, false)
 
         findViews(view)
+
+
+        autoCompletePlaces(srcET)
+        autoCompletePlaces(destET)
+
 
         toHuji = vm.toHuji
         setDirection()
@@ -74,26 +85,24 @@ class SearchHome : Fragment() {
         }
 
 
+        return view
+    }
 
 
 
-
-
-
-
-
+    private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
         // places search bar
         Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
         val placesClient = Places.createClient(requireActivity())
 
         // Initialize the AutocompleteSupportFragment.
-//        val autocompleteFragment =
-//            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
-//                    as AutocompleteSupportFragment
+        //        val autocompleteFragment =
+        //            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+        //                    as AutocompleteSupportFragment
 
-        val autocompleteFragment =
-            childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
-                    as AutocompleteSupportFragment
+//        autocompleteFragment =
+//            childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_src)
+//                    as AutocompleteSupportFragment
         // Specify the types of place data to return.
         autocompleteFragment
             .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
@@ -107,6 +116,7 @@ class SearchHome : Fragment() {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
                 srcOrDestStr = place.name.toString()
+                latLng = place.latLng
             }
 
             override fun onError(status: Status) {
@@ -114,32 +124,32 @@ class SearchHome : Fragment() {
                 Log.i(TAG, "An error occurred: $status")
             }
         })
-
-
-        return view
     }
 
     private fun findViews(view: View) {
-        srcET = view.findViewById(R.id.source_edit_text)
-        destET = view.findViewById(R.id.dest_edit_text)
+        srcET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_src)
+                as AutocompleteSupportFragment
+        destET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_dest)
+                as AutocompleteSupportFragment
+
         srcDestImg = view.findViewById(R.id.srcDestImg)
         switchDirectionBtn = view.findViewById(R.id.switchDirectionBtn)
+        srcTextView = view.findViewById(R.id.src_huji)
+        destTextView = view.findViewById(R.id.dest_huji)
     }
 
 
     private fun setDetails(){
         if (toHuji){
-            syncVmAndET(srcET)
+            syncVmAndET()
         }else{
-            syncVmAndET(destET)
+            syncVmAndET()
 
         }
     }
 
-    private fun syncVmAndET(editText: EditText) {
+    private fun syncVmAndET() {
         if (srcOrDestStr.isNotEmpty()) {
-//        if (editText.text?.isEmpty() != true) {
-//            vm.srcOrDest = editText.text.toString()
             vm.srcOrDest = srcOrDestStr
         } else {
             vm.srcOrDest = ""
@@ -150,28 +160,26 @@ class SearchHome : Fragment() {
 
     private fun setDirection() {
         if (toHuji) {
-            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch)
-
+            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch, destTextView, srcTextView)
         } else {
-            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji)
+            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji, srcTextView, destTextView)
         }
         vm.toHuji = toHuji
     }
 
 
 
-    private fun designSwitchDirection(img:ImageView, constWay: EditText,
-                                      notConstWay: EditText, resOfImg: Int) {
+    private fun designSwitchDirection(img:ImageView, constWay: AutocompleteSupportFragment,
+                                      notConstWay: AutocompleteSupportFragment, resOfImg: Int,
+                                      tvVisible: TextView, tvInvisible: TextView) {
         img.setImageResource(resOfImg)
-        constWay.setText(getString(R.string.destHujiField))
-        constWay.setTextColor(Color.BLACK)
-        notConstWay.isEnabled = true
-        constWay.isEnabled = false
+        notConstWay.view?.visibility = View.VISIBLE
+        constWay.view?.visibility = View.INVISIBLE
+        tvVisible.visibility = View.VISIBLE
+        tvInvisible.visibility = View.INVISIBLE
+
         if (vm.srcOrDest != "") {
             notConstWay.setText(vm.srcOrDest)
-        } else {
-
-            notConstWay.text?.clear()
         }
     }
 
