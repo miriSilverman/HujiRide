@@ -40,7 +40,7 @@ class SearchHome : Fragment() {
 
     private lateinit var vm: RidesViewModel
     private var srcOrDestStr = ""
-    private var latLng: LatLng? = null
+    private var latLng: LatLng = LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +116,9 @@ class SearchHome : Fragment() {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
                 srcOrDestStr = place.name.toString()
-                latLng = place.latLng
+                if (place.latLng != null){
+                    latLng = place.latLng!!
+                }
             }
 
             override fun onError(status: Status) {
@@ -151,6 +153,7 @@ class SearchHome : Fragment() {
     private fun syncVmAndET() {
         if (srcOrDestStr.isNotEmpty()) {
             vm.srcOrDest = srcOrDestStr
+            vm.latLng = latLng
         } else {
             vm.srcOrDest = ""
         }

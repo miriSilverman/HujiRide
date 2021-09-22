@@ -24,6 +24,7 @@ import android.widget.RadioButton
 import android.content.DialogInterface
 
 import android.app.AlertDialog
+import android.util.Log
 
 import android.widget.EditText
 
@@ -31,6 +32,12 @@ import android.widget.RadioGroup
 import huji.postpc.year2021.hujiride.database.Ride as ClientRide
 
 import android.widget.CheckBox
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -48,12 +55,19 @@ class NewRide : Fragment() {
     private lateinit var commentsTextView: TextView
     private var timeHour: Int = 0
     private var timeMinutes: Int = 0
-    private lateinit var srcET: EditText
-    private lateinit var destET: EditText
+
+    private lateinit var srcET: AutocompleteSupportFragment
+    private lateinit var destET: AutocompleteSupportFragment
+    private lateinit var destTextView: TextView
+    private lateinit var srcTextView: TextView
+    private var srcOrDestStr = ""
+    private var latLng: LatLng = LatLng(0.0, 0.0)
+
+
+//    private lateinit var srcET: EditText
+//    private lateinit var destET: EditText
     private lateinit var comments: kotlin.collections.ArrayList<String>
     private var otherComment = ""
-    //private lateinit var stops: AutoCompleteTextView
-    //private lateinit var comments: AutoCompleteTextView
 
     private var checkedComments : ArrayList<Boolean> = arrayListOf(false, false, false, false, false, false)
     private lateinit var srcDestImg: ImageView
@@ -93,8 +107,14 @@ class NewRide : Fragment() {
         aView = inflater.inflate(R.layout.fragment_new_ride, container, false)
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         app = HujiRideApplication.getInstance()
-
+        srcOrDestStr = vm.srcOrDest
+        latLng = vm.latLng
         findViews()
+
+
+        autoCompletePlaces(srcET)
+        autoCompletePlaces(destET)
+
         setSrcOrDest()
 
         comments=ArrayList()
@@ -119,6 +139,46 @@ class NewRide : Fragment() {
         }
 
         return aView
+    }
+
+
+
+    private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
+        // places search bar
+        Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
+        val placesClient = Places.createClient(requireActivity())
+
+        // Initialize the AutocompleteSupportFragment.
+        //        val autocompleteFragment =
+        //            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+        //                    as AutocompleteSupportFragment
+
+//        autocompleteFragment =
+//            childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_src)
+//                    as AutocompleteSupportFragment
+        // Specify the types of place data to return.
+        autocompleteFragment
+            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+            .setCountry("IL")
+            .setHint("חפש מוצא...") // TODO translated version?
+
+        val TAG = "SEARCH"
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
+                srcOrDestStr = place.name.toString()
+                if (place.latLng != null){
+                    latLng = place.latLng!!
+                }
+            }
+
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: $status")
+            }
+        })
     }
 
     private fun getIdOfGroup(groupName: String) :String{
@@ -159,7 +219,7 @@ class NewRide : Fragment() {
     }
 
 
-    private fun getEditableET() : EditText{
+    private fun getEditableET() : AutocompleteSupportFragment{
         return if (toHuji){
             srcET
         }else{
@@ -182,10 +242,11 @@ class NewRide : Fragment() {
 
     private fun validateAllFields(): Boolean{
         val et = getEditableET()
-        if (et.text.isEmpty()){
-            Toast.makeText(activity, "you must fill ${getSrcOrDestStr()}",  Toast.LENGTH_SHORT).show()
-            return false
-        }
+        // todo: validate
+//        if (et.text.isEmpty()){
+//            Toast.makeText(activity, "you must fill ${getSrcOrDestStr()}",  Toast.LENGTH_SHORT).show()
+//            return false
+//        }
         return true
     }
 
@@ -219,31 +280,36 @@ class NewRide : Fragment() {
 
 
     private fun findViews() {
-        srcET = aView.findViewById(R.id.source_edit_text)
-        destET = aView.findViewById(R.id.dest_edit_text)
+        srcET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_src)
+                as AutocompleteSupportFragment
+        destET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_dest)
+                as AutocompleteSupportFragment
+
      //   stops = aView.findViewById(R.id.autoCompleteStops)
        // comments = aView.findViewById(R.id.autoCompleteComments)
         commentsTextView = aView.findViewById(R.id.comments_edit_btn)
         timerTextView = aView.findViewById(R.id.time_edit_btn)
         srcDestImg = aView.findViewById(R.id.srcDestImg)
         switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
+        srcTextView = aView.findViewById(R.id.src_huji)
+        destTextView = aView.findViewById(R.id.dest_huji)
     }
 
     private fun createNewRide(app: HujiRideApplication): Ride {
 
-        var dest = ""
-        if (toHuji){
-            dest = srcET.text.toString()
-        }else{
-            dest = destET.text.toString()
-        }
+//        var dest = ""
+//        if (toHuji){
+//            dest = srcET.text.toString()
+//        }else{
+//            dest = destET.text.toString()
+//        }
         return Ride("$timeHour : $timeMinutes",
             ArrayList<String>(),
             comments,
             app.userDetails.clientUniqueID,
-            dest,
-            0.0,
-            0.0,
+            srcOrDestStr,
+            latLng.latitude,
+            latLng.longitude,
             "",
             toHuji
         )
@@ -385,32 +451,54 @@ class NewRide : Fragment() {
     }
 
 
-    private fun designSwitchDirection(
-        img: ImageView, constWay: EditText,
-        notConstWay: EditText, resOfImg: Int
-    ) {
+    private fun designSwitchDirection(img:ImageView, constWay: AutocompleteSupportFragment,
+                                      notConstWay: AutocompleteSupportFragment, resOfImg: Int,
+                                      tvVisible: TextView, tvInvisible: TextView) {
         img.setImageResource(resOfImg)
-        constWay.setText(getString(R.string.destHujiField))
-        constWay.setTextColor(Color.BLACK)
-        notConstWay.isEnabled = true
-        constWay.isEnabled = false
-        if (vm.srcOrDest != "") {
-            notConstWay.setText(vm.srcOrDest)
-        } else {
+        notConstWay.view?.visibility = View.VISIBLE
+        constWay.view?.visibility = View.INVISIBLE
+        tvVisible.visibility = View.VISIBLE
+        tvInvisible.visibility = View.INVISIBLE
 
-            notConstWay.text?.clear()
+        if (srcOrDestStr != "") {
+            notConstWay.setText(vm.srcOrDest)
         }
     }
-
+//    private fun designSwitchDirection(
+//        img: ImageView, constWay: EditText,
+//        notConstWay: EditText, resOfImg: Int
+//    ) {
+//        img.setImageResource(resOfImg)
+//        constWay.setText(getString(R.string.destHujiField))
+//        constWay.setTextColor(Color.BLACK)
+//        notConstWay.isEnabled = true
+//        constWay.isEnabled = false
+//        if (vm.srcOrDest != "") {
+//            notConstWay.setText(vm.srcOrDest)
+//        } else {
+//
+//            notConstWay.text?.clear()
+//        }
+//    }
 
     private fun setDirection() {
         if (toHuji) {
-            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch)
-
+            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch, destTextView, srcTextView)
         } else {
-            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji)
+            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji, srcTextView, destTextView)
         }
+        vm.toHuji = toHuji
     }
+
+
+//    private fun setDirection() {
+//        if (toHuji) {
+//            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch)
+//
+//        } else {
+//            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji)
+//        }
+//    }
 
 
     private fun setSrcOrDest() {
@@ -434,18 +522,26 @@ class NewRide : Fragment() {
 
     private fun setDetails() {
         if (toHuji) {
-            syncVmAndET(srcET)
+            syncVmAndET()
         } else {
-            syncVmAndET(destET)
+            syncVmAndET()
         }
         toHuji = !toHuji
         vm.toHuji = toHuji
     }
 
 
-    private fun syncVmAndET(editText: EditText) {
-        if (editText.text?.isEmpty() != true) {
-            vm.srcOrDest = editText.text.toString()
+//    private fun syncVmAndET(editText: EditText) {
+//        if (editText.text?.isEmpty() != true) {
+//            vm.srcOrDest = editText.text.toString()
+//        } else {
+//            vm.srcOrDest = ""
+//        }
+//    }
+
+    private fun syncVmAndET() {
+        if (srcOrDestStr.isNotEmpty()) {
+            vm.srcOrDest = srcOrDestStr
         } else {
             vm.srcOrDest = ""
         }
