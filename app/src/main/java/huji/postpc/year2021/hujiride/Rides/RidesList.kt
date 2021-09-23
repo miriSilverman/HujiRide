@@ -7,17 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import huji.postpc.year2021.hujiride.R
-import huji.postpc.year2021.hujiride.GroupsRides
 import huji.postpc.year2021.hujiride.HujiRideApplication
-import huji.postpc.year2021.hujiride.Dashboard
-import huji.postpc.year2021.hujiride.MyRides.MyRidesAdapter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -114,7 +110,13 @@ class RidesList : Fragment() {
             if (group != null){
                 groupsName = group.toString()
             }
-            val dbRidesArr = app.db.getRidesListOfGroup(groupsName)
+
+            val dbRidesArr :List<Ride> = if (group == null){
+                app.db.sortRidesAccordingToALocation(vm.latLng)
+            }else{
+                app.db.getRidesListOfGroup(groupsName)
+
+            }
 
             adapter.setRidesList(dbRidesArr)
 
