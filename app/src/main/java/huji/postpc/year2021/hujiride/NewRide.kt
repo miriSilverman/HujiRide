@@ -41,6 +41,8 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.firebase.Timestamp
+import huji.postpc.year2021.hujiride.database.dateFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -300,14 +302,16 @@ class NewRide : Fragment() {
 
     private fun createNewRide(app: HujiRideApplication): Ride {
 
-//        var dest = ""
-//        if (toHuji){
-//            dest = srcET.text.toString()
-//        }else{
-//            dest = destET.text.toString()
-//        }
+        val d = Date()
+        val c = Calendar.getInstance()
+        c.time = d
+        c.set(Calendar.HOUR_OF_DAY, timeHour)
+        c.set(Calendar.MINUTE, timeMinutes)
+        val t = Timestamp(c.time)
+
         return Ride(
             time="$timeHour : $timeMinutes",
+            timeStamp=t,
             stops = ArrayList<String>(),
             comments = comments,
             driverID = app.userDetails.clientUniqueID,

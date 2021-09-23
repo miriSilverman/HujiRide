@@ -222,7 +222,8 @@ class Database {
     suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
         val refRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<DocumentReference>? ?: ArrayList()
 
-        return ArrayList(fetchRides(refRides).filterNotNull()).filterActiveRides()
+        return arrayListOf()
+//        return ArrayList(fetchRides(refRides).filterNotNull()).filterActiveRides()
     }
 
 
