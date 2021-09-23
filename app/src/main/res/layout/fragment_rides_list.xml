@@ -16,13 +16,13 @@
 
         <TextView
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:background="@color/teal_200"
             android:fontFamily="@font/fredoka_one"
             android:text="@string/next_rides_title"
-            android:textSize="50sp"
+            android:textAlignment="center"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
