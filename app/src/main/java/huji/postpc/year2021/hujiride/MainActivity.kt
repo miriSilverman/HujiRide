@@ -15,6 +15,7 @@ import huji.postpc.year2021.hujiride.Onboarding.OnboradingActivity
 import huji.postpc.year2021.hujiride.database.Client
 import huji.postpc.year2021.hujiride.database.Ride
 import huji.postpc.year2021.hujiride.database.Database
+import huji.postpc.year2021.hujiride.database.createTimeStamp
 import kotlinx.coroutines.*
 import org.opencv.android.OpenCVLoader
 import java.util.*
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val TAG = "MainActivity"
 
-//        TESTS()
+        TESTS()
 
         if (OpenCVLoader.initDebug()) {
             Log.d(TAG, "OpenCV Loaded")
@@ -53,24 +54,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun TESTS() {
         val db = Database()
-//        val cRide = Ride(
-//            src="TEST",
-//            dest="TEST",
-//            drivers_first_name = "YAIR",
-//            time = "",
-//            stops = arrayListOf(),
-//            comments = arrayListOf(),
-//            drivers_last_name = "LAST",
-//            drivers_phone_number = "000123",
-//            toHuji = true
-//        )
+        val cRide = Ride(
+            time = "PEND",
+            timeStamp = createTimeStamp("23-9-2021 15:50")
+        )
 
+        val bRide = Ride(
+            time = "FUTURE",
+            timeStamp = createTimeStamp("23-9-2021 16:00")
+        )
+
+        val a = Ride (
+            time = "ENDED",
+            timeStamp = createTimeStamp("23-9-2021 15:30")
+        )
         GlobalScope.launch {
-            val r = db.getGroupsOfClient("2007e0b0-5b90-48ac-8d4c-c42f28c49032")
-            println("DONE ######$r")
+//            db.addRide(cRide, "YAIR TEST", null)
+//            db.addRide(a, "YAIR TEST", "0")
+//            db.addRide(bRide, "YAIR TEST", "0")
+            p("added rides!")
+            val r = db.getRidesListOfGroup(null).map {i -> "${i.time}"}
+            p("Rides: $r")
         }
     }
 
+    fun p(m: String) {
+        Log.d("TESTS", m)
+    }
 
     private fun getUniqueID(): String {
         val sp = getSharedPreferences("huji.rides.unique.id.sp", Context.MODE_PRIVATE)

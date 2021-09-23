@@ -32,6 +32,9 @@ import android.widget.RadioGroup
 import huji.postpc.year2021.hujiride.database.Ride as ClientRide
 
 import android.widget.CheckBox
+import com.firebase.geofire.GeoFireUtils
+import com.firebase.geofire.GeoLocation
+import com.firebase.geofire.core.GeoHash
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
@@ -303,15 +306,16 @@ class NewRide : Fragment() {
 //        }else{
 //            dest = destET.text.toString()
 //        }
-        return Ride("$timeHour : $timeMinutes",
-            ArrayList<String>(),
-            comments,
-            app.userDetails.clientUniqueID,
-            srcOrDestStr,
-            latLng.latitude,
-            latLng.longitude,
-            "",
-            toHuji
+        return Ride(
+            time="$timeHour : $timeMinutes",
+            stops = ArrayList<String>(),
+            comments = comments,
+            driverID = app.userDetails.clientUniqueID,
+            destName = srcOrDestStr,
+            lat = latLng.latitude,
+            long = latLng.longitude,
+            geoHash = GeoFireUtils.getGeoHashForLocation(GeoLocation(latLng.latitude, latLng.longitude)),
+            isDestinationHuji = toHuji
         )
 
     }

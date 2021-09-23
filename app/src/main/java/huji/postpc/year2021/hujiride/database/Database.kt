@@ -3,6 +3,7 @@ package huji.postpc.year2021.hujiride.database
 import android.util.Log
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
@@ -12,14 +13,15 @@ import com.google.type.LatLng
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import java.util.*
+import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 class Database {
     private val TAG = "Database"
-    val db = Firebase.firestore
-    val clients = db.collection("Clients")
-    val rides = db.collection("Rides")
-    val groups = db.collection("Groups")
+    private val db = Firebase.firestore
+    private val clients = db.collection("Clients")
+    private val rides = db.collection("Rides")
+    private val groups = db.collection("Groups")
 
 
     suspend fun setClientData(uniqueID: String) :Boolean {
@@ -142,18 +144,7 @@ class Database {
         }
     }
 
-    suspend private fun newRide(dbRide: Ride, driverID: String): String? {
-//        val dbRide = Ride(
-//            time = ride.time,
-//            stops = ride.stops,
-//            comments = ride.comments,
-//            driverID = driverID,
-//            destName = ride.dest,
-//            lat = 0.0,
-//            long = 0.0,
-//            geoHash = "",
-//            isDestinationHuji = false
-//        )
+    private suspend fun newRide(dbRide: Ride, driverID: String): String? {
         try {
             val id = UUID.randomUUID().toString()
             rides.document(id).set(dbRide).await()
@@ -189,7 +180,7 @@ class Database {
     /**
      * given groups id returns a list of the rides ID in this group (also "all" group)
      */
-    suspend fun getRidesIDOfGroup(groupID: String): ArrayList<String> {
+    private suspend fun getRidesIDOfGroup(groupID: String): ArrayList<String> {
         try {
             return ArrayList((groups.document(groupID).get().await().get("rides") as ArrayList<String>).mapNotNull { rideID -> rideID.toString() })
         } catch (e : Exception) {
@@ -198,15 +189,29 @@ class Database {
         }
     }
 
+    fun ArrayList<Ride>.filterActiveRides() : ArrayList<Ride>{
+        return ArrayList(this.filter { ride ->
+            ride.timeStamp > Timestamp(Date(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(15)))
+        })
+    }
+
     /**
      * given groups name returns a list of the rides in this group (also "all" group)
      */
-    suspend fun getRidesListOfGroup(groupID: String): ArrayList<Ride> {
-        return ArrayList(getRidesIDOfGroup(groupID).mapNotNull {id -> rides.document(id).get().await().toObject(Ride::class.java)})
+    suspend fun getRidesListOfGroup(groupID: String?): ArrayList<Ride> {
+        if (groupID == null) {
+            return ArrayList(rides.get().await().documents
+                .mapNotNull { documentSnapshot -> documentSnapshot.toObject(Ride::class.java) })
+                .filterActiveRides()
+        } else {
+            return ArrayList(getRidesIDOfGroup(groupID)
+                .mapNotNull {id -> rides.document(id).get().await().toObject(Ride::class.java)})
+                .filterActiveRides()
+        }
     }
 
 
-    suspend fun fetchRides(rides: ArrayList<DocumentReference>) = coroutineScope {
+    private suspend fun fetchRides(rides: ArrayList<DocumentReference>) = coroutineScope {
         val deferreds = rides.map { ref -> async { ref.get().await().toObject(Ride::class.java) } }
         return@coroutineScope deferreds.awaitAll()
     }
@@ -217,7 +222,7 @@ class Database {
     suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
         val refRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<DocumentReference>? ?: ArrayList()
 
-        return ArrayList(fetchRides(refRides).filterNotNull())
+        return ArrayList(fetchRides(refRides).filterNotNull()).filterActiveRides()
     }
 
 
