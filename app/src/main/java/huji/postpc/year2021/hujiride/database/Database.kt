@@ -235,7 +235,17 @@ class Database {
     }
 
 
-    suspend fun addRideToClientsRides(clientId: String, ride: Ride){
+    suspend fun addRideToClientsRides(clientId: String, ride: Ride): Boolean{
+        try {
+            clients.document(clientId)
+                .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayUnion(ride))).await()
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            return false
+        }
+        return true
+
+
 
     }
 
