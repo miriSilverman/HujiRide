@@ -9,7 +9,6 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
-import com.google.type.LatLng
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import java.util.*
@@ -100,7 +99,7 @@ class Database {
         return true
     }
 
-    suspend fun sortRidesAccordingToALocation(latLng: LatLng): List<Ride> {
+    suspend fun sortRidesAccordingToALocation(latLng: com.google.android.gms.maps.model.LatLng): List<Ride> {
         val closeRidesSnaps = rides.orderBy(FIELD_GEO_HASH)
             .startAt(
                 GeoFireUtils.getGeoHashForLocation(

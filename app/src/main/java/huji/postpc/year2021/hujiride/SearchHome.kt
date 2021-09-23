@@ -95,14 +95,6 @@ class SearchHome : Fragment() {
         Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
         val placesClient = Places.createClient(requireActivity())
 
-        // Initialize the AutocompleteSupportFragment.
-        //        val autocompleteFragment =
-        //            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
-        //                    as AutocompleteSupportFragment
-
-//        autocompleteFragment =
-//            childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_src)
-//                    as AutocompleteSupportFragment
         // Specify the types of place data to return.
         autocompleteFragment
             .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
