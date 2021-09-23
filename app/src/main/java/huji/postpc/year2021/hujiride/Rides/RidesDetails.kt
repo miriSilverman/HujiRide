@@ -1,6 +1,9 @@
 package huji.postpc.year2021.hujiride.Rides
 
+import android.annotation.SuppressLint
+import android.icu.text.MessageFormat.format
 import android.os.Bundle
+import android.text.format.DateFormat.format
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +13,14 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import com.google.gson.internal.bind.util.ISO8601Utils.format
+import com.squareup.okhttp.internal.http.HttpDate.format
 import huji.postpc.year2021.hujiride.R
+import java.lang.String.format
+import java.text.DateFormat
+import java.text.MessageFormat.format
+import java.util.*
+import java.text.SimpleDateFormat
 
 
 /**
@@ -37,21 +47,22 @@ class RidesDetails : Fragment() {
         }
     }
 
-    fun findViews() {
-        backToRidesBtn = aView.findViewById<Button>(R.id.back_to_closest_rides)
-        backToGroupsBtn = aView.findViewById<Button>(R.id.back_to_groups)
-        contactDriverBtn = aView.findViewById<Button>(R.id.contact_driver_btn)
+    private fun findViews() {
+        backToRidesBtn = aView.findViewById(R.id.back_to_closest_rides)
+        backToGroupsBtn = aView.findViewById(R.id.back_to_groups)
+        contactDriverBtn = aView.findViewById(R.id.contact_driver_btn)
 
-        srcTV = aView.findViewById<TextView>(R.id.source)
-        destTV = aView.findViewById<TextView>(R.id.destination)
-        timeTV = aView.findViewById<TextView>(R.id.time)
-        commentsTV = aView.findViewById<TextView>(R.id.comments)
+        srcTV = aView.findViewById(R.id.source)
+        destTV = aView.findViewById(R.id.destination)
+        timeTV = aView.findViewById(R.id.time)
+        commentsTV = aView.findViewById(R.id.comments)
     }
 
 
 
 
 
+    @SuppressLint("SimpleDateFormat", "SetTextI18n")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,7 +102,14 @@ class RidesDetails : Fragment() {
 
             srcTV.text = src
             destTV.text = dest
-            timeTV.text = ride.time
+            val stamp = ride.timeStamp
+            val dt = stamp.toDate()
+            val datFrm = SimpleDateFormat("dd/MM/yyyy ")
+            val timeFrm = SimpleDateFormat("HH:mm")
+            timeTV.text = "${timeFrm.format(dt)}  at  ${datFrm.format(dt)}"
+
+
+
 
 
             var comments = ""

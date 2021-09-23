@@ -45,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
 
@@ -59,7 +60,7 @@ class NewRide : Fragment() {
     private lateinit var commentsTextView: TextView
     private var timeHour: Int = 0
     private var timeMinutes: Int = 0
-
+    private var timeFormat = ""
     private lateinit var srcET: AutocompleteSupportFragment
     private lateinit var destET: AutocompleteSupportFragment
     private lateinit var destTextView: TextView
@@ -68,7 +69,7 @@ class NewRide : Fragment() {
     private var latLng: LatLng = LatLng(0.0, 0.0)
 
 
-    private lateinit var comments: kotlin.collections.ArrayList<String>
+    private lateinit var comments: ArrayList<String>
     private var otherComment = ""
 
     private var checkedComments : ArrayList<Boolean> = arrayListOf(false, false, false, false, false, false)
@@ -330,9 +331,9 @@ class NewRide : Fragment() {
         val t = Timestamp(c.time)
 
         return Ride(
-            time="$timeHour : $timeMinutes",
-            timeStamp=t,
-            stops = ArrayList<String>(),
+            time= timeFormat,
+            timeStamp= t,
+            stops = ArrayList(),
             comments = comments,
             driverID = app.userDetails.clientUniqueID,
             destName = srcOrDestStr,
@@ -352,8 +353,11 @@ class NewRide : Fragment() {
                     timeMinutes = minutes
                     val calendar = Calendar.getInstance()
                     calendar.set(0, 0, 0, timeHour, timeMinutes)
-                    //                    timerTextView!!.setText(DateFormat("HH:MM aa", calendar))
-                    timerTextView.text = "Leaving at $timeHour : $timeMinutes"
+
+                    val timeFrm = SimpleDateFormat("HH:mm")
+                    val format = timeFrm.format(calendar.time)
+                    timeFormat = format
+                    timerTextView.text = "Leaving at $format"
                 }, 12, 0, false
             )
 
