@@ -89,7 +89,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />
+            app:layout_constraintTop_toBottomOf="@+id/date_edit_btn" />
 
 
 
@@ -188,6 +188,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="50dp"
             android:layout_height="48dp" />
+
+        <TextView
+            android:id="@+id/date_edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            android:background="@color/teal_700"
+            android:drawableStart="@drawable/ic_baseline_calendar_today_24"
+            android:drawablePadding="16dp"
+            android:hint="Select Date"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
