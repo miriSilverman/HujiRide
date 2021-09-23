@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -19,6 +20,15 @@ class RidesDetails : Fragment() {
 
     private lateinit var aView: View
 
+    private lateinit var backToRidesBtn: Button
+    private lateinit var backToGroupsBtn: Button
+    private lateinit var contactDriverBtn: Button
+
+    private lateinit var srcTV: TextView
+    private lateinit var destTV: TextView
+    private lateinit var timeTV: TextView
+    private lateinit var commentsTV: TextView
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,6 +37,19 @@ class RidesDetails : Fragment() {
         }
     }
 
+    fun findViews() {
+        backToRidesBtn = aView.findViewById<Button>(R.id.back_to_closest_rides)
+        backToGroupsBtn = aView.findViewById<Button>(R.id.back_to_groups)
+        contactDriverBtn = aView.findViewById<Button>(R.id.contact_driver_btn)
+
+        srcTV = aView.findViewById<TextView>(R.id.source)
+        destTV = aView.findViewById<TextView>(R.id.destination)
+        timeTV = aView.findViewById<TextView>(R.id.time)
+        commentsTV = aView.findViewById<TextView>(R.id.comments)
+    }
+
+
+
 
 
     override fun onCreateView(
@@ -34,21 +57,22 @@ class RidesDetails : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         aView =  inflater.inflate(R.layout.fragment_rides_details, container, false)
+        findViews()
 
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
 
 
-        aView.findViewById<Button>(R.id.back_to_closest_rides)?.setOnClickListener {
+        backToRidesBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_ridesList)
         }
 
-        aView.findViewById<Button>(R.id.contact_driver_btn)?.setOnClickListener {
+        contactDriverBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
         }
 
 
-        aView.findViewById<Button>(R.id.back_to_groups)?.setOnClickListener {
+        backToGroupsBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_groups_home)
         }
 
@@ -58,15 +82,16 @@ class RidesDetails : Fragment() {
 
             var src = "HUJI"
             var dest = "HUJI"
+
             if (ride.isDestinationHuji){
                 src = ride.destName
             }else{
                 dest = ride.destName
             }
 
-            aView.findViewById<TextView>(R.id.source)?.text = src
-            aView.findViewById<TextView>(R.id.destination)?.text = dest
-            aView.findViewById<TextView>(R.id.time)?.text = ride.time
+            srcTV.text = src
+            destTV.text = dest
+            timeTV.text = ride.time
 
 
             var comments = ""
@@ -74,10 +99,7 @@ class RidesDetails : Fragment() {
             {
                 comments += "\n"+s
             }
-            aView.findViewById<TextView>(R.id.comments)?.text = comments
-
-
-
+            commentsTV.text = comments
 
         }
 

@@ -65,12 +65,7 @@ class RidesList : Fragment() {
         sort.setAdapter(arrayAdapter)
     }
 
-    fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean){
-        addRideBtn.isEnabled = btnState
-        noRidesTxt.visibility = oneDirection
-        img.visibility = oneDirection
-        ridesRecycler.visibility = secondDirection
-    }
+
 
 
 
@@ -87,8 +82,7 @@ class RidesList : Fragment() {
         addRideBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_newRide2)
         }
-        setVisibility(View.INVISIBLE, View.INVISIBLE, false)
-        progressBar.visibility = View.VISIBLE
+        setVisibility(View.INVISIBLE, View.INVISIBLE, false, View.VISIBLE)
 
 
         val adapter = RidesAdapter()
@@ -123,14 +117,14 @@ class RidesList : Fragment() {
             val dbRidesArr = app.db.getRidesListOfGroup(groupsName)
 
             adapter.setRidesList(dbRidesArr)
+
+
+
             withContext(Dispatchers.Main) {
-                progressBar.visibility = View.INVISIBLE
                 adapter.notifyDataSetChanged()
                 if (adapter.itemCount == 0) {
-                    setVisibility(View.VISIBLE, View.INVISIBLE, true)
                     noNearRidesCase()
                 } else {
-                    setVisibility(View.INVISIBLE, View.VISIBLE, true)
                     thereAreRidesCase()
                 }
             }
@@ -141,16 +135,32 @@ class RidesList : Fragment() {
     }
 
     private fun findViews() {
-        sort = aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)
-        addRideBtn = aView.findViewById<Button>(R.id.add_new_ride)
-        img = aView.findViewById<ImageView>(R.id.no_rides_img)
-        noRidesTxt = aView.findViewById<TextView>(R.id.no_near_rides_txt)
-        sortAs = aView.findViewById<TextInputLayout>(R.id.sort_as)
+        sort = aView.findViewById(R.id.autoCompleteTextView2)
+        addRideBtn = aView.findViewById(R.id.add_new_ride)
+        img = aView.findViewById(R.id.no_rides_img)
+        noRidesTxt = aView.findViewById(R.id.no_near_rides_txt)
+        sortAs = aView.findViewById(R.id.sort_as)
         srcDestImg = aView.findViewById(R.id.srcDestImg)
         switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
         progressBar = aView.findViewById(R.id.rides_progress_bar)
         ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
     }
+
+    private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean, progressbarVis: Int){
+        addRideBtn.isEnabled = btnState
+
+        progressBar.visibility = progressbarVis
+
+        noRidesTxt.visibility = oneDirection
+        img.visibility = oneDirection
+
+        ridesRecycler.visibility = secondDirection
+        sortAs.visibility = secondDirection
+        switchDirectionBtn.visibility = secondDirection
+        srcDestImg.visibility = secondDirection
+
+    }
+
 
 
     private fun setDirection() {
@@ -167,25 +177,11 @@ class RidesList : Fragment() {
     }
 
     private fun noNearRidesCase() {
-
-        img.visibility = View.VISIBLE
-        noRidesTxt.visibility = View.VISIBLE
-        sortAs.visibility = View.INVISIBLE
-        srcDestImg.visibility = View.INVISIBLE
-        switchDirectionBtn.visibility = View.INVISIBLE
-
-
+        setVisibility(View.VISIBLE, View.INVISIBLE, true, View.INVISIBLE)
     }
 
     private fun thereAreRidesCase() {
-
-        img.visibility = View.INVISIBLE
-        noRidesTxt.visibility = View.INVISIBLE
-        sortAs.visibility = View.VISIBLE
-        srcDestImg.visibility = View.VISIBLE
-        switchDirectionBtn.visibility = View.VISIBLE
-
-
+        setVisibility(View.INVISIBLE, View.VISIBLE, true, View.INVISIBLE)
     }
 
 
