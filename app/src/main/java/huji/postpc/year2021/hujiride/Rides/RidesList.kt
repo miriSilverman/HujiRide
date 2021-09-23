@@ -81,19 +81,12 @@ class RidesList : Fragment() {
     ): View {
         aView = inflater.inflate(R.layout.fragment_rides_list, container, false)
         app = HujiRideApplication.getInstance()
-        sort = aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)
-        addRideBtn = aView.findViewById<Button>(R.id.add_new_ride)
+
+        findViews()
+
         addRideBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_newRide2)
         }
-
-        img = aView.findViewById<ImageView>(R.id.no_rides_img)
-        noRidesTxt = aView.findViewById<TextView>(R.id.no_near_rides_txt)
-        sortAs = aView.findViewById<TextInputLayout>(R.id.sort_as)
-        srcDestImg = aView.findViewById(R.id.srcDestImg)
-        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
-        progressBar = aView.findViewById(R.id.rides_progress_bar)
-        ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
         setVisibility(View.INVISIBLE, View.INVISIBLE, false)
         progressBar.visibility = View.VISIBLE
 
@@ -127,7 +120,6 @@ class RidesList : Fragment() {
             if (group != null){
                 groupsName = group.toString()
             }
-            // todo: change to null
             val dbRidesArr = app.db.getRidesListOfGroup(groupsName)
 
             adapter.setRidesList(dbRidesArr)
@@ -148,6 +140,17 @@ class RidesList : Fragment() {
         return aView
     }
 
+    private fun findViews() {
+        sort = aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)
+        addRideBtn = aView.findViewById<Button>(R.id.add_new_ride)
+        img = aView.findViewById<ImageView>(R.id.no_rides_img)
+        noRidesTxt = aView.findViewById<TextView>(R.id.no_near_rides_txt)
+        sortAs = aView.findViewById<TextInputLayout>(R.id.sort_as)
+        srcDestImg = aView.findViewById(R.id.srcDestImg)
+        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
+        progressBar = aView.findViewById(R.id.rides_progress_bar)
+        ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
+    }
 
 
     private fun setDirection() {
