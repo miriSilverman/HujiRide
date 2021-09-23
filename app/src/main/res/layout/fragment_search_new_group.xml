@@ -6,12 +6,12 @@
     android:background="#3F51B5"
     android:layout_height="match_parent"
     >
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".toDelete.SearchNewGroup"
-        >
-
+        android:background="@color/white"
+        tools:context=".toDelete.SearchNewGroup">
 
 
         <TextView
@@ -19,6 +19,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="76dp"
+            android:background="@color/teal_200"
+            android:fontFamily="@font/fredoka_one"
             android:gravity="center"
             android:text="@string/searchGroupTitle"
             android:textSize="50sp"
@@ -52,30 +54,29 @@
             android:id="@+id/groups_search_list"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            tools:layout_editor_absoluteX="54dp"
-            tools:layout_editor_absoluteY="406dp"
             android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
             android:layout_marginTop="50dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="50dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_group_edittext"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_group_edittext"
+            tools:layout_editor_absoluteX="54dp"
+            tools:layout_editor_absoluteY="406dp" />
 
         <SearchView
             android:id="@+id/search_group_edittext"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="222dp"
-            tools:layout_editor_absoluteY="278dp"
-            app:queryHint="Search neighborhood"
-            android:layout_marginTop="50dp"
             android:layout_marginStart="50dp"
+            android:layout_marginTop="50dp"
             android:layout_marginEnd="50dp"
             app:iconifiedByDefault="false"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:queryHint="Search neighborhood"
+            tools:layout_editor_absoluteX="222dp"
+            tools:layout_editor_absoluteY="278dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
