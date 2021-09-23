@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,6 +41,13 @@ class RidesList : Fragment() {
     private lateinit var adapter: RidesAdapter
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
+    private lateinit var progressBar: ProgressBar
+    private lateinit var addRideBtn : Button
+    private lateinit var sort : AutoCompleteTextView
+    private lateinit var ridesRecycler: RecyclerView
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +61,26 @@ class RidesList : Fragment() {
         super.onResume()
         val sortItems = resources.getStringArray(R.array.sorting_list)
         val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, sortItems)
-        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)
-            ?.setAdapter(arrayAdapter)
+
+        sort.setAdapter(arrayAdapter)
     }
+
+    fun setVisibility(oneDirection: Int, secondDirection: Int){
+        srcDestImg.visibility = oneDirection
+        switchDirectionBtn.visibility = oneDirection
+        addRideBtn.visibility = oneDirection
+        sort.visibility = oneDirection
+        noRidesTxt.visibility = oneDirection
+        sortAs.visibility = oneDirection
+        img.visibility = oneDirection
+        ridesRecycler.visibility = oneDirection
+
+
+
+
+    }
+
+
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -64,7 +89,9 @@ class RidesList : Fragment() {
     ): View {
         aView = inflater.inflate(R.layout.fragment_rides_list, container, false)
         app = HujiRideApplication.getInstance()
-        aView.findViewById<Button>(R.id.add_new_ride)?.setOnClickListener {
+        sort = aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteTextView2)
+        addRideBtn = aView.findViewById<Button>(R.id.add_new_ride)
+        addRideBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_newRide2)
         }
 
@@ -73,6 +100,10 @@ class RidesList : Fragment() {
         sortAs = aView.findViewById<TextInputLayout>(R.id.sort_as)
         srcDestImg = aView.findViewById(R.id.srcDestImg)
         switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
+        progressBar = aView.findViewById(R.id.rides_progress_bar)
+        ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
+//        setVisibility(View.INVISIBLE, View.VISIBLE)
+        progressBar.visibility = View.VISIBLE
 
 
         val adapter = RidesAdapter()
@@ -88,13 +119,6 @@ class RidesList : Fragment() {
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         val curGroup = vm.pressedGroup
 
-//        val ridesPerGroup = HujiRideApplication.getInstance().ridesPerGroup
-//        val rides: GroupsRides? = ridesPerGroup.map[curGroup.value?.name]
-//        if (rides != null) {
-//            adapter.setRidesList(rides.ridesList)
-//        }
-
-        val ridesRecycler: RecyclerView = aView.findViewById(R.id.rides_list_recyclerView)
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
@@ -104,17 +128,19 @@ class RidesList : Fragment() {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_ridesDetails)
         }
 
+
         GlobalScope.launch(Dispatchers.IO) {
             val group = curGroup.value?.name
-//            var groupsName: String? = null
-//            if (group != null){
-//                groupsName = group.toString()
-//            }
+            var groupsName: String? = null
+            if (group != null){
+                groupsName = group.toString()
+            }
             // todo: change to null
-            val dbRidesArr = app.db.getRidesListOfGroup(group.toString())
+            val dbRidesArr = app.db.getRidesListOfGroup(groupsName)
 
             adapter.setRidesList(dbRidesArr)
             withContext(Dispatchers.Main) {
+                progressBar.visibility = View.INVISIBLE
                 adapter.notifyDataSetChanged()
                 if (adapter.itemCount == 0) {
                     noNearRidesCase()
@@ -132,7 +158,6 @@ class RidesList : Fragment() {
 
     private fun setDirection() {
 
-        //todo: show only toHuji in right direction
         if (toHuji) {
 
             srcDestImg.setImageResource(R.drawable.resource_switch)
