@@ -3,14 +3,13 @@ package huji.postpc.year2021.hujiride.database
 import android.util.Log
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.type.LatLng
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import java.util.*
 import kotlin.collections.ArrayList
@@ -23,16 +22,28 @@ class Database {
     val groups = db.collection("Groups")
 
 
-    suspend fun newClient(
+    suspend fun setClientData(uniqueID: String) :Boolean {
+        return try {
+            clients.document(uniqueID).set(mapOf(FIELD_IS_AUTH to false)).await()
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            false
+        }
+    }
+
+    suspend fun setClientData(
         firstName: String,
         lastName: String,
         phoneNumber: String,
         uniqueID: String
     ): Boolean {
-
-        val newClient = Client(firstName, lastName, true, phoneNumber)
         try {
-            clients.document(uniqueID).set(newClient).await()
+            clients.document(uniqueID).set(mapOf(
+                FIELD_FIRSTNAME to firstName,
+                FIELD_LASTNAME to lastName,
+                FIELD_PHONENUMBER to phoneNumber
+            ), SetOptions.merge()).await()
             return true
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
@@ -65,8 +76,7 @@ class Database {
 //        }
         try {
             clients.document(clientUniqueID)
-                .update(mapOf(FIELD_REGTERED_GROUPS to FieldValue.arrayUnion(groupID))).await()
-
+                .update(mapOf(FIELD_REGISTERED_GROUPS to FieldValue.arrayUnion(groupID))).await()
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return false
@@ -80,7 +90,7 @@ class Database {
     suspend fun unregisterClientToGroup(clientUniqueID: String, groupId: String): Boolean {
         try {
             clients.document(clientUniqueID)
-                .update(mapOf(FIELD_REGTERED_GROUPS to FieldValue.arrayRemove(groupId))).await()
+                .update(mapOf(FIELD_REGISTERED_GROUPS to FieldValue.arrayRemove(groupId))).await()
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return false
@@ -196,15 +206,18 @@ class Database {
     }
 
 
+    suspend fun fetchRides(rides: ArrayList<DocumentReference>) = coroutineScope {
+        val deferreds = rides.map { ref -> async { ref.get().await().toObject(Ride::class.java) } }
+        return@coroutineScope deferreds.awaitAll()
+    }
+
     /**
      * returns the list of all the rides that the client has signed up for
      */
     suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
-        val stringRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<String>
+        val refRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<DocumentReference>? ?: ArrayList()
 
-        return ArrayList(stringRides.mapNotNull { sr ->
-            rides.document(sr).get().await().toObject(Ride::class.java)
-        })
+        return ArrayList(fetchRides(refRides).filterNotNull())
     }
 
 
@@ -212,16 +225,24 @@ class Database {
      * return a list of the names of the groups that the client has signed up for
      */
     suspend fun getGroupsOfClient(clientUniqueID: String): ArrayList<String> {
-        val groups = clients.document(clientUniqueID).get().await().get(FIELD_REGTERED_GROUPS) as List<*>
-        return ArrayList(groups.mapNotNull { g -> g.toString() })
+        val groups = clients.document(clientUniqueID).get().await().get(FIELD_REGISTERED_GROUPS) as List<*>?
+        return ArrayList(groups?.mapNotNull { g -> g.toString() } ?: ArrayList())
     }
 
 
-    suspend fun addRideToClientsRides(clientId : String, ride:Ride){
+    suspend fun addRideToClientsRides(clientId: String, ride: Ride){
 
     }
 
 
-
+    suspend fun setFCMToken(clientUniqueID: String, token: String) : Boolean {
+        return try {
+            clients.document(clientUniqueID).set(hashMapOf(FIELD_FCM_TOKEN to token)).await()
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            false
+        }
+    }
 
 }

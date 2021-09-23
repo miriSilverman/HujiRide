@@ -59,7 +59,6 @@ public class HujiRideApplication extends Application {
                 sp.getBoolean(ALL_NOTIFICATIONS, true),
                 sp.getBoolean(GROUPS_NOTIFICATIONS, false),
                 "");
-        // TODO get unique ID
 
         db = new Database();
         fillJerusNeighMap();
@@ -133,21 +132,4 @@ public class HujiRideApplication extends Application {
         this.userDetails.setUserLastName(lastName);
         this.userDetails.setUserPhoneNumber(phoneNumber);
     }
-
-
-//    private fun getIdOfGroup(groupName: String): String {
-//        val allGroups = app.jerusalemNeighborhoods
-//        for (pair in allGroups) {
-//            if (pair.value.equals(groupName)) {
-//                return pair.key
-//            }
-//        }
-//        return ""
-//    }
-
-
-
-
-
-
 }

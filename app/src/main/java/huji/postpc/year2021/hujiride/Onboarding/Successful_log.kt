@@ -50,7 +50,7 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
         loadingBar.visibility = View.VISIBLE
 
         GlobalScope.launch (Dispatchers.IO) {
-            val e = db.newClient(
+            val e = db.setClientData(
                 firstName = viewModel.firstName!!,
                 lastName = viewModel.lastName!!,
                 phoneNumber = viewModel.phoneNumber!!,

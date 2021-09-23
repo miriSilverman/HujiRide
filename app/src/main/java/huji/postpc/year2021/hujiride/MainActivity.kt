@@ -73,62 +73,62 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun getUniqueID(): String {
-    val sp = getSharedPreferences("huji.rides.unique.id.sp", Context.MODE_PRIVATE)
-    val spKey = "huji.rides.yair.unique.id.client"
-    val uniqueID = sp.getString(spKey, null)
-    if (uniqueID != null) {
-        return uniqueID
+        val sp = getSharedPreferences("huji.rides.unique.id.sp", Context.MODE_PRIVATE)
+        val spKey = "huji.rides.yair.unique.id.client"
+        val uniqueID = sp.getString(spKey, null)
+        if (uniqueID != null) {
+            return uniqueID
+        }
+        val newUniqueID = UUID.randomUUID().toString()
+        sp.edit {
+            putString(spKey, newUniqueID)
+        }
+        return newUniqueID
     }
-    val newUniqueID = UUID.randomUUID().toString()
-    sp.edit {
-        putString(spKey, newUniqueID)
+
+    private fun clientNotExistCase() {
+        startActivity(Intent(this, OnboradingActivity::class.java))
+        finish()
     }
-    return newUniqueID
-}
 
-private fun clientNotExistCase() {
-    startActivity(Intent(this, OnboradingActivity::class.java))
-    finish()
-}
+    private fun clientExistsCase(client: Client, userUniqueID: String) {
+        app.setClientData(client.firstName, client.lastName, client.phoneNumber, userUniqueID)
+        startActivity(Intent(this, ApplicationActivity::class.java))
+        finish()
+    }
 
-private fun clientExistsCase(client: Client, userUniqueID: String) {
-    app.setClientData(client.firstName, client.lastName, client.phoneNumber, userUniqueID)
-    startActivity(Intent(this, ApplicationActivity::class.java))
-    finish()
-}
+    private fun placesSearch() {
+        // places search bar
+        Places.initialize(this, "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
+        val placesClient = Places.createClient(this)
 
-private fun placesSearch() {
-    // places search bar
-    Places.initialize(this, "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
-    val placesClient = Places.createClient(this)
-
-    // Initialize the AutocompleteSupportFragment.
+        // Initialize the AutocompleteSupportFragment.
 //        val autocompleteFragment =
 //            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
 //                    as AutocompleteSupportFragment
 
-    val autocompleteFragment =
-        supportFragmentManager.findFragmentById(-1)
-                as AutocompleteSupportFragment
-    // Specify the types of place data to return.
-    autocompleteFragment
-        .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
-        .setCountry("IL")
-        .setHint("חפש מוצא...") // TODO translated version?
+        val autocompleteFragment =
+            supportFragmentManager.findFragmentById(-1)
+                    as AutocompleteSupportFragment
+        // Specify the types of place data to return.
+        autocompleteFragment
+            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+            .setCountry("IL")
+            .setHint("חפש מוצא...") // TODO translated version?
 
-    val TAG = "SEARCH"
-    // Set up a PlaceSelectionListener to handle the response.
-    autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-        override fun onPlaceSelected(place: Place) {
-            // TODO: Get info about the selected place.
-            Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
-        }
+        val TAG = "SEARCH"
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
+            }
 
-        override fun onError(status: Status) {
-            // TODO: Handle the error.
-            Log.i(TAG, "An error occurred: $status")
-        }
-    })
-}
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: $status")
+            }
+        })
+    }
 
 }
