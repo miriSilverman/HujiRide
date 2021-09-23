@@ -65,19 +65,11 @@ class RidesList : Fragment() {
         sort.setAdapter(arrayAdapter)
     }
 
-    fun setVisibility(oneDirection: Int, secondDirection: Int){
-        srcDestImg.visibility = oneDirection
-        switchDirectionBtn.visibility = oneDirection
-        addRideBtn.visibility = oneDirection
-        sort.visibility = oneDirection
+    fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean){
+        addRideBtn.isEnabled = btnState
         noRidesTxt.visibility = oneDirection
-        sortAs.visibility = oneDirection
         img.visibility = oneDirection
-        ridesRecycler.visibility = oneDirection
-
-
-
-
+        ridesRecycler.visibility = secondDirection
     }
 
 
@@ -102,7 +94,7 @@ class RidesList : Fragment() {
         switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
         progressBar = aView.findViewById(R.id.rides_progress_bar)
         ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
-//        setVisibility(View.INVISIBLE, View.VISIBLE)
+        setVisibility(View.INVISIBLE, View.INVISIBLE, false)
         progressBar.visibility = View.VISIBLE
 
 
@@ -143,8 +135,10 @@ class RidesList : Fragment() {
                 progressBar.visibility = View.INVISIBLE
                 adapter.notifyDataSetChanged()
                 if (adapter.itemCount == 0) {
+                    setVisibility(View.VISIBLE, View.INVISIBLE, true)
                     noNearRidesCase()
                 } else {
+                    setVisibility(View.INVISIBLE, View.VISIBLE, true)
                     thereAreRidesCase()
                 }
             }
