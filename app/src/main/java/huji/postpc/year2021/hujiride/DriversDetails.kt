@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
@@ -20,6 +21,16 @@ import kotlinx.coroutines.withContext
  * Driver's details
  */
 class DriversDetails : Fragment() {
+    private lateinit var aView: View
+    private lateinit var progressBar: ProgressBar
+    private lateinit var backToRidesBtn: Button
+    private lateinit var backToGroupsBtn: Button
+    private lateinit var addToMyRidesBtn: Button
+
+    private lateinit var driverFirstName: TextView
+    private lateinit var driverLastName: TextView
+    private lateinit var driverPhone: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,25 +38,52 @@ class DriversDetails : Fragment() {
         }
     }
 
+    fun findViews() {
+        progressBar = aView.findViewById(R.id.drivers_progress_bar)
+        backToRidesBtn = aView.findViewById<Button>(R.id.back_to_closest_rides)
+        backToGroupsBtn = aView.findViewById<Button>(R.id.back_to_groups)
+        addToMyRidesBtn = aView.findViewById<Button>(R.id.add_to_my_rides)
+
+        driverFirstName = aView.findViewById<TextView>(R.id.first_name)
+        driverLastName = aView.findViewById<TextView>(R.id.last_name)
+        driverPhone = aView.findViewById<TextView>(R.id.phone_num)
+    }
+
+    fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
+        progressBar.visibility = oneDirection
+
+        backToGroupsBtn.isEnabled = btnState
+        backToRidesBtn.isEnabled = btnState
+        addToMyRidesBtn.isEnabled = btnState
+
+        driverFirstName.visibility = secondDirection
+        driverLastName.visibility = secondDirection
+        driverPhone.visibility = secondDirection
+
+
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_drivers_details, container, false)
+        aView = inflater.inflate(R.layout.fragment_drivers_details, container, false)
         val app = HujiRideApplication.getInstance()
+        findViews()
+        setVisibility(View.VISIBLE, View.INVISIBLE, false)
 
-        view.findViewById<Button>(R.id.back_to_closest_rides).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_driversDetails_to_ridesList)
+        backToRidesBtn.setOnClickListener {
+            Navigation.findNavController(aView).navigate(R.id.action_driversDetails_to_ridesList)
         }
 
-        view.findViewById<Button>(R.id.back_to_groups).setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_driversDetails_to_groups_home)
+        backToGroupsBtn.setOnClickListener {
+            Navigation.findNavController(aView).navigate(R.id.action_driversDetails_to_groups_home)
         }
 
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
-        // todo: change to ID of ride somehow
 
-        view.findViewById<Button>(R.id.add_to_my_rides).setOnClickListener {
+        addToMyRidesBtn.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
                 vm.pressedRide.value?.let { it1 ->
                     app.db.addRideToClientsRides(
@@ -54,7 +92,7 @@ class DriversDetails : Fragment() {
                     )
                 }
                 withContext(Dispatchers.Main) {
-                    Navigation.findNavController(view)
+                    Navigation.findNavController(aView)
                         .navigate(R.id.action_driversDetails_to_dashboard)
 
                 }
@@ -66,10 +104,11 @@ class DriversDetails : Fragment() {
             GlobalScope.launch(Dispatchers.IO) {
                 val driver = app.db.findClient(ride.driverID)
                 withContext(Dispatchers.Main) {
+                    setVisibility(View.INVISIBLE, View.VISIBLE, true)
                     if (driver != null) {
-                        view.findViewById<TextView>(R.id.first_name).text = driver.firstName
-                        view.findViewById<TextView>(R.id.last_name).text = driver.lastName
-                        view.findViewById<TextView>(R.id.phone_num).text = driver.phoneNumber
+                        driverFirstName.text = driver.firstName
+                        driverLastName.text = driver.lastName
+                        driverPhone.text = driver.phoneNumber
 
                     }
                 }
@@ -79,7 +118,7 @@ class DriversDetails : Fragment() {
         }
 
 
-        return view
+        return aView
     }
 
 }
