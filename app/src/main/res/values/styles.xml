@@ -13,6 +13,10 @@
         <item name="android:textColor">@color/onb_colorPrimary</item>
         <item name="fontFamily">@font/catamaran</item>
     </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/dialog_bg</item>
+    </style>
+
     <style name="OnboardingStyle.header">
         <item name="android:gravity">center</item>
         <item name="fontFamily">@font/catamaran_bold</item>
