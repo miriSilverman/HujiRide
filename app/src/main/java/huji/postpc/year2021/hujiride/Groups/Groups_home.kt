@@ -42,13 +42,13 @@ class GroupsHome : Fragment() {
     }
 
 
-    fun findViews() {
+    private fun findViews() {
         progressBar = aView.findViewById(R.id.groups_progress_bar)
         searchNewGroupBtn = aView.findViewById(R.id.search_new_group_btn)
         groupRecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
     }
 
-    fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
+    private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
         progressBar.visibility = oneDirection
         groupRecyclerView.visibility = secondDirection
         searchNewGroupBtn.isEnabled = btnState
@@ -66,6 +66,7 @@ class GroupsHome : Fragment() {
 
         app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        vm.fromMyRides = false
         val clientId = app.userDetails.clientUniqueID
         searchNewGroupBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_groups_home_to_searchGroup)

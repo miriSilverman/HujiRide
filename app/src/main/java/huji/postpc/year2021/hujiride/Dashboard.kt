@@ -33,6 +33,7 @@ class Dashboard : Fragment() {
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
     private lateinit var ridesRecycler: RecyclerView
+    private lateinit var vm: RidesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,9 +50,12 @@ class Dashboard : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         aView = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         findViews()
         setVisibility(View.INVISIBLE, View.INVISIBLE, View.VISIBLE)
         app = HujiRideApplication.getInstance()
+        vm.fromMyRides = true
+
         adapter = MyRidesAdapter()
         val clientId = app.userDetails.clientUniqueID
 
@@ -106,7 +110,6 @@ class Dashboard : Fragment() {
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
         adapter.onItemClickCallback = { ride: Ride ->
             vm.pressedRide.value = ride

@@ -60,11 +60,11 @@ class NewRide : Fragment() {
     private lateinit var commentsTextView: TextView
     private var timeHour: Int = 0
     private var timeMinutes: Int = 0
-    private var timeFormat = ""
     private lateinit var srcET: AutocompleteSupportFragment
     private lateinit var destET: AutocompleteSupportFragment
     private lateinit var destTextView: TextView
     private lateinit var srcTextView: TextView
+    private var timeFormat = ""
     private var srcOrDestStr = ""
     private var latLng: LatLng = LatLng(0.0, 0.0)
 
@@ -265,12 +265,13 @@ class NewRide : Fragment() {
 
 
     private fun validateAllFields(): Boolean{
-        val et = getEditableET()
-        // todo: validate
-//        if (et.text.isEmpty()){
-//            Toast.makeText(activity, "you must fill ${getSrcOrDestStr()}",  Toast.LENGTH_SHORT).show()
-//            return false
-//        }
+        if (srcOrDestStr == ""){
+            Toast.makeText(activity, "you must fill ${getSrcOrDestStr()}",  Toast.LENGTH_SHORT).show()
+            return false
+        }else if (timeFormat == ""){
+            Toast.makeText(activity, "you must fill time",  Toast.LENGTH_SHORT).show()
+            return false
+        }
         return true
     }
 

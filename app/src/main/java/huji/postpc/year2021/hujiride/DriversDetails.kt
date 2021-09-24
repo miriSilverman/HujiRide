@@ -1,5 +1,6 @@
 package huji.postpc.year2021.hujiride
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
@@ -30,6 +32,8 @@ class DriversDetails : Fragment() {
     private lateinit var driverFirstName: TextView
     private lateinit var driverLastName: TextView
     private lateinit var driverPhone: TextView
+    private lateinit var vm: RidesViewModel
+    private lateinit var app: HujiRideApplication
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,18 +42,18 @@ class DriversDetails : Fragment() {
         }
     }
 
-    fun findViews() {
+    private fun findViews() {
         progressBar = aView.findViewById(R.id.drivers_progress_bar)
-        backToRidesBtn = aView.findViewById<Button>(R.id.back_to_closest_rides)
-        backToGroupsBtn = aView.findViewById<Button>(R.id.back_to_groups)
-        addToMyRidesBtn = aView.findViewById<Button>(R.id.add_to_my_rides)
+        backToRidesBtn = aView.findViewById(R.id.back_to_closest_rides)
+        backToGroupsBtn = aView.findViewById(R.id.back_to_groups)
+        addToMyRidesBtn = aView.findViewById(R.id.add_to_my_rides)
 
-        driverFirstName = aView.findViewById<TextView>(R.id.first_name)
-        driverLastName = aView.findViewById<TextView>(R.id.last_name)
-        driverPhone = aView.findViewById<TextView>(R.id.phone_num)
+        driverFirstName = aView.findViewById(R.id.first_name)
+        driverLastName = aView.findViewById(R.id.last_name)
+        driverPhone = aView.findViewById(R.id.phone_num)
     }
 
-    fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
+    private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
         progressBar.visibility = oneDirection
 
         backToGroupsBtn.isEnabled = btnState
@@ -63,15 +67,51 @@ class DriversDetails : Fragment() {
 
     }
 
+    private fun addToRides(){
+        GlobalScope.launch(Dispatchers.IO) {
+            vm.pressedRide.value?.let { it1 ->
+                app.db.addRideToClientsRides(
+                    app.userDetails.clientUniqueID,
+                    it1
+                )
+            }
+            withContext(Dispatchers.Main) {
+                Navigation.findNavController(aView)
+                    .navigate(R.id.action_driversDetails_to_dashboard)
+            }
+        }
+    }
+
+
+    private fun deleteRides(){
+//        GlobalScope.launch(Dispatchers.IO) {
+//            vm.pressedRide.value?.let { it1 ->
+//                app.db.deletRideFromClientsRides(
+//                    app.userDetails.clientUniqueID,
+//                    it1
+//                )
+//            }
+//            withContext(Dispatchers.Main) {
+//                Navigation.findNavController(aView)
+//                    .navigate(R.id.action_driversDetails_to_dashboard)
+//            }
+//        }
+
+        Toast.makeText(activity, "Ride deleted successfully", Toast.LENGTH_SHORT).show()
+        Navigation.findNavController(aView)
+            .navigate(R.id.action_driversDetails_to_dashboard)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         aView = inflater.inflate(R.layout.fragment_drivers_details, container, false)
-        val app = HujiRideApplication.getInstance()
+        app = HujiRideApplication.getInstance()
         findViews()
         setVisibility(View.VISIBLE, View.INVISIBLE, false)
+        vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
         backToRidesBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_driversDetails_to_ridesList)
@@ -81,22 +121,23 @@ class DriversDetails : Fragment() {
             Navigation.findNavController(aView).navigate(R.id.action_driversDetails_to_groups_home)
         }
 
-        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        if (vm.fromMyRides){
+            addToMyRidesBtn.text = "delete from my rides"
+            addToMyRidesBtn.setBackgroundColor(Color.RED)
+
+        }else{
+            addToMyRidesBtn.text = "Add to my rides"
+            addToMyRidesBtn.setBackgroundColor(Color.GREEN)
+        }
+
 
         addToMyRidesBtn.setOnClickListener {
-            GlobalScope.launch(Dispatchers.IO) {
-                vm.pressedRide.value?.let { it1 ->
-                    app.db.addRideToClientsRides(
-                        app.userDetails.clientUniqueID,
-                        it1
-                    )
-                }
-                withContext(Dispatchers.Main) {
-                    Navigation.findNavController(aView)
-                        .navigate(R.id.action_driversDetails_to_dashboard)
-
-                }
+            if (!vm.fromMyRides){
+                addToRides()
+            }else{
+                deleteRides()
             }
+
         }
 
         val ride = vm.pressedRide.value
