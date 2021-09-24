@@ -69,49 +69,6 @@ class DriversDetails : Fragment() {
 
     }
 
-    private fun addToRides(){
-        GlobalScope.launch(Dispatchers.IO) {
-            vm.pressedRide.value?.let { it1 ->
-                app.db.addRideToClientsRides(
-                    app.userDetails.clientUniqueID,
-                    it1
-                )
-            }
-            withContext(Dispatchers.Main) {
-                Navigation.findNavController(aView)
-                    .navigate(R.id.action_driversDetails_to_dashboard)
-            }
-        }
-    }
-
-
-    private fun deleteRides(){
-//        GlobalScope.launch(Dispatchers.IO) {
-//            vm.pressedRide.value?.let { it1 ->
-//                app.db.deletRideFromClientsRides(
-//                    app.userDetails.clientUniqueID,
-//                    it1
-//                )
-//            }
-//            withContext(Dispatchers.Main) {
-//                Navigation.findNavController(aView)
-//                    .navigate(R.id.action_driversDetails_to_dashboard)
-//            }
-//        }
-
-        AlertDialog.Builder(activity)
-            .setTitle("Delete Ride From My Rides")
-            .setMessage("Are you sure you want to delete this ride from your rides list?")
-            .setIcon(R.drawable.ic_delete)
-            .setCancelable(false)
-            .setNegativeButton(android.R.string.no, null)
-            .setPositiveButton(android.R.string.yes, { dialogInterface: DialogInterface, i: Int ->
-                Toast.makeText(activity, "Ride deleted successfully", Toast.LENGTH_SHORT).show()
-                Navigation.findNavController(aView)
-                    .navigate(R.id.action_driversDetails_to_dashboard)
-            })
-            .create().show()
-    }
 
 
     override fun onCreateView(
@@ -132,24 +89,8 @@ class DriversDetails : Fragment() {
             Navigation.findNavController(aView).navigate(R.id.action_driversDetails_to_groups_home)
         }
 
-        if (vm.fromMyRides){
-            addToMyRidesBtn.text = "delete from my rides"
-            addToMyRidesBtn.setBackgroundColor(Color.RED)
+        decideAddOrDeleteBtn()
 
-        }else{
-            addToMyRidesBtn.text = "Add to my rides"
-            addToMyRidesBtn.setBackgroundColor(Color.GREEN)
-        }
-
-
-        addToMyRidesBtn.setOnClickListener {
-            if (!vm.fromMyRides){
-                addToRides()
-            }else{
-                deleteRides()
-            }
-
-        }
 
         val ride = vm.pressedRide.value
         if (ride != null) {
@@ -171,6 +112,78 @@ class DriversDetails : Fragment() {
 
 
         return aView
+    }
+
+    private fun decideAddOrDeleteBtn() {
+        if (vm.fromMyRides) {
+            addToMyRidesBtn.text = "delete from my rides"
+            addToMyRidesBtn.setBackgroundColor(Color.RED)
+
+        } else {
+            addToMyRidesBtn.text = "Add to my rides"
+            addToMyRidesBtn.setBackgroundColor(Color.GREEN)
+        }
+
+        addToMyRidesBtn.setOnClickListener {
+            if (!vm.fromMyRides){
+                addToRides()
+            }else{
+                deleteRides()
+            }
+
+        }
+
+    }
+
+
+
+    private fun addToRides(){
+        GlobalScope.launch(Dispatchers.IO) {
+            vm.pressedRide.value?.let { it1 ->
+                app.db.addRideToClientsRides(
+                    app.userDetails.clientUniqueID,
+                    it1
+                )
+            }
+            withContext(Dispatchers.Main) {
+                Toast.makeText(activity, R.string.addRideDialogToast, Toast.LENGTH_SHORT).show()
+
+                Navigation.findNavController(aView)
+                    .navigate(R.id.action_driversDetails_to_dashboard)
+            }
+        }
+    }
+
+
+    private fun deleteRides(){
+
+
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.deleteRideDialogTitle)
+            .setMessage(R.string.deleteRideDialogTxt)
+            .setIcon(R.drawable.ic_delete)
+            .setCancelable(false)
+            .setNegativeButton(android.R.string.no, null)
+            .setPositiveButton(android.R.string.yes) { _: DialogInterface, _: Int ->
+
+                GlobalScope.launch(Dispatchers.IO) {
+                    vm.pressedRide.value?.let { it1 ->
+                        app.db.deleteRideFromClientsRides(
+                            app.userDetails.clientUniqueID,
+                            it1
+                        )
+                    }
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(activity, R.string.deleteRideDialogToast, Toast.LENGTH_SHORT)
+                            .show()
+                        Navigation.findNavController(aView)
+                            .navigate(R.id.action_driversDetails_to_dashboard)
+                    }
+                }
+
+
+            }
+            .create().show()
     }
 
 }

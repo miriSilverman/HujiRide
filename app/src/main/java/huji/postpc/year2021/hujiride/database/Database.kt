@@ -260,4 +260,9 @@ class Database {
         }
     }
 
+    suspend fun deleteRideFromClientsRides(clientId: String, ride: Ride): Boolean{
+        println("miriiiiiiiiiiiiiiiiiiii")
+        return true
+    }
+
 }

@@ -38,6 +38,12 @@
     <string name="afterReportingBugText">Thanks for helping us \nimprove our app!</string>
     <string name="settingsTitle">Settings</string>
     <string name="hujiDest">HUJI</string>
+    <string name="deleteRideDialogTitle">Delete Ride From My Rides</string>
+    <string name="deleteRideDialogTxt">Are you sure you want to delete this ride from your rides list?</string>
+    <string name="deleteRideDialogToast">Ride has been deleted successfully</string>
+    <string name="addRideDialogToast">Ride was added successfully</string>
+    <string name="addRideBtnTxt">Add to my rides</string>
+    <string name="deleteRideBtnTxt">delete from my rides</string>
 
     <string-array name="sorting_list">
         <item>time</item>
