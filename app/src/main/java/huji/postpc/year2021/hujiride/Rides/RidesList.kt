@@ -38,7 +38,7 @@ class RidesList : Fragment() {
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
     private lateinit var addRideBtn : Button
-    private lateinit var applyBtn : Button
+    private lateinit var applyBtn : ImageButton
     private lateinit var sortACTV : AutoCompleteTextView
     private lateinit var filterACTV : AutoCompleteTextView
     private lateinit var ridesRecycler: RecyclerView
