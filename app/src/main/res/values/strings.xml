@@ -11,7 +11,7 @@
     <string name="hujirides">HujiRides</string>
     <string name="addNewGroupBtn">add new group</string>
     <string name="groupsTitle">GROUPS</string>
-    <string name="next_rides_title">Next Rides:</string>
+    <string name="next_rides_title">Next Rides</string>
     <string name="addNewRideBtn">add new \nride</string>
     <string name="sortDropDownHintText">sort according to</string>
     <string name="switchDirectionBtnText">switch direction</string>
@@ -21,8 +21,8 @@
     <string name="goToRidesListBtnText">ALL \nRIDES</string>
     <string name="driverBtnText">DRIVER</string>
     <string name="trampistBtnText">TRAMPIST</string>
-    <string name="searchRidesTitle">Search for Closest Rides:</string>
-    <string name="dashboardText">Your Next Rides:</string>
+    <string name="searchRidesTitle">Search Rides</string>
+    <string name="dashboardText">Your Rides</string>
     <string name="cancel_reg_dialog_body">"Are you sure you want to cancel your registration?\nAll the data will be deleted!"</string>
     <string name="cancel_reg_dialog_title">Cancel Registration?</string>
     <string name="yes">Yes</string>
@@ -34,7 +34,7 @@
     <string name="successful_onb_tip">Tap next to proceed to the app!</string>
     <string name="searchGroupTitle">Search for New Group:</string>
     <string name="addGroupBtnText">add\ngroups</string>
-    <string name="noRidesInTheNearFuture">You have no rides\nin the near future</string>
+    <string name="noRidesInTheNearFuture">Currently empty</string>
     <string name="afterReportingBugText">Thanks for helping us \nimprove our app!</string>
     <string name="settingsTitle">Settings</string>
     <string name="hujiDest">HUJI</string>
