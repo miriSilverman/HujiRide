@@ -1,11 +1,16 @@
 package huji.postpc.year2021.hujiride
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.widget.CompoundButton
+import android.widget.Switch
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
@@ -97,8 +102,8 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
             R.id.nav_settings ->
-                //settingPressed()
-                 supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, Settings()).commit()
+                 settingPressed()
+                 //supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, Settings()).commit()
             R.id.nav_about ->
                 aboutPressed()
                 //supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, About()).commit()
@@ -124,8 +129,60 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
     }
 
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
     private fun settingPressed()
     {
+
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(this)
+
+        val view = layoutInflater.inflate(R.layout.setting_alert_dialog, null)
+        val switchAllNotifications: Switch = view.findViewById(R.id.all_notifications)
+        val switchGroupsNotifications : Switch= view.findViewById(R.id.group_notifications)
+        val app = HujiRideApplication.getInstance()
+
+        //init
+        switchAllNotifications.isChecked = app.userDetails.allNotifications
+        switchGroupsNotifications.isChecked = app.userDetails.justGroupNotifications
+
+
+        switchAllNotifications.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+
+            if (b){
+                app.userDetails.allNotifications = true
+                app.userDetails.justGroupNotifications = false
+                switchGroupsNotifications.isChecked = false
+            }else{
+                app.userDetails.allNotifications = false
+            }
+            app.saveNotificationsState(app.userDetails.allNotifications, app.userDetails.justGroupNotifications);
+
+        //    Toast.makeText(this, "all: ${app.userDetails.allNotifications},\n groups: ${app.userDetails.justGroupNotifications}", Toast.LENGTH_SHORT).show()
+        })
+
+
+        switchGroupsNotifications.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+
+            if (b){
+                app.userDetails.allNotifications = false
+                app.userDetails.justGroupNotifications = true
+                switchAllNotifications.isChecked = false
+            }else{
+                app.userDetails.justGroupNotifications = false
+            }
+           // Toast.makeText(this, "all: ${app.userDetails.allNotifications},\n groups: ${app.userDetails.justGroupNotifications}", Toast.LENGTH_SHORT).show()
+            app.saveNotificationsState(app.userDetails.allNotifications, app.userDetails.justGroupNotifications);
+
+        })
+
+        builder.setPositiveButton("Done", DialogInterface.OnClickListener{d,m->
+            Toast.makeText(this, "changed!", Toast.LENGTH_SHORT).show()
+        })
+        builder.setView(view)
+        dialog = builder.create()
+        dialog.show()
+
+
 
     }
 
