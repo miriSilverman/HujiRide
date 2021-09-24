@@ -28,18 +28,18 @@ import huji.postpc.year2021.hujiride.database.Ride
 class RidesList : Fragment() {
 
     private lateinit var aView: View
-//    private lateinit var srcDestImg: ImageView
-//    private lateinit var switchDirectionBtn: Button
     private var toHuji: Boolean = true
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
-    private lateinit var sortAs: TextInputLayout
+    private lateinit var sortTIL: TextInputLayout
+    private lateinit var filterTIL: TextInputLayout
     private lateinit var adapter: RidesAdapter
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
     private lateinit var addRideBtn : Button
-    private lateinit var sort : AutoCompleteTextView
+    private lateinit var sortACTV : AutoCompleteTextView
+    private lateinit var filterACTV : AutoCompleteTextView
     private lateinit var ridesRecycler: RecyclerView
 
 
@@ -56,9 +56,13 @@ class RidesList : Fragment() {
     override fun onResume() {
         super.onResume()
         val sortItems = resources.getStringArray(R.array.sorting_list)
-        val arrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, sortItems)
+        val sortingArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, sortItems)
+        sortACTV.setAdapter(sortingArrayAdapter)
 
-        sort.setAdapter(arrayAdapter)
+        val filteredItems = resources.getStringArray(R.array.filtering_list)
+        val filterArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, filteredItems)
+        filterACTV.setAdapter(filterArrayAdapter)
+
     }
 
 
@@ -137,13 +141,13 @@ class RidesList : Fragment() {
     }
 
     private fun findViews() {
-        sort = aView.findViewById(R.id.autoCompleteTextView2)
+        sortACTV = aView.findViewById(R.id.autoCompleteTextView2)
+        filterACTV = aView.findViewById(R.id.autoCompleteFilter)
         addRideBtn = aView.findViewById(R.id.add_new_ride)
         img = aView.findViewById(R.id.no_rides_img)
         noRidesTxt = aView.findViewById(R.id.no_near_rides_txt)
-        sortAs = aView.findViewById(R.id.sort_as)
-//        srcDestImg = aView.findViewById(R.id.srcDestImg)
-//        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
+        sortTIL = aView.findViewById(R.id.sort_as)
+        filterTIL = aView.findViewById(R.id.filter)
         progressBar = aView.findViewById(R.id.rides_progress_bar)
         ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
     }
@@ -157,7 +161,8 @@ class RidesList : Fragment() {
         img.visibility = oneDirection
 
         ridesRecycler.visibility = secondDirection
-        sortAs.visibility = secondDirection
+        sortTIL.visibility = secondDirection
+        filterTIL.visibility = secondDirection
 //        switchDirectionBtn.visibility = secondDirection
 //        srcDestImg.visibility = secondDirection
 
