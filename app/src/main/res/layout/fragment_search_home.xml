@@ -13,6 +13,19 @@
         android:background="@color/white"
         tools:context=".SearchHome">
 
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/map_new" />
+
 
         <TextView
             android:id="@+id/title"
@@ -102,7 +115,7 @@
             android:id="@+id/just_for_padding"
             android:layout_width="15dp"
             android:layout_height="12dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="200dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/trampist_btn"
@@ -114,7 +127,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:text="from:  HUJI"
-            android:textSize="25sp"
+            android:fontFamily="@font/fredoka_one"
+            android:textAlignment="center"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/switchDirectionBtn"
@@ -126,7 +141,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:text="to:  HUJI"
-            android:textSize="25sp"
+            android:fontFamily="@font/fredoka_one"
+            android:textAlignment="center"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/src_huji"
