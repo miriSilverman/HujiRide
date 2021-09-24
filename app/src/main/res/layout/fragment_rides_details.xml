@@ -11,19 +11,34 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         tools:context=".Rides.RidesDetails">
 
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/notebook" />
 
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="58dp"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="@string/ridesDetailsTitle"
             android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintHorizontal_bias="0.532"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,9 +46,9 @@
             android:id="@+id/source"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="From: huji"
-            android:textSize="25dp"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -42,37 +57,37 @@
             android:id="@+id/destination"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="To: Pisgat Zeev"
-            android:textSize="25sp"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/source" />
-
 
         <TextView
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="Leaving Hour: 12:30"
-            android:textSize="25sp"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.526"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/destination" />
-
 
         <TextView
             android:id="@+id/comments"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="Comments: no babies"
-            android:textSize="25sp"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.556"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/time" />
 
@@ -80,9 +95,10 @@
             android:id="@+id/contact_driver_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="80dp"
             android:text="@string/contactTheDriverBtnText"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comments" />
 
@@ -90,8 +106,8 @@
             android:id="@+id/back_to_groups"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="72dp"
-            android:layout_marginTop="56dp"
+            android:layout_marginStart="76dp"
+            android:layout_marginTop="96dp"
             android:text="@string/backToGroupsBtnText"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/contact_driver_btn" />
@@ -100,7 +116,7 @@
             android:id="@+id/back_to_closest_rides"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="96dp"
             android:layout_marginEnd="60dp"
             android:text="@string/goToRidesListBtnText"
             app:layout_constraintEnd_toEndOf="parent"
@@ -127,11 +143,11 @@
             android:text="Share Ride"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.918"
             app:layout_constraintStart_toStartOf="parent"
 
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.186" />
+            app:layout_constraintVertical_bias="0.599" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
