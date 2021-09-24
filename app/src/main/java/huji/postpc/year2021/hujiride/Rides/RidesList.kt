@@ -38,6 +38,7 @@ class RidesList : Fragment() {
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
     private lateinit var addRideBtn : Button
+    private lateinit var applyBtn : Button
     private lateinit var sortACTV : AutoCompleteTextView
     private lateinit var filterACTV : AutoCompleteTextView
     private lateinit var ridesRecycler: RecyclerView
@@ -108,6 +109,16 @@ class RidesList : Fragment() {
         }
 
 
+//        applyBtn.setOnClickListener {
+//
+//            dbRidesArr.filter { ride: Ride ->
+//                ride.isDestinationHuji
+//            }
+//            adapter.setRidesList(dbRidesArr)
+//            adapter.notifyDataSetChanged()
+//        }
+
+
         GlobalScope.launch(Dispatchers.IO) {
             val group = curGroup.value?.name
             var groupsName: String? = null
@@ -121,6 +132,7 @@ class RidesList : Fragment() {
                 app.db.getRidesListOfGroup(groupsName)
 
             }
+
 
             adapter.setRidesList(dbRidesArr)
 
@@ -150,6 +162,8 @@ class RidesList : Fragment() {
         filterTIL = aView.findViewById(R.id.filter)
         progressBar = aView.findViewById(R.id.rides_progress_bar)
         ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
+        applyBtn = aView.findViewById(R.id.apply_btn)
+
     }
 
     private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean, progressbarVis: Int){
@@ -163,6 +177,7 @@ class RidesList : Fragment() {
         ridesRecycler.visibility = secondDirection
         sortTIL.visibility = secondDirection
         filterTIL.visibility = secondDirection
+        applyBtn.visibility = secondDirection
 //        switchDirectionBtn.visibility = secondDirection
 //        srcDestImg.visibility = secondDirection
 
