@@ -46,7 +46,8 @@ class Database {
             clients.document(uniqueID).set(mapOf(
                 FIELD_FIRSTNAME to firstName,
                 FIELD_LASTNAME to lastName,
-                FIELD_PHONENUMBER to phoneNumber
+                FIELD_PHONENUMBER to phoneNumber,
+                FIELD_IS_AUTH to true,
             ), SetOptions.merge()).await()
             return true
         } catch (e: Exception) {
@@ -66,18 +67,6 @@ class Database {
 
 
     suspend fun registerClientToGroup(clientUniqueID: String, groupID: String): Boolean {
-        // TODO: Validate Group ID
-//        val client: Client? = findClient(clientUniqueID)
-//        if (client == null) {
-//            return false
-//        } else {
-//            if (client.registeredGroups.contains(groupID)) { // if already has it, don't add again!
-//                return true
-//            }
-//            client.registeredGroups.add(groupID)
-//            clients.document(clientUniqueID).set(client).await()
-//            return true
-//        }
         try {
             clients.document(clientUniqueID)
                 .update(mapOf(FIELD_REGISTERED_GROUPS to FieldValue.arrayUnion(groupID))).await()
