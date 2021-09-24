@@ -1,6 +1,7 @@
 package huji.postpc.year2021.hujiride.database
 
 import com.google.firebase.Timestamp
+import com.google.gson.Gson
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -29,6 +30,15 @@ data class Ride (
     val geoHash: String = "",
     var id: String = "",
     @JvmField val isDestinationHuji: Boolean = true  // when true, this ride is TO HUJI. when false, this ride is FROM HUJI.
-)
+) {
+
+}
+
+val gson = Gson()
+
+fun Map<String, Any>.toRide() : Ride {
+    val json = gson.toJson(this)
+    return gson.fromJson(json, Ride::class.java)
+}
 
 val FIELD_GEO_HASH = "geoHash"

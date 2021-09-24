@@ -73,7 +73,8 @@ class MainActivity : AppCompatActivity() {
 //            db.addRide(a, "YAIR TEST", "0")
 //            db.addRide(bRide, "YAIR TEST", "0")
             p("added rides!")
-            val r = db.getRidesListOfGroup(null).map {i -> "${i.time}"}
+//            val r = db.getRidesListOfGroup(null).map {i -> "${i.time}"}
+            val r = db.getRidesOfClient("13cf1a6a-aba8-416e-9e00-03840f96fb4d")
             p("Rides: $r")
         }
     }

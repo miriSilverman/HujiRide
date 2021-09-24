@@ -9,11 +9,14 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.getField
+import com.google.type.LatLng
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
+import kotlin.reflect.typeOf
 
 class Database {
     private val TAG = "Database"
@@ -212,18 +215,22 @@ class Database {
 
 
     private suspend fun fetchRides(rides: ArrayList<DocumentReference>) = coroutineScope {
-        val deferreds = rides.map { ref -> async { ref.get().await().toObject(Ride::class.java) } }
-        return@coroutineScope deferreds.awaitAll()
+        val deferreds = rides.map { ref ->
+            async {
+                ref.get().await()
+            }
+        }
+        return@coroutineScope deferreds.awaitAll().mapNotNull { doc -> doc.toObject(Ride::class.java) }
     }
 
     /**
      * returns the list of all the rides that the client has signed up for
      */
     suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
-        val refRides = clients.document(clientUniqueID).get().await().get(FIELD_CLIENTS_RIDES) as ArrayList<DocumentReference>? ?: ArrayList()
-
-        return arrayListOf()
-//        return ArrayList(fetchRides(refRides).filterNotNull()).filterActiveRides()
+        var refRides = (clients.document(clientUniqueID).get().await()?.get(FIELD_CLIENTS_RIDES)) as List<*>?
+        refRides = refRides.orEmpty().map { rr -> (rr as Map<String, Any>).toRide() }
+        return ArrayList(refRides).filterActiveRides()
+//        return ArrayList()
     }
 
 
@@ -238,7 +245,6 @@ class Database {
 
     suspend fun addRideToClientsRides(clientId: String, ride: Ride): Boolean{
         try {
-            // todo : check with id if ride was already added - then dont add again
             clients.document(clientId)
                 .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayUnion(ride))).await()
         } catch (e: Exception) {
