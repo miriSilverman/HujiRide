@@ -122,7 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/sort_as"
+            app:layout_constraintTop_toBottomOf="@+id/apply_btn"
             tools:layout_editor_absoluteX="120dp"
             tools:layout_editor_absoluteY="114dp" />
 
@@ -169,6 +169,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/apply_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            tools:layout_editor_absoluteX="136dp"
+            tools:layout_editor_absoluteY="220dp"
+            app:layout_constraintTop_toBottomOf="@id/sort_as"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
