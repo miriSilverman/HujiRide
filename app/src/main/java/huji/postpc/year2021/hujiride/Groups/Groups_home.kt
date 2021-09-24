@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,7 @@ class GroupsHome : Fragment() {
     private lateinit var aView: View
     private lateinit var searchNewGroupBtn: Button
     private lateinit var groupRecyclerView: RecyclerView
+    private lateinit var adapter: GroupsAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,7 +75,8 @@ class GroupsHome : Fragment() {
         }
 
 
-        val adapter = GroupsAdapter()
+        adapter = GroupsAdapter()
+        adapter.setContext(requireActivity())
         val groupsRecycler: RecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
@@ -93,6 +96,10 @@ class GroupsHome : Fragment() {
                         .navigate(R.id.action_groups_home_to_ridesList)
                 }
                 adapter.onDeleteIconCallback = { group: String ->
+
+//                    deleteGroup(clientId, group)
+
+
                     GlobalScope.launch(Dispatchers.IO) {
                         app.db.unregisterClientToGroup(clientId, group)
                         adapter.setGroupsList(app.db.getGroupsOfClient(clientId))
@@ -115,4 +122,8 @@ class GroupsHome : Fragment() {
 
 
 
+
 }
+
+
+

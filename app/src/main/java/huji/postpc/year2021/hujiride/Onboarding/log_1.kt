@@ -43,16 +43,18 @@ class log_1 : BaseOnbaordingFragment(R.layout.fragment_log_1, R.id.action_log_1_
     }
 
     override fun onClickNext(): Boolean {
-        val firstName = firstNameInput
-        val lastName = lastNameInput
+//        val firstName = firstNameInput
+//        val lastName = lastNameInput
+        val firstName = "Miri"
+        val lastName = "Silverman"
         if (!validateFirstName(firstName) && !viewModel.bypassValidation) {
             alertInvalidFirstName()
             println("${viewModel.bypassValidation}  ${!validateFirstName(firstName) || viewModel.bypassValidation}")
-            return false
+            return true  // todo: change to false
         }
         if (!validateLastName(lastName) && !viewModel.bypassValidation) {
             alertInvalidLastName()
-            return false
+            return true // todo: change to false
         }
 
 

@@ -44,6 +44,8 @@
     <string name="addRideDialogToast">Ride was added successfully</string>
     <string name="addRideBtnTxt">Add to my rides</string>
     <string name="deleteRideBtnTxt">delete from my rides</string>
+    <string name="unregisterGroupDialogTitle">Unregister to Group</string>
+    <string name="unregisterGroupDialogTxt">Are you sure you want to unregister to group?</string>
 
     <string-array name="sorting_list">
         <item>time</item>
