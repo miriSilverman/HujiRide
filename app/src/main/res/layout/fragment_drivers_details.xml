@@ -10,21 +10,34 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white"
         tools:context=".DriversDetails">
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            app:srcCompat="@drawable/notebook" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
-            android:background="@color/teal_200"
-            android:fontFamily="@font/fredoka_one"
-            android:text="Driver's Details:"
-            android:textSize="50dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/annie_use_your_telescope"
+            android:text="Driver Details"
+            android:textAlignment="center"
+            android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,39 +45,38 @@
             android:id="@+id/first_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@color/teal_200"
-            android:fontFamily="@font/fredoka_one"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="Sara"
-            android:textSize="25dp"
+            android:textAlignment="center"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
+
 
         <TextView
             android:id="@+id/last_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@color/teal_200"
-            android:fontFamily="@font/fredoka_one"
+            android:layout_marginBottom="28dp"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="Cohen"
-            android:textSize="25dp"
+            android:textAlignment="center"
+            android:textSize="34sp"
+            app:layout_constraintBottom_toTopOf="@+id/phone_num"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/first_name" />
-
 
         <TextView
             android:id="@+id/phone_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
-            android:background="@color/teal_200"
-            android:fontFamily="@font/fredoka_one"
+            android:fontFamily="@font/annie_use_your_telescope"
             android:text="0546985252"
-            android:textSize="25dp"
+            android:textAlignment="center"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +107,7 @@
             android:id="@+id/just_for_padding"
             android:layout_width="15dp"
             android:layout_height="12dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="260dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/back_to_closest_rides"
