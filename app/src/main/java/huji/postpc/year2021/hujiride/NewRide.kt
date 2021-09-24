@@ -1,8 +1,6 @@
 package huji.postpc.year2021.hujiride
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.TimePickerDialog
+import android.app.*
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -22,8 +20,8 @@ import java.util.*
 import android.widget.RadioButton
 
 import android.content.DialogInterface
+import android.graphics.drawable.ColorDrawable
 
-import android.app.AlertDialog
 import android.util.Log
 
 import android.widget.EditText
@@ -47,6 +45,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
 
 
@@ -57,21 +56,20 @@ class NewRide : Fragment() {
 
     private lateinit var aView: View
     private lateinit var timerTextView: TextView
+    private lateinit var dateTextView: TextView
     private lateinit var commentsTextView: TextView
     private var timeHour: Int = 0
     private var timeMinutes: Int = 0
-
     private lateinit var srcET: AutocompleteSupportFragment
     private lateinit var destET: AutocompleteSupportFragment
     private lateinit var destTextView: TextView
     private lateinit var srcTextView: TextView
+    private var timeFormat = ""
     private var srcOrDestStr = ""
     private var latLng: LatLng = LatLng(0.0, 0.0)
 
 
-//    private lateinit var srcET: EditText
-//    private lateinit var destET: EditText
-    private lateinit var comments: kotlin.collections.ArrayList<String>
+    private lateinit var comments: ArrayList<String>
     private var otherComment = ""
 
     private var checkedComments : ArrayList<Boolean> = arrayListOf(false, false, false, false, false, false)
@@ -80,6 +78,11 @@ class NewRide : Fragment() {
     private var toHuji: Boolean = true
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
+    private var year: Int = 0
+    private var month: Int = 0
+    private var day: Int = 0
+    private lateinit var dateListener :DatePickerDialog.OnDateSetListener
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,6 +117,10 @@ class NewRide : Fragment() {
         app = HujiRideApplication.getInstance()
         srcOrDestStr = vm.srcOrDest
         latLng = vm.latLng
+        val calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
         findViews()
 
 
@@ -130,6 +137,27 @@ class NewRide : Fragment() {
 
         timerTextView.setOnClickListener {
             timeDialog()
+        }
+
+        dateListener = DatePickerDialog.OnDateSetListener(){
+                datePicker: DatePicker, aYear: Int, aMonth: Int, dayOfMonth: Int ->
+            val m = aMonth + 1
+            val date = "$dayOfMonth/$m/$aYear"
+            dateTextView.setText(date)
+            day = dayOfMonth
+            year = aYear
+            month = aMonth
+
+        }
+
+        dateTextView.setOnClickListener {
+            val picker = DatePickerDialog(
+                requireActivity(), android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+                dateListener, year, month, day
+            )
+
+            picker.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            picker.show()
         }
 
         commentsTextView.setOnClickListener{
@@ -186,15 +214,6 @@ class NewRide : Fragment() {
         })
     }
 
-    private fun getIdOfGroup(groupName: String) :String{
-        val allGroups = app.jerusalemNeighborhoods
-        for (pair in allGroups){
-            if (pair.value.equals(groupName)){
-                return pair.key
-            }
-        }
-        return ""
-    }
 
 
     private fun onPressedAddNewRide() {
@@ -224,13 +243,6 @@ class NewRide : Fragment() {
     }
 
 
-    private fun getEditableET() : AutocompleteSupportFragment{
-        return if (toHuji){
-            srcET
-        }else{
-            destET
-        }
-    }
 
 
     private fun getSrcOrDestStr() : String{
@@ -246,12 +258,13 @@ class NewRide : Fragment() {
 
 
     private fun validateAllFields(): Boolean{
-        val et = getEditableET()
-        // todo: validate
-//        if (et.text.isEmpty()){
-//            Toast.makeText(activity, "you must fill ${getSrcOrDestStr()}",  Toast.LENGTH_SHORT).show()
-//            return false
-//        }
+        if (srcOrDestStr == ""){
+            Toast.makeText(activity, "you must fill ${getSrcOrDestStr()}",  Toast.LENGTH_SHORT).show()
+            return false
+        }else if (timeFormat == ""){
+            Toast.makeText(activity, "you must fill time",  Toast.LENGTH_SHORT).show()
+            return false
+        }
         return true
     }
 
@@ -290,11 +303,10 @@ class NewRide : Fragment() {
         destET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_dest)
                 as AutocompleteSupportFragment
 
-     //   stops = aView.findViewById(R.id.autoCompleteStops)
-       // comments = aView.findViewById(R.id.autoCompleteComments)
         commentsTextView = aView.findViewById(R.id.comments_edit_btn)
         timerTextView = aView.findViewById(R.id.time_edit_btn)
         srcDestImg = aView.findViewById(R.id.srcDestImg)
+        dateTextView = aView.findViewById(R.id.date_edit_btn)
         switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
         srcTextView = aView.findViewById(R.id.src_huji)
         destTextView = aView.findViewById(R.id.dest_huji)
@@ -307,12 +319,15 @@ class NewRide : Fragment() {
         c.time = d
         c.set(Calendar.HOUR_OF_DAY, timeHour)
         c.set(Calendar.MINUTE, timeMinutes)
+        c.set(Calendar.YEAR, year)
+        c.set(Calendar.MONTH, month)
+        c.set(Calendar.DAY_OF_MONTH, day)
         val t = Timestamp(c.time)
 
         return Ride(
-            time="$timeHour : $timeMinutes",
-            timeStamp=t,
-            stops = ArrayList<String>(),
+            time= timeFormat,
+            timeStamp= t,
+            stops = ArrayList(),
             comments = comments,
             driverID = app.userDetails.clientUniqueID,
             destName = srcOrDestStr,
@@ -332,8 +347,11 @@ class NewRide : Fragment() {
                     timeMinutes = minutes
                     val calendar = Calendar.getInstance()
                     calendar.set(0, 0, 0, timeHour, timeMinutes)
-                    //                    timerTextView!!.setText(DateFormat("HH:MM aa", calendar))
-                    timerTextView.text = "Leaving at $timeHour : $timeMinutes"
+
+                    val timeFrm = SimpleDateFormat("HH:mm")
+                    val format = timeFrm.format(calendar.time)
+                    timeFormat = format
+                    timerTextView.text = "Leaving at $format"
                 }, 12, 0, false
             )
 

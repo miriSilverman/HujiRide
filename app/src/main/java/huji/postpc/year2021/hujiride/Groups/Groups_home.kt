@@ -9,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +30,12 @@ import kotlinx.coroutines.withContext
  */
 class GroupsHome : Fragment() {
     private lateinit var app: HujiRideApplication
+    private lateinit var progressBar: ProgressBar
+    private lateinit var aView: View
+    private lateinit var searchNewGroupBtn: Button
+    private lateinit var groupRecyclerView: RecyclerView
+    private lateinit var adapter: GroupsAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,30 +43,48 @@ class GroupsHome : Fragment() {
         }
     }
 
+
+    private fun findViews() {
+        progressBar = aView.findViewById(R.id.groups_progress_bar)
+        searchNewGroupBtn = aView.findViewById(R.id.search_new_group_btn)
+        groupRecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
+    }
+
+    private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
+        progressBar.visibility = oneDirection
+        groupRecyclerView.visibility = secondDirection
+        searchNewGroupBtn.isEnabled = btnState
+    }
+
+
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_groups_home, container, false)
+        aView = inflater.inflate(R.layout.fragment_groups_home, container, false)
+        findViews()
+        setVisibility(View.VISIBLE, View.INVISIBLE, false)
+
         app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        vm.fromMyRides = false
         val clientId = app.userDetails.clientUniqueID
-        view.findViewById<Button>(R.id.search_new_group_btn).setOnClickListener {
-
-
-            Navigation.findNavController(view).navigate(R.id.action_groups_home_to_searchGroup)
+        searchNewGroupBtn.setOnClickListener {
+            Navigation.findNavController(aView).navigate(R.id.action_groups_home_to_searchGroup)
         }
 
 
-        val adapter = GroupsAdapter()
-        val groupsRecycler: RecyclerView = view.findViewById(R.id.groups_list_recyclerView)
+        adapter = GroupsAdapter()
+        adapter.setContext(requireActivity())
+        val groupsRecycler: RecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
         GlobalScope.launch(Dispatchers.IO) {
             val groupsList = app.db.getGroupsOfClient(clientId)
             withContext(Dispatchers.Main) {
                 adapter.setGroupsList(groupsList)
+                setVisibility(View.INVISIBLE, View.VISIBLE, true)
                 adapter.notifyDataSetChanged()
 
                 groupsRecycler.adapter = adapter
@@ -66,10 +92,11 @@ class GroupsHome : Fragment() {
 
                 adapter.onItemClickCallback = { group: String ->
                     vm.pressedGroup.value = SearchGroupItem(group, true)
-                    Navigation.findNavController(view)
+                    Navigation.findNavController(aView)
                         .navigate(R.id.action_groups_home_to_ridesList)
                 }
                 adapter.onDeleteIconCallback = { group: String ->
+
                     GlobalScope.launch(Dispatchers.IO) {
                         app.db.unregisterClientToGroup(clientId, group)
                         adapter.setGroupsList(app.db.getGroupsOfClient(clientId))
@@ -86,24 +113,14 @@ class GroupsHome : Fragment() {
         }
 
 
-//        activity?.let {
-//            groupsData.liveDataGroups.observe(it, { groupsList ->
-//                adapter.notifyDataSetChanged()
-//            })
-//        }
 
-        return view
+        return aView
     }
 
-    private fun getIdOfGroup(groupName: String): String {
-        val allGroups = app.jerusalemNeighborhoods
-        for (pair in allGroups) {
-            if (pair.value.equals(groupName)) {
-                return pair.key
-            }
-        }
-        return ""
-    }
+
 
 
 }
+
+
+

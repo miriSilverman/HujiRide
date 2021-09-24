@@ -42,15 +42,19 @@ class log_2 : BaseOnbaordingFragment(R.layout.fragment_log_2, R.id.action_log_2_
     }
 
     override fun onClickNext(): Boolean {
-        val phoneNumber = phoneNumberInput
-        val idNumber = idNumberInput
+//        val phoneNumber = phoneNumberInput
+//        val idNumber = idNumberInput
+
+        val phoneNumber = "0543497173"
+        val idNumber = "318590692"
+
         if (!validatePhoneNumber(phoneNumber) && !viewModel.bypassValidation) {
             alertInvalidPhoneNumber()
-            return false
+            return true  // todo: chage to false
         }
         if (!validateID(idNumber) && !viewModel.bypassValidation) {
             alertInvalidID()
-            return false
+            return true // todo: chage to false
         }
 
         //TODO: MIRIS

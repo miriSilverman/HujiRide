@@ -17,4 +17,6 @@ class RidesViewModel: ViewModel() {
     var toHuji: Boolean = true
     var srcOrDest: String = ""
 
+    var fromMyRides :Boolean = true
+
 }

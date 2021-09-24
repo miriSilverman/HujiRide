@@ -1,6 +1,9 @@
 package huji.postpc.year2021.hujiride.Groups
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -10,7 +13,6 @@ import huji.postpc.year2021.hujiride.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
@@ -20,19 +22,24 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
     var onItemClickCallback: ((String)->Unit)? = null
     var onDeleteIconCallback: ((String)->Unit)? = null
+    private lateinit var activityForContext: Context
+
 
 
     @SuppressLint("NotifyDataSetChanged")
     fun setGroupsList(list: ArrayList<String>){
         clientsGroupsList = list
-//        notifyDataSetChanged()
+    }
+
+    fun setContext(context: Context){
+        activityForContext = context
     }
 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        val contex = parent.context
-        val view = LayoutInflater.from(contex).inflate(R.layout.group_item, parent, false)
+        val context = parent.context
+        val view = LayoutInflater.from(context).inflate(R.layout.group_item, parent, false)
         app = HujiRideApplication.getInstance()
 
         val clientId = app.userDetails.clientUniqueID
@@ -46,16 +53,12 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
         view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
             val callback = onDeleteIconCallback?: return@setOnClickListener
-            GlobalScope.launch (Dispatchers.IO) {
-                val groupsList = app.db.getGroupsOfClient(clientId)
-                val group = groupsList?.get(holder.adapterPosition)
-                group?.let { it1 -> callback(it1) }
-            }
+            deleteGroup(clientId, holder, callback)
         }
         return holder
     }
 
-    fun getGroupsName(id: String) : String?{
+    private fun getGroupsName(id: String) : String?{
         return app.jerusalemNeighborhoods[id]
     }
 
@@ -76,4 +79,32 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     override fun getItemCount(): Int {
         return clientsGroupsList.size
     }
+
+
+    private fun deleteGroup(clientId: String, holder: GroupViewHolder, callback: ((String)->Unit)?){
+
+
+        AlertDialog.Builder(activityForContext) // todo: maybe change to activity context
+            .setTitle(R.string.unregisterGroupDialogTitle)
+            .setMessage(R.string.unregisterGroupDialogTxt)
+            .setIcon(R.drawable.ic_delete)
+            .setCancelable(false)
+            .setNegativeButton(android.R.string.no, null)
+            .setPositiveButton(android.R.string.yes) { _: DialogInterface, _: Int ->
+
+                GlobalScope.launch (Dispatchers.IO) {
+                    val groupsList = app.db.getGroupsOfClient(clientId)
+                    val group = groupsList?.get(holder.adapterPosition)
+                    group?.let { it1 ->
+                        if (callback != null) {
+                            callback(it1)
+                        }
+                    }
+                }
+
+            }
+            .create().show()
+    }
+
+
 }

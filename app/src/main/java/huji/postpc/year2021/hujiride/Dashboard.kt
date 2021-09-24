@@ -6,9 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +17,7 @@ import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 /**
@@ -31,7 +30,10 @@ class Dashboard : Fragment() {
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
     private lateinit var titleTxt: TextView
-    private lateinit var app : HujiRideApplication
+    private lateinit var app: HujiRideApplication
+    private lateinit var progressBar: ProgressBar
+    private lateinit var ridesRecycler: RecyclerView
+    private lateinit var vm: RidesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,36 +43,6 @@ class Dashboard : Fragment() {
     }
 
 
-//    suspend fun convertSingleDbRideToAppRide(dbRide: DbRide) : Ride?{
-//        var src = "HUJI"
-//        var dest = "HUJI"
-//        if (dbRide.isDestinationHuji){
-//            src = dbRide.destName
-//        }else{
-//            dest = dbRide.destName
-//        }
-//        val driver = app.db.findClient(dbRide.driverID.toString())
-//
-//        if (driver != null) {
-//            return Ride(src, dest, dbRide.time, dbRide.stops,
-//                dbRide.comments, driver.firstName,driver.lastName,
-//                driver.phoneNumber, dbRide.isDestinationHuji)
-//        }
-//        return null
-//    }
-//
-//
-//
-//    suspend fun convertDbRidesToAppRides(dbRides: ArrayList<DbRide>): ArrayList<Ride>{
-//        val list : ArrayList<Ride> = arrayListOf()
-//        for (dbRide in dbRides){
-//            val appRide = convertSingleDbRideToAppRide(dbRide)
-//            if (appRide != null) {
-//                list.add(appRide)
-//            }
-//        }
-//        return list
-//    }
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
@@ -78,10 +50,12 @@ class Dashboard : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         aView = inflater.inflate(R.layout.fragment_dashboard, container, false)
+        vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        findViews()
+        setVisibility(View.INVISIBLE, View.INVISIBLE, View.VISIBLE)
         app = HujiRideApplication.getInstance()
-        img = aView.findViewById<ImageView>(R.id.no_rides_img)
-        noRidesTxt = aView.findViewById<TextView>(R.id.no_near_rides_txt)
-        titleTxt = aView.findViewById<TextView>(R.id.title_next_rides)
+        vm.fromMyRides = true
+
         adapter = MyRidesAdapter()
         val clientId = app.userDetails.clientUniqueID
 
@@ -91,44 +65,53 @@ class Dashboard : Fragment() {
 
             adapter.setClientsRides(rides)
             adapter.notifyDataSetChanged()
-        }
+            withContext(Dispatchers.Main) {
+                if (adapter.itemCount == 0) {
+                    noNearRidesCase()
+                } else {
+                    thereAreRidesCase()
+                }
+            }
 
-
-
-        if (adapter.itemCount == 0){
-            noNearRidesCase()
-        }else{
-            thereAreRidesCase()
         }
 
         return aView
     }
 
+    private fun findViews() {
+        img = aView.findViewById(R.id.no_rides_img)
+        noRidesTxt = aView.findViewById(R.id.no_near_rides_txt)
+        titleTxt = aView.findViewById(R.id.title_next_rides)
 
-    private fun noNearRidesCase(){
+        progressBar = aView.findViewById(R.id.rides_progress_bar)
+        ridesRecycler = aView.findViewById(R.id.my_rides_recycler)
+    }
 
-        img.visibility = View.VISIBLE
-        noRidesTxt.visibility = View.VISIBLE
-        titleTxt.visibility = View.INVISIBLE
+    private fun setVisibility(oneDirection: Int, secondDirection: Int, progressbarVis: Int) {
+        noRidesTxt.visibility = oneDirection
+        img.visibility = oneDirection
 
+        ridesRecycler.visibility = secondDirection
+
+        progressBar.visibility = progressbarVis
     }
 
 
-    private fun thereAreRidesCase(){
 
-        img.visibility = View.INVISIBLE
-        noRidesTxt.visibility = View.INVISIBLE
-        titleTxt.visibility = View.VISIBLE
-
+    private fun noNearRidesCase() {
+        setVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
+    }
 
 
-        val ridesRecycler: RecyclerView = aView!!.findViewById(R.id.my_rides_recycler)
+    private fun thereAreRidesCase() {
+        setVisibility(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
+
+        val ridesRecycler: RecyclerView = aView.findViewById(R.id.my_rides_recycler)
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
-        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
-        adapter.onItemClickCallback = {ride: Ride ->
+        adapter.onItemClickCallback = { ride: Ride ->
             vm.pressedRide.value = ride
             Navigation.findNavController(aView).navigate(R.id.action_dashboard_to_ridesDetails)
         }
