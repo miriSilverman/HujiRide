@@ -48,6 +48,8 @@
     <string name="unregisterGroupDialogTxt">Are you sure you want to unregister to group?</string>
     <string name="filterDropDownTitle">Filter</string>
     <string name="join_group">Join Group</string>
+    <string name="add_new_ride">Add new Ride</string>
+    <string name="contact_driver">contact driver</string>
 
     <string-array name="sorting_list">
         <item>time</item>
