@@ -97,9 +97,6 @@ class GroupsHome : Fragment() {
                 }
                 adapter.onDeleteIconCallback = { group: String ->
 
-//                    deleteGroup(clientId, group)
-
-
                     GlobalScope.launch(Dispatchers.IO) {
                         app.db.unregisterClientToGroup(clientId, group)
                         adapter.setGroupsList(app.db.getGroupsOfClient(clientId))

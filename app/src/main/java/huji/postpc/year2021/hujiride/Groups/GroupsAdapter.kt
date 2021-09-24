@@ -13,7 +13,6 @@ import huji.postpc.year2021.hujiride.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
@@ -39,8 +38,8 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        val contex = parent.context
-        val view = LayoutInflater.from(contex).inflate(R.layout.group_item, parent, false)
+        val context = parent.context
+        val view = LayoutInflater.from(context).inflate(R.layout.group_item, parent, false)
         app = HujiRideApplication.getInstance()
 
         val clientId = app.userDetails.clientUniqueID
@@ -59,7 +58,7 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         return holder
     }
 
-    fun getGroupsName(id: String) : String?{
+    private fun getGroupsName(id: String) : String?{
         return app.jerusalemNeighborhoods[id]
     }
 

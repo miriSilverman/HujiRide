@@ -1,6 +1,7 @@
 package huji.postpc.year2021.hujiride.Rides
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.icu.text.MessageFormat.format
 import android.os.Bundle
 import android.text.format.DateFormat.format
@@ -33,6 +34,7 @@ class RidesDetails : Fragment() {
     private lateinit var backToRidesBtn: Button
     private lateinit var backToGroupsBtn: Button
     private lateinit var contactDriverBtn: Button
+    private lateinit var shareRideBtn: Button
 
     private lateinit var srcTV: TextView
     private lateinit var destTV: TextView
@@ -51,6 +53,7 @@ class RidesDetails : Fragment() {
         backToRidesBtn = aView.findViewById(R.id.back_to_closest_rides)
         backToGroupsBtn = aView.findViewById(R.id.back_to_groups)
         contactDriverBtn = aView.findViewById(R.id.contact_driver_btn)
+        shareRideBtn = aView.findViewById(R.id.share_ride_btn)
 
         srcTV = aView.findViewById(R.id.source)
         destTV = aView.findViewById(R.id.destination)
@@ -88,6 +91,9 @@ class RidesDetails : Fragment() {
         }
 
 
+
+
+
         val ride = vm.pressedRide.value
         if (ride != null){
 
@@ -117,9 +123,32 @@ class RidesDetails : Fragment() {
             {
                 comments += "\n"+s
             }
-            commentsTV.text = comments
+            if (comments != ""){
+                commentsTV.text = comments
+            }
+
+
+            shareRideBtn.setOnClickListener {
+                val intent = Intent(Intent.ACTION_SEND)
+                intent.setType("text/plain")
+                val body = "Sharing a ride with you"
+                var commentMsg = ""
+                if (comments != ""){
+                    commentMsg = "Please be aware of the following things:$comments"
+                }
+                val sub = "Hi!\nYou might be interested in this ride:\n\n" +
+                        "Its going to be at ${timeFrm.format(dt)}  at  ${datFrm.format(dt)}\n\n" +
+                        "From ${src} to ${dest}\n\n" +
+                        "${commentMsg}\n\n" +
+                        "You are welcome to download the HujiRides in the following link\n" +
+                        " http://play.google.com" //todo: change to real link
+                intent.putExtra(Intent.EXTRA_TEXT, body)
+                intent.putExtra(Intent.EXTRA_TEXT, sub)
+                startActivity(Intent.createChooser(intent, "Share using"))
+            }
 
         }
+
 
         return aView
     }
