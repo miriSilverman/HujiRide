@@ -46,10 +46,16 @@
     <string name="deleteRideBtnTxt">delete from my rides</string>
     <string name="unregisterGroupDialogTitle">Unregister to Group</string>
     <string name="unregisterGroupDialogTxt">Are you sure you want to unregister to group?</string>
+    <string name="filterDropDownTitle">Filter</string>
 
     <string-array name="sorting_list">
         <item>time</item>
         <item>src and dest</item>
+    </string-array>
+
+    <string-array name="filtering_list">
+        <item>source to Huji</item>
+        <item>Huji to destination</item>
     </string-array>
 
     <string-array name="stops_list">

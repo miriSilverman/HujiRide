@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchDirectionBtn"
+            app:layout_constraintTop_toBottomOf="@+id/filter"
             app:startIconDrawable="@drawable/ic_baseline_sort_24">
 
             <AutoCompleteTextView
@@ -63,31 +63,58 @@
                 android:inputType="none"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
-                android:text="src and dest" />
+                android:text="choose ..." />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/filter"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="60dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="100dp"
+            android:hint="@string/filterDropDownTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/title"
+            app:startIconDrawable="@drawable/ic_baseline_sort_24">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="none"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="all" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
 
-        <ImageView
-            android:id="@+id/srcDestImg"
-            android:layout_width="128dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="28dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:srcCompat="@drawable/resource_switch" />
+<!--        <ImageView-->
+<!--            android:id="@+id/srcDestImg"-->
+<!--            android:layout_width="128dp"-->
+<!--            android:layout_height="64dp"-->
+<!--            android:layout_marginTop="28dp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/title"-->
+<!--            app:srcCompat="@drawable/resource_switch" />-->
 
-        <Button
-            android:id="@+id/switchDirectionBtn"
-            android:layout_width="125dp"
-            android:layout_height="33dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/switchDirectionBtnText"
-            android:textSize="8sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/srcDestImg" />
+<!--        <Button-->
+<!--            android:id="@+id/switchDirectionBtn"-->
+<!--            android:layout_width="125dp"-->
+<!--            android:layout_height="33dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:text="@string/switchDirectionBtnText"-->
+<!--            android:textSize="8sp"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/srcDestImg" />-->
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -28,8 +28,8 @@ import huji.postpc.year2021.hujiride.database.Ride
 class RidesList : Fragment() {
 
     private lateinit var aView: View
-    private lateinit var srcDestImg: ImageView
-    private lateinit var switchDirectionBtn: Button
+//    private lateinit var srcDestImg: ImageView
+//    private lateinit var switchDirectionBtn: Button
     private var toHuji: Boolean = true
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
@@ -81,14 +81,14 @@ class RidesList : Fragment() {
         setVisibility(View.INVISIBLE, View.INVISIBLE, false, View.VISIBLE)
 
 
-        val adapter = RidesAdapter()
+        adapter = RidesAdapter()
 
-        setDirection()
+//        setDirection()
 
-        switchDirectionBtn.setOnClickListener {
-            toHuji = !toHuji
-            setDirection()
-        }
+//        switchDirectionBtn.setOnClickListener {
+//            toHuji = !toHuji
+//            setDirection()
+//        }
 
 
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
@@ -142,8 +142,8 @@ class RidesList : Fragment() {
         img = aView.findViewById(R.id.no_rides_img)
         noRidesTxt = aView.findViewById(R.id.no_near_rides_txt)
         sortAs = aView.findViewById(R.id.sort_as)
-        srcDestImg = aView.findViewById(R.id.srcDestImg)
-        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
+//        srcDestImg = aView.findViewById(R.id.srcDestImg)
+//        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
         progressBar = aView.findViewById(R.id.rides_progress_bar)
         ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
     }
@@ -158,25 +158,25 @@ class RidesList : Fragment() {
 
         ridesRecycler.visibility = secondDirection
         sortAs.visibility = secondDirection
-        switchDirectionBtn.visibility = secondDirection
-        srcDestImg.visibility = secondDirection
+//        switchDirectionBtn.visibility = secondDirection
+//        srcDestImg.visibility = secondDirection
 
     }
 
 
 
-    private fun setDirection() {
-
-        if (toHuji) {
-
-            srcDestImg.setImageResource(R.drawable.resource_switch)
-
-        } else {
-            srcDestImg.setImageResource(R.drawable.switchfromhuji)
-
-
-        }
-    }
+//    private fun setDirection() {
+//
+//        if (toHuji) {
+//
+//            srcDestImg.setImageResource(R.drawable.resource_switch)
+//
+//        } else {
+//            srcDestImg.setImageResource(R.drawable.switchfromhuji)
+//
+//
+//        }
+//    }
 
     private fun noNearRidesCase() {
         setVisibility(View.VISIBLE, View.INVISIBLE, true, View.INVISIBLE)
