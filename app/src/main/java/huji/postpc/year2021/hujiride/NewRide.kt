@@ -243,13 +243,6 @@ class NewRide : Fragment() {
     }
 
 
-    private fun getEditableET() : AutocompleteSupportFragment{
-        return if (toHuji){
-            srcET
-        }else{
-            destET
-        }
-    }
 
 
     private fun getSrcOrDestStr() : String{
