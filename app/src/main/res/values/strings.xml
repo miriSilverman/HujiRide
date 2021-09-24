@@ -47,6 +47,7 @@
     <string name="unregisterGroupDialogTitle">Unregister to Group</string>
     <string name="unregisterGroupDialogTxt">Are you sure you want to unregister to group?</string>
     <string name="filterDropDownTitle">Filter</string>
+    <string name="join_group">Join Group</string>
 
     <string-array name="sorting_list">
         <item>time</item>

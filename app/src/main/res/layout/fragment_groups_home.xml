@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <Button
+        <!--Button
             android:id="@+id/search_new_group_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +35,28 @@
             android:text="@string/addNewGroupBtn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/groups_list_recyclerView" />
+            app:layout_constraintTop_toBottomOf="@+id/groups_list_recyclerView" -->
+
+        <Button
+            android:id="@+id/search_new_group_btn"
+            android:layout_width="180dip"
+            android:layout_height="60dip"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/teal_200"
+            android:drawableLeft="@drawable/ic_baseline_group_add_24"
+            android:drawablePadding="2dip"
+            android:gravity="center"
+            android:paddingLeft="30dip"
+            android:paddingRight="26dip"
+            android:singleLine="true"
+            android:text="@string/join_group"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/groups_list_recyclerView"
+            app:layout_constraintVertical_bias="0.261" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/groups_list_recyclerView"
