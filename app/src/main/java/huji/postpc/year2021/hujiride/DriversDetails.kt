@@ -1,5 +1,7 @@
 package huji.postpc.year2021.hujiride
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -97,9 +99,18 @@ class DriversDetails : Fragment() {
 //            }
 //        }
 
-        Toast.makeText(activity, "Ride deleted successfully", Toast.LENGTH_SHORT).show()
-        Navigation.findNavController(aView)
-            .navigate(R.id.action_driversDetails_to_dashboard)
+        AlertDialog.Builder(activity)
+            .setTitle("Delete Ride From My Rides")
+            .setMessage("Are you sure you want to delete this ride from your rides list?")
+            .setIcon(R.drawable.ic_delete)
+            .setCancelable(false)
+            .setNegativeButton(android.R.string.no, null)
+            .setPositiveButton(android.R.string.yes, { dialogInterface: DialogInterface, i: Int ->
+                Toast.makeText(activity, "Ride deleted successfully", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(aView)
+                    .navigate(R.id.action_driversDetails_to_dashboard)
+            })
+            .create().show()
     }
 
 
