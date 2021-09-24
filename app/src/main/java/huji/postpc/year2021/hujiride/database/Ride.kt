@@ -27,6 +27,7 @@ data class Ride (
     val lat: Double = 0.0,
     val long: Double = 0.0,
     val geoHash: String = "",
+    var id: String = "",
     @JvmField val isDestinationHuji: Boolean = true  // when true, this ride is TO HUJI. when false, this ride is FROM HUJI.
 )
 

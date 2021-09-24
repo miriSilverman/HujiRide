@@ -146,6 +146,7 @@ class Database {
     private suspend fun newRide(dbRide: Ride, driverID: String): String? {
         try {
             val id = UUID.randomUUID().toString()
+            dbRide.id = id
             rides.document(id).set(dbRide).await()
             return id
         } catch (e: Exception) {
@@ -237,6 +238,7 @@ class Database {
 
     suspend fun addRideToClientsRides(clientId: String, ride: Ride): Boolean{
         try {
+            // todo : check with id if ride was already added - then dont add again
             clients.document(clientId)
                 .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayUnion(ride))).await()
         } catch (e: Exception) {
@@ -258,6 +260,11 @@ class Database {
             Log.e(TAG, e.message!!)
             false
         }
+    }
+
+    suspend fun deleteRideFromClientsRides(clientId: String, ride: Ride): Boolean{
+        println("miriiiiiiiiiiiiiiiiiiii")
+        return true
     }
 
 }

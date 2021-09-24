@@ -35,6 +35,7 @@ class BugDialog: AppCompatDialogFragment() {
                 }
 
             })
+        
 
         return builder.create()
 

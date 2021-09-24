@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,7 @@ class GroupsHome : Fragment() {
     private lateinit var aView: View
     private lateinit var searchNewGroupBtn: Button
     private lateinit var groupRecyclerView: RecyclerView
+    private lateinit var adapter: GroupsAdapter
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,13 +44,13 @@ class GroupsHome : Fragment() {
     }
 
 
-    fun findViews() {
+    private fun findViews() {
         progressBar = aView.findViewById(R.id.groups_progress_bar)
         searchNewGroupBtn = aView.findViewById(R.id.search_new_group_btn)
         groupRecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
     }
 
-    fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
+    private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
         progressBar.visibility = oneDirection
         groupRecyclerView.visibility = secondDirection
         searchNewGroupBtn.isEnabled = btnState
@@ -66,13 +68,15 @@ class GroupsHome : Fragment() {
 
         app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        vm.fromMyRides = false
         val clientId = app.userDetails.clientUniqueID
         searchNewGroupBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_groups_home_to_searchGroup)
         }
 
 
-        val adapter = GroupsAdapter()
+        adapter = GroupsAdapter()
+        adapter.setContext(requireActivity())
         val groupsRecycler: RecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
         groupsRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
@@ -92,6 +96,7 @@ class GroupsHome : Fragment() {
                         .navigate(R.id.action_groups_home_to_ridesList)
                 }
                 adapter.onDeleteIconCallback = { group: String ->
+
                     GlobalScope.launch(Dispatchers.IO) {
                         app.db.unregisterClientToGroup(clientId, group)
                         adapter.setGroupsList(app.db.getGroupsOfClient(clientId))
@@ -114,4 +119,8 @@ class GroupsHome : Fragment() {
 
 
 
+
 }
+
+
+
