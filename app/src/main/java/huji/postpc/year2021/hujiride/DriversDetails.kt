@@ -37,13 +37,6 @@ class DriversDetails : Fragment() {
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
 
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-        }
-    }
-
     private fun findViews() {
         progressBar = aView.findViewById(R.id.drivers_progress_bar)
         backToRidesBtn = aView.findViewById(R.id.back_to_closest_rides)
@@ -96,6 +89,7 @@ class DriversDetails : Fragment() {
         if (ride != null) {
             GlobalScope.launch(Dispatchers.IO) {
                 val driver = app.db.findClient(ride.driverID)
+                println("##### $driver")
                 withContext(Dispatchers.Main) {
                     setVisibility(View.INVISIBLE, View.VISIBLE, true)
                     if (driver != null) {
