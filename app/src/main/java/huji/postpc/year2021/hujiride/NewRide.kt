@@ -74,7 +74,7 @@ class NewRide : Fragment() {
 
     private var checkedComments : ArrayList<Boolean> = arrayListOf(false, false, false, false, false, false)
     private lateinit var srcDestImg: ImageView
-    private lateinit var switchDirectionBtn: Button
+    private lateinit var switchDirectionBtn: ImageButton
     private var toHuji: Boolean = true
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
