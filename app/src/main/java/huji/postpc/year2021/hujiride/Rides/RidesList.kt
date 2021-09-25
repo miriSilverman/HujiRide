@@ -19,7 +19,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import huji.postpc.year2021.hujiride.database.Ride
-
+import java.sql.Date
+import java.sql.Timestamp
 
 
 /**
@@ -31,17 +32,25 @@ class RidesList : Fragment() {
     private var toHuji: Boolean = true
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
+
     private lateinit var sortTIL: TextInputLayout
+    private lateinit var sortACTV : AutoCompleteTextView
+
     private lateinit var filterTIL: TextInputLayout
+    private lateinit var filterACTV : AutoCompleteTextView
+
     private lateinit var adapter: RidesAdapter
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
     private lateinit var addRideBtn : Button
     private lateinit var applyBtn : ImageButton
-    private lateinit var sortACTV : AutoCompleteTextView
-    private lateinit var filterACTV : AutoCompleteTextView
     private lateinit var ridesRecycler: RecyclerView
+    private var ridesList : ArrayList<Ride> = arrayListOf()
+    private var newList = ArrayList<Ride>()
+    private var dbRidesArr = ArrayList<Ride>()
+    private var sortedAllocationDbRidesArr = ArrayList<Ride>()
+
 
 
 
@@ -109,14 +118,25 @@ class RidesList : Fragment() {
         }
 
 
-//        applyBtn.setOnClickListener {
-//
-//            dbRidesArr.filter { ride: Ride ->
-//                ride.isDestinationHuji
-//            }
-//            adapter.setRidesList(dbRidesArr)
-//            adapter.notifyDataSetChanged()
-//        }
+
+
+        applyBtn.setOnClickListener {
+
+            when (filterACTV.text.toString()){
+                "source to Huji" -> filterToHuji(true)
+                "Huji to destination" -> filterToHuji(false)
+                "all" -> filterAll()
+            }
+
+
+            when (sortACTV.text.toString()){
+                "time" -> sortAccordingToTime()
+            }
+
+
+            adapter.setRidesList(newList)
+            adapter.notifyDataSetChanged()
+        }
 
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -126,12 +146,15 @@ class RidesList : Fragment() {
                 groupsName = group.toString()
             }
 
-            val dbRidesArr :List<Ride> = if (group == null){
-                app.db.sortRidesAccordingToALocation(vm.latLng)
-            }else{
-                app.db.getRidesListOfGroup(groupsName)
+            if (group == null){
+                sortedAllocationDbRidesArr = app.db.sortRidesAccordingToALocation(vm.latLng)
+                dbRidesArr = app.db.getRidesListOfGroup(groupsName)
 
+            }else{
+                dbRidesArr = app.db.getRidesListOfGroup(groupsName)
             }
+
+            ridesList = dbRidesArr as ArrayList<Ride>
 
 
             adapter.setRidesList(dbRidesArr)
@@ -182,6 +205,14 @@ class RidesList : Fragment() {
 //        srcDestImg.visibility = secondDirection
 
     }
+    private fun selectorTime(ride: Ride): com.google.firebase.Timestamp = ride.timeStamp
+    private fun selectorNotTime(ride: Ride): String = ride.destName
+//    private fun selectorNotTime(ride: Ride): Date = Date(ride.timeStamp)
+
+    private fun sortAccordingToTime(){
+        newList.sortBy { selectorNotTime(it) }
+//        newList.sortBy { selectorNotTime(it) }
+    }
 
 
 
@@ -204,6 +235,23 @@ class RidesList : Fragment() {
 
     private fun thereAreRidesCase() {
         setVisibility(View.INVISIBLE, View.VISIBLE, true, View.INVISIBLE)
+    }
+
+    private fun filterToHuji(condition: Boolean){
+        //            ridesList.filter { ride: Ride ->
+//                ride.isDestinationHuji
+//            }
+        newList.clear()
+        for (r in ridesList){
+            if (r.isDestinationHuji == condition){
+                newList.add(r)
+            }
+        }
+    }
+
+    private fun filterAll(){
+        newList.clear()
+        newList.addAll(ridesList)
     }
 
 
