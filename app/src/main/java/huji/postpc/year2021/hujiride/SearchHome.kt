@@ -7,10 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.gms.common.api.Status
@@ -30,7 +27,7 @@ import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 class SearchHome : Fragment() {
 
     private lateinit var srcDestImg: ImageView
-    private lateinit var switchDirectionBtn: Button
+    private lateinit var switchDirectionBtn: ImageButton
     private var toHuji: Boolean = true
 
     private lateinit var srcET: AutocompleteSupportFragment
