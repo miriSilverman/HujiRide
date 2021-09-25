@@ -172,15 +172,13 @@
             android:drawableLeft="@drawable/ic_baseline_share_24"
             android:drawablePadding="2dip"
             android:gravity="center"
-            android:paddingLeft="30dip"
-            android:paddingRight="26dip"
 
             android:singleLine="true"
             android:text="SHARE"
             android:textSize="13sp"
             app:layout_constraintBottom_toTopOf="@+id/back_to_groups"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.625"
             app:layout_constraintStart_toStartOf="parent" />
 
 
