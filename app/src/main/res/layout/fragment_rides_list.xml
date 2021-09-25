@@ -34,7 +34,7 @@
             android:layout_width="200dip"
             android:layout_height="60dip"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:backgroundTint="@color/teal_200"
             android:drawableLeft="@drawable/ic_baseline_playlist_add_24"
             android:drawablePadding="2dip"
@@ -44,9 +44,9 @@
             android:singleLine="true"
             android:text="@string/add_new_ride"
             android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/no_rides_img"
             app:layout_constraintHorizontal_bias="0.476"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/no_rides_img"
             app:layout_constraintTop_toBottomOf="@+id/rides_list_recyclerView" />
 
 
@@ -146,15 +146,15 @@
             android:layout_marginTop="50dp"
             android:background="@color/white"
             android:backgroundTint="@color/white"
-            app:layout_constraintTop_toBottomOf="@+id/apply_btn"
-            tools:layout_editor_absoluteX="120dp" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sort_as" />
 
         <ImageView
             android:id="@+id/just_for_padding"
             android:layout_width="15dp"
             android:layout_height="12dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginTop="330dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_new_ride"
@@ -164,21 +164,19 @@
             android:id="@+id/no_rides_img"
             android:layout_width="154dp"
             android:layout_height="226dp"
-            android:layout_marginTop="100dp"
             android:src="@drawable/logo"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
 
         <TextView
             android:id="@+id/no_near_rides_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:fontFamily="@font/fredoka_one"
             android:gravity="center"
             android:text="@string/noRidesInTheNearFuture"
-            android:textColor="#DD92DC"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/no_rides_img" />
