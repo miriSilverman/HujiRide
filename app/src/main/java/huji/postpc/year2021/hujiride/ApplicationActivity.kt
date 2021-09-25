@@ -190,7 +190,7 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     {
         FancyGifDialog.Builder(this)
             .setTitle("About Us")
-            .setMessage("This is the first version of HujiRide, The app that was built by Hebrew University's students for a SAFE, FAST and FUN way to get to campus and back home.\n\nOur Team was formed and guided in the course \"POST PC COMPUTING: HUMAN-CENTRIC MOBILE COMPUTING\".\n")
+            .setMessage("This is the first version of HujiRide, The app that was built by Hebrew University's students for a SAFE, FAST and FUN way to get to campus and back home.\n\nOur Team was formed and guided in the course \"POST PC COMPUTING: HUMAN-CENTRIC MOBILE COMPUTING\".\n\n credits: Vector House Icon https://pngtree.com/freepng/vector-house-icon_4017483.html?share=1\n")
             .setNegativeBtnText("Contact")
             .setPositiveBtnBackground("#FF4081")
             .setPositiveBtnText("OK")
