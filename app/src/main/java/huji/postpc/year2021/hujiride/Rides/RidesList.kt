@@ -121,6 +121,43 @@ class RidesList : Fragment() {
 
 
         applyBtn.setOnClickListener {
+            println("____________________________________________________________________")
+            println("       dbRidesArr before sorting:")
+
+            for (r in dbRidesArr){
+                println(r.destName+"   !!!!!!!!!!!!!!!!")
+
+            }
+            println("____________________________________________________________________")
+            println("       ridesList before sorting:")
+
+            for (r in ridesList){
+                println(r.destName+"   !!!!!!!!!!!!!!!!")
+
+            }
+            println("____________________________________________________________________")
+
+
+            when (sortACTV.text.toString()){
+                "time" -> sortAccordingToTime()
+                "src and dest" -> sortAccordingToAlloc()
+            }
+            println("____________________________________________________________________")
+            println("       ridesList after sorting:")
+
+            for (r in ridesList){
+                println(r.destName+"   !!!!!!!!!!!!!!!!")
+
+            }
+            println("____________________________________________________________________")
+            println("____________________________________________________________________")
+            println("       dbRidesArr after sorting:")
+
+            for (r in dbRidesArr){
+                println(r.destName+"   !!!!!!!!!!!!!!!!")
+
+            }
+            println("____________________________________________________________________")
 
             when (filterACTV.text.toString()){
                 "source to Huji" -> filterToHuji(true)
@@ -129,10 +166,10 @@ class RidesList : Fragment() {
             }
 
 
-            when (sortACTV.text.toString()){
-                "time" -> sortAccordingToTime()
-            }
+            for (r in newList){
+                println(r.destName+"   !!!!!!!!!!!!!!!!")
 
+            }
 
             adapter.setRidesList(newList)
             adapter.notifyDataSetChanged()
@@ -150,14 +187,22 @@ class RidesList : Fragment() {
                 sortedAllocationDbRidesArr = app.db.sortRidesAccordingToALocation(vm.latLng)
                 dbRidesArr = app.db.getRidesListOfGroup(groupsName)
 
+//                for (r in sortedAllocationDbRidesArr){
+//                    println(r.destName+"   !!!!!!!!!!!!!!!!")
+//                }
+//                println("..............")
+//                for (r in dbRidesArr){
+//                    println(r.destName+"   !!!!!!!!!!!!!!!!")
+//                }
+
             }else{
                 dbRidesArr = app.db.getRidesListOfGroup(groupsName)
             }
 
-            ridesList = dbRidesArr as ArrayList<Ride>
+            ridesList.addAll(dbRidesArr)
 
 
-            adapter.setRidesList(dbRidesArr)
+            adapter.setRidesList(ridesList)
 
 
 
@@ -174,6 +219,57 @@ class RidesList : Fragment() {
 
         return aView
     }
+
+
+
+    private fun selectorTime(ride: Ride): com.google.firebase.Timestamp = ride.timeStamp
+    private fun selectorNotTime(ride: Ride): String = ride.destName
+//    private fun selectorNotTime(ride: Ride): Date = Date(ride.timeStamp)
+
+    private fun sortAccordingToTime(){
+        ridesList.clear()
+        ridesList.addAll(dbRidesArr)
+        ridesList.sortBy { selectorNotTime(it) }
+//        newList.sortBy { selectorNotTime(it) }
+    }
+
+    private fun sortAccordingToAlloc(){
+        ridesList.clear()
+        ridesList.addAll(sortedAllocationDbRidesArr)
+    }
+
+    private fun filterToHuji(condition: Boolean){
+        //            ridesList.filter { ride: Ride ->
+//                ride.isDestinationHuji
+//            }
+        newList.clear()
+        for (r in ridesList){
+            if (r.isDestinationHuji == condition){
+                newList.add(r)
+            }
+        }
+    }
+
+    private fun filterAll(){
+        newList.clear()
+        newList.addAll(ridesList)
+    }
+
+
+
+//    private fun setDirection() {
+//
+//        if (toHuji) {
+//
+//            srcDestImg.setImageResource(R.drawable.resource_switch)
+//
+//        } else {
+//            srcDestImg.setImageResource(R.drawable.switchfromhuji)
+//
+//
+//        }
+//    }
+
 
     private fun findViews() {
         sortACTV = aView.findViewById(R.id.autoCompleteTextView2)
@@ -205,29 +301,7 @@ class RidesList : Fragment() {
 //        srcDestImg.visibility = secondDirection
 
     }
-    private fun selectorTime(ride: Ride): com.google.firebase.Timestamp = ride.timeStamp
-    private fun selectorNotTime(ride: Ride): String = ride.destName
-//    private fun selectorNotTime(ride: Ride): Date = Date(ride.timeStamp)
 
-    private fun sortAccordingToTime(){
-        newList.sortBy { selectorNotTime(it) }
-//        newList.sortBy { selectorNotTime(it) }
-    }
-
-
-
-//    private fun setDirection() {
-//
-//        if (toHuji) {
-//
-//            srcDestImg.setImageResource(R.drawable.resource_switch)
-//
-//        } else {
-//            srcDestImg.setImageResource(R.drawable.switchfromhuji)
-//
-//
-//        }
-//    }
 
     private fun noNearRidesCase() {
         setVisibility(View.VISIBLE, View.INVISIBLE, true, View.INVISIBLE)
@@ -237,22 +311,6 @@ class RidesList : Fragment() {
         setVisibility(View.INVISIBLE, View.VISIBLE, true, View.INVISIBLE)
     }
 
-    private fun filterToHuji(condition: Boolean){
-        //            ridesList.filter { ride: Ride ->
-//                ride.isDestinationHuji
-//            }
-        newList.clear()
-        for (r in ridesList){
-            if (r.isDestinationHuji == condition){
-                newList.add(r)
-            }
-        }
-    }
-
-    private fun filterAll(){
-        newList.clear()
-        newList.addAll(ridesList)
-    }
 
 
 }
