@@ -46,10 +46,10 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
             holder.dest.text = ride.destName
         }
 
-        holder.infoImg.setOnClickListener {
-            val callback = onItemClickCallback?: return@setOnClickListener
-            callback(ride)
-        }
+//        holder.infoImg.setOnClickListener {
+//            val callback = onItemClickCallback?: return@setOnClickListener
+//            callback(ride)
+//        }
     }
 
     override fun getItemCount(): Int {
