@@ -28,7 +28,6 @@
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/notebook" />
 
-
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -36,6 +35,7 @@
             android:layout_marginTop="58dp"
             android:fontFamily="@font/annie_use_your_telescope"
             android:text="@string/ridesDetailsTitle"
+            android:textAlignment="center"
             android:textSize="50sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.532"
@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/annie_use_your_telescope"
             android:text="From: huji"
+            android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -60,6 +61,7 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/annie_use_your_telescope"
             android:text="To: Pisgat Zeev"
+            android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +74,7 @@
             android:layout_marginTop="4dp"
             android:fontFamily="@font/annie_use_your_telescope"
             android:text="Leaving Hour: 12:30"
+            android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.526"
@@ -85,13 +88,15 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/annie_use_your_telescope"
             android:text="Comments: no babies"
+            android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.556"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/time" />
 
-        <Button
+
+        <!--Button
             android:id="@+id/contact_driver_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,6 +104,28 @@
             android:text="@string/contactTheDriverBtnText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comments" -->
+
+        <Button
+            android:id="@+id/contact_driver_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="80dp"
+            android:layout_marginEnd="100dp"
+            android:backgroundTint="@color/teal_200"
+            android:drawableLeft="@drawable/ic_baseline_directions_car_24"
+            android:drawablePadding="2dip"
+            android:gravity="center"
+            android:paddingLeft="30dip"
+            android:paddingRight="26dip"
+            android:singleLine="true"
+            android:text="@string/contact_driver"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comments" />
 
@@ -132,22 +159,46 @@
             app:layout_constraintTop_toBottomOf="@+id/back_to_closest_rides"
             app:srcCompat="@drawable/ic_baseline_linear_scale_24" />
 
+
         <Button
             android:id="@+id/share_ride_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="136dp"
+            android:layout_marginEnd="136dp"
+            android:layout_marginBottom="48dp"
+            android:backgroundTint="@color/teal_200"
+            android:drawableLeft="@drawable/ic_baseline_share_24"
+            android:drawablePadding="2dip"
+            android:gravity="center"
+            android:paddingLeft="30dip"
+            android:paddingRight="26dip"
+
+            android:singleLine="true"
+            android:text="SHARE"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toTopOf="@+id/back_to_groups"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <!--Button
+            android:id="@+id/share_ride_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="45dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="22dp"
             android:layout_marginBottom="22dp"
             android:text="Share Ride"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.918"
+            app:layout_constraintHorizontal_bias="0.361"
             app:layout_constraintStart_toStartOf="parent"
 
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.599" />
+            app:layout_constraintTop_toBottomOf="@+id/comments"
+            app:layout_constraintVertical_bias="0.383" -->
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
