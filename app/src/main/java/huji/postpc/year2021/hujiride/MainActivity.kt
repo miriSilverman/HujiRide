@@ -39,8 +39,6 @@ class MainActivity : AppCompatActivity() {
         val userUniqueID = getUniqueID()
         app.userDetails.clientUniqueID = userUniqueID
 
-        println("######## $userUniqueID")
-
         GlobalScope.launch(Dispatchers.IO) {
             val client = app.db.findClient(userUniqueID)
             if (client == null) {
@@ -48,6 +46,7 @@ class MainActivity : AppCompatActivity() {
             } else if (!client.isAuth) {
                 clientNotExistCase()
             } else {
+
                 clientExistsCase(client, userUniqueID)
             }
         }
