@@ -35,7 +35,7 @@
             android:layout_height="60dip"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:backgroundTint="@color/teal_200"
+            android:backgroundTint="#27A9E1"
             android:drawableLeft="@drawable/ic_baseline_playlist_add_24"
             android:drawablePadding="2dip"
             android:gravity="center"
