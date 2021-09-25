@@ -98,8 +98,8 @@
 
         <ImageView
             android:id="@+id/srcDestImg"
-            android:layout_width="128dp"
-            android:layout_height="64dp"
+            android:layout_width="170dp"
+            android:layout_height="85dp"
             android:layout_marginTop="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="136dp"
             android:fontFamily="@font/fredoka_one"
-            android:text="from:  HUJI"
+            android:text="From:  HUJI"
             android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
             android:fontFamily="@font/fredoka_one"
-            android:text="to:  HUJI"
+            android:text="To:  HUJI"
             android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
