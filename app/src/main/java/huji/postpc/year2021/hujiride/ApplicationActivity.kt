@@ -2,13 +2,16 @@ package huji.postpc.year2021.hujiride
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.CompoundButton
 import android.widget.Switch
 import android.widget.Toast
@@ -65,6 +68,11 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+
+
+
+
 
 
         drawer = findViewById(R.id.drawer_layout)
