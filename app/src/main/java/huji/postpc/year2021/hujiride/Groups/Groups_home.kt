@@ -69,6 +69,7 @@ class GroupsHome : Fragment() {
         app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         vm.fromMyRides = false
+        vm.latLng = null
         val clientId = app.userDetails.clientUniqueID
         searchNewGroupBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_groups_home_to_searchGroup)

@@ -66,7 +66,7 @@ class NewRide : Fragment() {
     private lateinit var srcTextView: TextView
     private var timeFormat = ""
     private var srcOrDestStr = ""
-    private var latLng: LatLng = LatLng(0.0, 0.0)
+    private var latLng: LatLng = LatLng(0.0,0.0)
 
 
     private lateinit var comments: ArrayList<String>
@@ -116,7 +116,9 @@ class NewRide : Fragment() {
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         app = HujiRideApplication.getInstance()
         srcOrDestStr = vm.srcOrDest
-        latLng = vm.latLng
+        if (vm.latLng != null){
+            latLng = vm.latLng!!
+        }
         val calendar = Calendar.getInstance()
         year = calendar.get(Calendar.YEAR)
         month = calendar.get(Calendar.MONTH)
