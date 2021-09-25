@@ -73,15 +73,17 @@
             android:id="@+id/time_edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:background="@color/teal_700"
+            android:layout_marginTop="30dp"
+            android:background="#D2E1E1"
             android:drawableStart="@drawable/ic_time"
             android:drawablePadding="16dp"
+            android:fontFamily="@font/fredoka_one"
             android:hint="Select Time"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:textAlignment="center"
             android:textSize="32sp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment_dest" />
@@ -90,15 +92,16 @@
             android:id="@+id/comments_edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:background="@color/teal_700"
+            android:layout_marginTop="30dp"
+            android:background="#D2E1E1"
             android:drawableStart="@drawable/ic_add"
             android:drawablePadding="16dp"
+            android:fontFamily="@font/fredoka_one"
             android:hint="Add Comments"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:textAlignment="center"
             android:textSize="32sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/date_edit_btn" />
@@ -109,7 +112,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="96dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="96dp"
             android:background="@drawable/circle"
             android:src="@drawable/ic_baseline_done_24"
@@ -131,16 +134,15 @@
             app:srcCompat="@drawable/ic_baseline_linear_scale_24" />
 
 
-
         <ImageView
             android:id="@+id/srcDestImg"
-            android:layout_width="128dp"
-            android:layout_height="64dp"
+            android:layout_width="170dp"
+            android:layout_height="85dp"
             android:layout_marginTop="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title"
-            app:srcCompat="@drawable/resource_switch" />
+            app:srcCompat="@drawable/to_huji" />
 
 
         <!--Button
@@ -175,7 +177,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="116dp"
-            android:text="from:  HUJI"
+            android:fontFamily="@font/fredoka_one"
+            android:text="From:  HUJI"
             android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -188,13 +191,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
-            android:text="to:  HUJI"
+            android:fontFamily="@font/fredoka_one"
+            android:text="To:  HUJI"
             android:textAlignment="center"
             android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.258"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/src_huji"/>
+            app:layout_constraintTop_toBottomOf="@+id/src_huji" />
 
         <fragment
             android:id="@+id/place_autocomplete_fragment_src"
@@ -222,15 +226,17 @@
             android:id="@+id/date_edit_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
-            android:background="@color/teal_700"
+            android:layout_marginTop="30dp"
+            android:background="#D2E1E1"
             android:drawableStart="@drawable/ic_baseline_calendar_today_24"
             android:drawablePadding="16dp"
+            android:fontFamily="@font/fredoka_one"
             android:hint="Select Date"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:textAlignment="center"
             android:textSize="32sp"
-            android:textStyle="bold"
+            android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />

@@ -509,9 +509,9 @@ class NewRide : Fragment() {
 
     private fun setDirection() {
         if (toHuji) {
-            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch, destTextView, srcTextView)
+            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.to_huji, destTextView, srcTextView)
         } else {
-            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji, srcTextView, destTextView)
+            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.to_home, srcTextView, destTextView)
         }
         vm.toHuji = toHuji
     }
