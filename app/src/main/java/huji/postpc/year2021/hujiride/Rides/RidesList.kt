@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
 import huji.postpc.year2021.hujiride.database.Ride
 import java.sql.Date
 import java.sql.Timestamp
+import java.text.SimpleDateFormat
 
 
 /**
@@ -121,43 +122,15 @@ class RidesList : Fragment() {
 
 
         applyBtn.setOnClickListener {
-            println("____________________________________________________________________")
-            println("       dbRidesArr before sorting:")
-
-            for (r in dbRidesArr){
-                println(r.destName+"   !!!!!!!!!!!!!!!!")
-
-            }
-            println("____________________________________________________________________")
-            println("       ridesList before sorting:")
-
-            for (r in ridesList){
-                println(r.destName+"   !!!!!!!!!!!!!!!!")
-
-            }
-            println("____________________________________________________________________")
 
 
             when (sortACTV.text.toString()){
+                "no sorting" -> noSorting()
                 "time" -> sortAccordingToTime()
                 "src and dest" -> sortAccordingToAlloc()
             }
-            println("____________________________________________________________________")
-            println("       ridesList after sorting:")
 
-            for (r in ridesList){
-                println(r.destName+"   !!!!!!!!!!!!!!!!")
 
-            }
-            println("____________________________________________________________________")
-            println("____________________________________________________________________")
-            println("       dbRidesArr after sorting:")
-
-            for (r in dbRidesArr){
-                println(r.destName+"   !!!!!!!!!!!!!!!!")
-
-            }
-            println("____________________________________________________________________")
 
             when (filterACTV.text.toString()){
                 "source to Huji" -> filterToHuji(true)
@@ -166,10 +139,6 @@ class RidesList : Fragment() {
             }
 
 
-            for (r in newList){
-                println(r.destName+"   !!!!!!!!!!!!!!!!")
-
-            }
 
             adapter.setRidesList(newList)
             adapter.notifyDataSetChanged()
@@ -223,8 +192,17 @@ class RidesList : Fragment() {
 
 
     private fun selectorTime(ride: Ride): com.google.firebase.Timestamp = ride.timeStamp
-    private fun selectorNotTime(ride: Ride): String = ride.destName
-//    private fun selectorNotTime(ride: Ride): Date = Date(ride.timeStamp)
+//    private fun selectorNotTime(ride: Ride): String = ride.destName
+    private fun selectorNotTime(ride: Ride): java.util.Date {
+        return ride.timeStamp.toDate()
+    }
+
+    private fun noSorting(){
+        ridesList.clear()
+        ridesList.addAll(dbRidesArr)
+//        ridesList.sortBy { selectorNotTime(it) }
+//        newList.sortBy { selectorNotTime(it) }
+    }
 
     private fun sortAccordingToTime(){
         ridesList.clear()

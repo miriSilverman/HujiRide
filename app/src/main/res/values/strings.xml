@@ -56,6 +56,7 @@
     <string name="filterAll">all</string>
 
     <string-array name="sorting_list">
+        <item>no sorting</item>
         <item>time</item>
         <item>src and dest</item>
     </string-array>
