@@ -22,10 +22,10 @@
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/map_new" />
 
         <TextView
@@ -104,21 +104,21 @@
             app:layout_constraintTop_toBottomOf="@+id/date_edit_btn" />
 
 
-
         <ImageView
             android:id="@+id/done_btn"
-            android:layout_width="89dp"
-            android:layout_height="78dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="96dp"
             android:layout_marginTop="16dp"
-            android:background="#673AB7"
+            android:layout_marginEnd="96dp"
+            android:background="@drawable/circle"
             android:src="@drawable/ic_baseline_done_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.784"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/comments_edit_btn"
-            app:layout_constraintVertical_bias="0.015" />
-
+            app:layout_constraintVertical_bias="0.185" />
 
         <ImageView
             android:id="@+id/just_for_padding"
@@ -142,7 +142,8 @@
             app:layout_constraintTop_toBottomOf="@id/title"
             app:srcCompat="@drawable/resource_switch" />
 
-        <Button
+
+        <!--Button
             android:id="@+id/switchDirectionBtn"
             android:layout_width="125dp"
             android:layout_height="48dp"
@@ -153,24 +154,34 @@
             app:layout_constraintBottom_toTopOf="@+id/src_huji"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/srcDestImg" />
+            app:layout_constraintTop_toBottomOf="@id/srcDestImg" -->
 
+
+        <ImageButton
+            android:id="@+id/switchDirectionBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_baseline_swap_vert_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imageView3"
+            app:layout_constraintHorizontal_bias="0.866"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.272" />
 
         <TextView
             android:id="@+id/src_huji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="116dp"
             android:text="from:  HUJI"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/switchDirectionBtn"
-            android:background="#D2E1E1"
-            android:fontFamily="@font/fredoka_one"
             android:textAlignment="center"
-            android:textSize="34sp"/>
-
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.341"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/srcDestImg" />
 
         <TextView
             android:id="@+id/dest_huji"
@@ -178,34 +189,32 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
             android:text="to:  HUJI"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/src_huji"
-            android:background="#D2E1E1"
-            android:fontFamily="@font/fredoka_one"
             android:textAlignment="center"
-            android:textSize="34sp"/>
+            android:textSize="34sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.258"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/src_huji"/>
 
         <fragment
             android:id="@+id/place_autocomplete_fragment_src"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="328dp"
+            android:layout_width="250dp"
             android:layout_height="48dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="176dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintHorizontal_bias="0.26"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/switchDirectionBtn" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <fragment
             android:id="@+id/place_autocomplete_fragment_dest"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="328dp"
+            android:layout_width="250dp"
             android:layout_height="48dp"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="44dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.506"
+            app:layout_constraintHorizontal_bias="0.26"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/place_autocomplete_fragment_src" />
 
