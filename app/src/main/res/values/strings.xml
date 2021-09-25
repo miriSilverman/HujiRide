@@ -19,8 +19,8 @@
     <string name="contactTheDriverBtnText">contact the\ndriver</string>
     <string name="backToGroupsBtnText">BACK TO \nGROUPS</string>
     <string name="goToRidesListBtnText">ALL \nRIDES</string>
-    <string name="driverBtnText">DRIVER</string>
-    <string name="trampistBtnText">TRAMPIST</string>
+    <string name="driverBtnText">I\'m The Driver</string>
+    <string name="trampistBtnText">I Want to Join</string>
     <string name="searchRidesTitle">Search Rides</string>
     <string name="dashboardText">Your Rides</string>
     <string name="cancel_reg_dialog_body">"Are you sure you want to cancel your registration?\nAll the data will be deleted!"</string>
