@@ -4,13 +4,12 @@ import android.util.Log
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
 import com.google.type.LatLng
+import huji.postpc.year2021.hujiride.MainActivity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.tasks.await
 import java.util.*
@@ -26,7 +25,7 @@ class Database {
     private val groups = db.collection("Groups")
 
 
-    suspend fun setClientData(uniqueID: String) :Boolean {
+    suspend fun newClient(uniqueID: String) :Boolean {
         return try {
             clients.document(uniqueID).set(mapOf(FIELD_IS_AUTH to false)).await()
             true
@@ -91,7 +90,7 @@ class Database {
         return true
     }
 
-    suspend fun sortRidesAccordingToALocation(latLng: com.google.android.gms.maps.model.LatLng): List<Ride> {
+    suspend fun sortRidesAccordingToALocation(latLng: com.google.android.gms.maps.model.LatLng): ArrayList<Ride> {
         val closeRidesSnaps = rides.orderBy(FIELD_GEO_HASH)
             .startAt(
                 GeoFireUtils.getGeoHashForLocation(
@@ -108,7 +107,7 @@ class Database {
         for (s in closeRidesSnaps) {
             closeRides.add(s.toObject(Ride::class.java))
         }
-        return closeRides
+        return closeRides.filterActiveRides()
     }
 
     /**
@@ -155,17 +154,17 @@ class Database {
         ride: Ride,
         clientUniqueID: String,
         groupID: String? = null
-    ): Boolean {
-        val id = newRide(ride, clientUniqueID) ?: return false
-        if (groupID == null) return true
+    ): String? {
+        val id = newRide(ride, clientUniqueID) ?: return null
+        if (groupID == null) return id
         try {
             groups.document(groupID)
                 .set(mapOf("rides" to FieldValue.arrayUnion(id)), SetOptions.merge())
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
-            return false
+            return null
         }
-        return true
+        return id
     }
 
 
@@ -203,7 +202,7 @@ class Database {
     }
 
 
-    private suspend fun fetchRides(rides: ArrayList<DocumentReference>) = coroutineScope {
+    private suspend fun fetchRides(rides: List<DocumentReference>) = coroutineScope {
         val deferreds = rides.map { ref ->
             async {
                 ref.get().await()
@@ -216,10 +215,8 @@ class Database {
      * returns the list of all the rides that the client has signed up for
      */
     suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
-        var refRides = (clients.document(clientUniqueID).get().await()?.get(FIELD_CLIENTS_RIDES)) as List<*>?
-        refRides = refRides.orEmpty().map { rr -> (rr as Map<String, Any>).toRide() }
-        return ArrayList(refRides).filterActiveRides()
-//        return ArrayList()
+        val refRides = (clients.document(clientUniqueID).get().await()?.get(FIELD_CLIENTS_RIDES)) as List<DocumentReference>?
+        return ArrayList(fetchRides(refRides.orEmpty())).filterActiveRides()
     }
 
 
@@ -231,19 +228,19 @@ class Database {
         return ArrayList(groups?.mapNotNull { g -> g.toString() } ?: ArrayList())
     }
 
-
-    suspend fun addRideToClientsRides(clientId: String, ride: Ride): Boolean{
-        try {
-            clients.document(clientId)
-                .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayUnion(ride))).await()
+    suspend fun addRideToClientsRides(clientID: String, rideID: String) : Boolean {
+        return try {
+            clients.document(clientID)
+                .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayUnion(rides.document(rideID)))).await()
+            true
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
-            return false
+            false
         }
-        return true
+    }
 
-
-
+    suspend fun addRideToClientsRides(clientId: String, ride: Ride): Boolean{
+        return addRideToClientsRides(clientId, ride.id)
     }
 
 
@@ -257,9 +254,26 @@ class Database {
         }
     }
 
-    suspend fun deleteRideFromClientsRides(clientId: String, ride: Ride): Boolean{
-        println("miriiiiiiiiiiiiiiiiiiii")
-        return true
+    suspend fun deleteRideFromClientsRides(clientId: String, ride: Ride): Boolean {
+        return try {
+            clients.document(clientId)
+                .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayRemove(rides.document(ride.id))))
+                .await()
+            true
+        } catch (e : Exception) {
+            Log.e(TAG, e.message!!)
+            false
+        }
     }
 
+
+    suspend fun getClientCreatedRides(clientID: String) : ArrayList<Ride>? {
+        return try {
+            val rideDocs = rides.whereEqualTo(FIELD_DRIVER_ID, clientID).get().await() as QuerySnapshot
+            ArrayList(rideDocs.mapNotNull { s -> (s as DocumentSnapshot).toObject(Ride::class.java) }).filterActiveRides()
+        } catch (e : Exception) {
+            Log.e(TAG, e.message!!)
+            null
+        }
+    }
 }

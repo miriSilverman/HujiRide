@@ -25,9 +25,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        app = application as HujiRideApplication
+
         val TAG = "MainActivity"
 
-        TESTS()
 
         if (OpenCVLoader.initDebug()) {
             Log.d(TAG, "OpenCV Loaded")
@@ -35,7 +36,6 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "OpenCV not Loaded")
         }
 
-        app = application as HujiRideApplication
         val userUniqueID = getUniqueID()
         app.userDetails.clientUniqueID = userUniqueID
 
@@ -52,32 +52,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        TESTS()
+
+
     }
 
     private fun TESTS() {
         val db = Database()
         val cRide = Ride(
             time = "PEND",
-            timeStamp = createTimeStamp("23-9-2021 15:50")
+            timeStamp = createTimeStamp("24-9-2021 21:50")
         )
 
         val bRide = Ride(
             time = "FUTURE",
-            timeStamp = createTimeStamp("23-9-2021 16:00")
+            timeStamp = createTimeStamp("25-9-2021 16:00")
         )
 
-        val a = Ride (
+        val a = Ride(
             time = "ENDED",
-            timeStamp = createTimeStamp("23-9-2021 15:30")
+            timeStamp = createTimeStamp("24-9-2021 20:09")
         )
         GlobalScope.launch {
-//            db.addRide(cRide, "YAIR TEST", null)
-//            db.addRide(a, "YAIR TEST", "0")
-//            db.addRide(bRide, "YAIR TEST", "0")
-            p("added rides!")
-//            val r = db.getRidesListOfGroup(null).map {i -> "${i.time}"}
-            val r = db.getRidesOfClient("13cf1a6a-aba8-416e-9e00-03840f96fb4d")
-            p("Rides: $r")
+            val id = app.userDetails.clientUniqueID
+//            val ids = mutableListOf(
+//                db.addRide(cRide, "YAIR TEST", null),
+//                db.addRide(a, "YAIR TEST", "0"),
+//                db.addRide(bRide, "YAIR TEST", "0")
+//            )
+            val r = db.getClientCreatedRides(id)
+            p("\nID: $id\nRides: $r\n")
         }
     }
 
