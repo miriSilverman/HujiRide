@@ -51,6 +51,10 @@
     <string name="add_new_ride">Add new Ride</string>
     <string name="contact_driver">contact driver</string>
 
+    <string name="filterToHuji">source to Huji</string>
+    <string name="filterFromHuji">Huji to destination</string>
+    <string name="filterAll">all</string>
+
     <string-array name="sorting_list">
         <item>time</item>
         <item>src and dest</item>
