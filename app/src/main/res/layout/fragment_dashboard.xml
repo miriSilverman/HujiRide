@@ -47,9 +47,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:fontFamily="@font/fredoka_one"
         android:gravity="center"
-        android:text="@string/noRidesInTheNearFuture"
-        android:textColor="#DD92DC"
+        android:text="You have no upcoming rides"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/no_rides_img" />
