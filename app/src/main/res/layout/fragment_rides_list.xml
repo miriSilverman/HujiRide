@@ -34,7 +34,7 @@
             android:layout_width="200dip"
             android:layout_height="60dip"
             android:layout_gravity="center"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:backgroundTint="@color/teal_200"
             android:drawableLeft="@drawable/ic_baseline_playlist_add_24"
             android:drawablePadding="2dip"
@@ -162,9 +162,10 @@
 
         <ImageView
             android:id="@+id/no_rides_img"
-            android:layout_width="154dp"
-            android:layout_height="226dp"
-            android:src="@drawable/logo"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/logo_complete"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title" />
