@@ -41,7 +41,6 @@ class Scan : BaseOnbaordingFragment(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("######$$$$$")
         val view = super.onCreateView(inflater, container, savedInstanceState)!!
         val imm =
             requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -71,13 +70,10 @@ class Scan : BaseOnbaordingFragment(
             return true
         }
         Toast.makeText(requireContext(), "Please scan your Student Card first!", Toast.LENGTH_SHORT).show()
-//        return false
-        return true
+        return viewModel.bypassValidation
     }
 
     override fun onClickBack(): Boolean {
         return true
     }
-
-
 }
