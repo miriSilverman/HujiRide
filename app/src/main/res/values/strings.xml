@@ -34,7 +34,7 @@
     <string name="successful_onb_tip">Tap next to proceed to the app!</string>
     <string name="searchGroupTitle">Search for New Group:</string>
     <string name="addGroupBtnText">add\ngroups</string>
-    <string name="noRidesInTheNearFuture">Currently empty</string>
+    <string name="noRidesInTheNearFuture">No available rides</string>
     <string name="afterReportingBugText">Thanks for helping us \nimprove our app!</string>
     <string name="settingsTitle">Settings</string>
     <string name="hujiDest">HUJI</string>
