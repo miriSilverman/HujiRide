@@ -1,6 +1,5 @@
 package huji.postpc.year2021.hujiride
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,11 +14,9 @@ class PublishedRidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
     var onItemClickCallback: ((Ride)->Unit)? = null
 
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setRidesList(newRidesList: List<Ride>){
         _ridesList.clear()
         _ridesList.addAll(newRidesList)
-//        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RideViewHolder {
@@ -54,10 +51,6 @@ class PublishedRidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
             holder.dest.text = ride.destName
         }
 
-//        holder.infoImg.setOnClickListener {
-//            val callback = onItemClickCallback?: return@setOnClickListener
-//            callback(ride)
-//        }
     }
 
     override fun getItemCount(): Int {

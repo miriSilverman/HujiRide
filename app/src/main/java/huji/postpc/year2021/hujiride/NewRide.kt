@@ -80,22 +80,6 @@ class NewRide : Fragment() {
     }
 
 
-//    override fun onResume() {
-//        super.onResume()
-////        val stopsSortItems = resources.getStringArray(R.array.stops_list)
-////        val stopsArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, stopsSortItems)
-////        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)
-////          //  ?.setAdapter(stopsArrayAdapter)
-////
-////
-////        val commentsSortItems = resources.getStringArray(R.array.comments_list)
-////        val commentsArrayAdapter =
-////            ArrayAdapter(requireContext(), R.layout.sort_item, commentsSortItems)
-////        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteComments)
-////            ?.setAdapter(commentsArrayAdapter)
-//
-//    }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,10 +92,9 @@ class NewRide : Fragment() {
         if (vm.latLng != null){
             latLng = vm.latLng!!
         }
-        val calendar = Calendar.getInstance()
-        year = calendar.get(Calendar.YEAR)
-        month = calendar.get(Calendar.MONTH)
-        day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        initDate()
+
         findViews()
 
 
@@ -120,7 +103,8 @@ class NewRide : Fragment() {
 
         setSrcOrDest()
 
-        comments=ArrayList()
+        comments = ArrayList()
+
         switchDirectionBtn.setOnClickListener {
             setDetails()
             setDirection()
@@ -155,8 +139,6 @@ class NewRide : Fragment() {
             commentsDialog()
         }
 
-//        audioNotification()
-
 
         aView.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
             onPressedAddNewRide()
@@ -165,6 +147,12 @@ class NewRide : Fragment() {
         return aView
     }
 
+    private fun initDate() {
+        val calendar = Calendar.getInstance()
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DAY_OF_MONTH)
+    }
 
 
     private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
@@ -217,9 +205,6 @@ class NewRide : Fragment() {
                     pressedGroup.value!!.name)
                 withContext(Dispatchers.Main) {
                     vm.srcOrDest = ""
-
-
-//                    sendNotification()
                     Toast.makeText(activity, "Ride was added successfully", Toast.LENGTH_SHORT).show()
 
                     Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
@@ -260,33 +245,6 @@ class NewRide : Fragment() {
         return true
     }
 
-//    private fun audioNotification() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val channel = NotificationChannel(
-//                "New Ride Notification",
-//                "New Ride Notification",
-//                NotificationManager.IMPORTANCE_DEFAULT
-//            )
-//            val manager: NotificationManager =
-//                activity?.getSystemService(NotificationManager::class.java)!!
-//
-//            manager.createNotificationChannel(channel)
-//        }
-//
-//    }
-
-//    private fun sendNotification() {
-//        // todo: change to something that works
-//        val builder =
-//            activity?.let { it1 -> NotificationCompat.Builder(it1, "New Ride Notification") }
-//        builder?.setContentTitle("New Ride has been created")
-//        builder?.setContentText("click here to see more details")
-//        builder?.setSmallIcon(R.drawable.ic_baseline_notifications_24)
-//        builder?.setAutoCancel(true)
-//
-//        val manageCompat = activity?.let { it1 -> NotificationManagerCompat.from(it1) }
-//        builder?.build()?.let { it1 -> manageCompat?.notify(1, it1) }
-//    }
 
 
     private fun findViews() {
@@ -365,7 +323,6 @@ class NewRide : Fragment() {
     private fun commentsDialog(){
         var dialog: AlertDialog? = null
         val builder = AlertDialog.Builder(activity)
-//        val boxes = ArrayList<android.widget.CheckBox>()
 
         val view = layoutInflater.inflate(R.layout.comments_alert_dialog, null)
         val smokingCheckBox : CheckBox = view.findViewById(R.id.smokingCheckBox)
@@ -482,22 +439,6 @@ class NewRide : Fragment() {
             notConstWay.setText(vm.srcOrDest)
         }
     }
-//    private fun designSwitchDirection(
-//        img: ImageView, constWay: EditText,
-//        notConstWay: EditText, resOfImg: Int
-//    ) {
-//        img.setImageResource(resOfImg)
-//        constWay.setText(getString(R.string.destHujiField))
-//        constWay.setTextColor(Color.BLACK)
-//        notConstWay.isEnabled = true
-//        constWay.isEnabled = false
-//        if (vm.srcOrDest != "") {
-//            notConstWay.setText(vm.srcOrDest)
-//        } else {
-//
-//            notConstWay.text?.clear()
-//        }
-//    }
 
     private fun setDirection() {
         if (toHuji) {
@@ -508,15 +449,6 @@ class NewRide : Fragment() {
         vm.toHuji = toHuji
     }
 
-
-//    private fun setDirection() {
-//        if (toHuji) {
-//            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.resource_switch)
-//
-//        } else {
-//            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.switchfromhuji)
-//        }
-//    }
 
 
     private fun setSrcOrDest() {
@@ -549,13 +481,6 @@ class NewRide : Fragment() {
     }
 
 
-//    private fun syncVmAndET(editText: EditText) {
-//        if (editText.text?.isEmpty() != true) {
-//            vm.srcOrDest = editText.text.toString()
-//        } else {
-//            vm.srcOrDest = ""
-//        }
-//    }
 
     private fun syncVmAndET() {
         if (srcOrDestStr.isNotEmpty()) {

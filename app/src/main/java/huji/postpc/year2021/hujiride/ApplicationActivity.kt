@@ -38,22 +38,11 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         nav_view.setNavigationItemSelectedListener(this)
 
         bottomNavigationView = findViewById(R.id.bottom_nav_view)
-//        bottomNavigationView.setOnNavigationItemSelectedListener(this)
-//        bottomNavigationView.setOnClickListener {
-//            println("###################### gggg")
-
-
-//        }
-//        bottomNavigationView.setOnNavigationItemSelectedListener(BottomNavHelper(supportFragmentManager))
 
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-
-
-
-
 
 
         drawer = findViewById(R.id.drawer_layout)

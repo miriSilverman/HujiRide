@@ -87,6 +87,7 @@ class DriversDetails : Fragment() {
 
         val ride = vm.pressedRide.value
         if (ride != null) {
+
             GlobalScope.launch(Dispatchers.IO) {
                 val driver = app.db.findClient(ride.driverID)
                 println("##### $driver")
