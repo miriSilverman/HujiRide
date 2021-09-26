@@ -9,6 +9,5 @@ class RideViewHolder (view: View): RecyclerView.ViewHolder(view) {
     val source : TextView = view.findViewById(R.id.src)
     val dest : TextView = view.findViewById(R.id.dest)
     val time : TextView = view.findViewById(R.id.time)
-//    val infoImg : ImageView = view.findViewById(R.id.info)
 
 }
