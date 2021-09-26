@@ -30,10 +30,13 @@ class Dashboard : Fragment() {
     private lateinit var publishedAdapter: PublishedRidesAdapter
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
+    private lateinit var noPublishedRidesTxt: TextView
     private lateinit var titleTxt: TextView
     private lateinit var app: HujiRideApplication
-    private lateinit var progressBar: ProgressBar
+    private lateinit var progressBarMyRides: ProgressBar
+    private lateinit var progressBarPublishedRides: ProgressBar
     private lateinit var ridesRecycler: RecyclerView
+    private lateinit var publishedRidesRecycler: RecyclerView
     private lateinit var vm: RidesViewModel
 
 
@@ -53,7 +56,7 @@ class Dashboard : Fragment() {
         aView = inflater.inflate(R.layout.fragment_dashboard, container, false)
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         findViews()
-        setVisibility(View.INVISIBLE, View.INVISIBLE, View.VISIBLE)
+        setVisibilityMyRides(View.INVISIBLE, View.INVISIBLE, View.VISIBLE)
         app = HujiRideApplication.getInstance()
         vm.fromMyRides = true
 
@@ -101,30 +104,48 @@ class Dashboard : Fragment() {
         noRidesTxt = aView.findViewById(R.id.no_near_rides_txt)
         titleTxt = aView.findViewById(R.id.title_next_rides)
 
-        progressBar = aView.findViewById(R.id.rides_progress_bar)
+        progressBarMyRides = aView.findViewById(R.id.rides_progress_bar)
         ridesRecycler = aView.findViewById(R.id.my_rides_recycler)
+
+        noPublishedRidesTxt = aView.findViewById(R.id.noRidesAsDriver)
+
+        publishedRidesRecycler = aView.findViewById(R.id.my_published_rides_recycler)
+
+        progressBarPublishedRides = aView.findViewById(R.id.progressBar_published)
+
     }
 
-    private fun setVisibility(oneDirection: Int, secondDirection: Int, progressbarVis: Int) {
+    private fun setVisibilityMyRides(oneDirection: Int, secondDirection: Int, progressbarVis: Int) {
         noRidesTxt.visibility = oneDirection
-        img.visibility = oneDirection
+//        img.visibility = oneDirection
 
         ridesRecycler.visibility = secondDirection
 
-        progressBar.visibility = progressbarVis
+        progressBarMyRides.visibility = progressbarVis
     }
+
+
+    private fun setVisibilityPublishedRides(oneDirection: Int, secondDirection: Int, progressbarVis: Int) {
+        noPublishedRidesTxt.visibility = oneDirection
+//        img.visibility = oneDirection
+
+        publishedRidesRecycler.visibility = secondDirection
+
+        progressBarPublishedRides.visibility = progressbarVis
+    }
+
 
 
 
     private fun noMyRidesCase() {
-        setVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
+        setVisibilityMyRides(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
     }
 
 
 
 
     private fun thereAreMyRidesCase() {
-        setVisibility(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
+        setVisibilityMyRides(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
 
         val ridesRecycler: RecyclerView = aView.findViewById(R.id.my_rides_recycler)
         ridesRecycler.adapter = myRidesAdapter
@@ -140,11 +161,12 @@ class Dashboard : Fragment() {
 
 
     private fun noMyPublishedRidesCase() {
-//        setVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
+        setVisibilityPublishedRides(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
     }
 
     private fun thereAreMyPublishedRidesCase() {
-//        setVisibility(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
+        setVisibilityPublishedRides(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
+
 
         val ridesRecycler: RecyclerView = aView.findViewById(R.id.my_published_rides_recycler)
         ridesRecycler.adapter = publishedAdapter
