@@ -1,6 +1,8 @@
 package huji.postpc.year2021.hujiride.Rides
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -71,6 +73,23 @@ class RidesDetails : Fragment() {
         }
     }
 
+    private fun deleteRideAlert(){
+
+
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.deleteRidePublishedDialogTitle)
+            .setMessage(R.string.deleteRidePublishedTxt)
+            .setIcon(R.drawable.ic_delete)
+            .setCancelable(false)
+            .setNegativeButton("no", null)
+            .setPositiveButton("yes") { _: DialogInterface, _: Int ->
+                deleteRide()
+
+
+            }
+            .create().show()
+    }
+
     private fun contactDriver() {
         Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
     }
@@ -101,7 +120,7 @@ class RidesDetails : Fragment() {
 
         contactDriverBtn.setOnClickListener {
             if (vm.fromDashboard) {
-                deleteRide()
+                deleteRideAlert()
             } else {
                 contactDriver()
             }

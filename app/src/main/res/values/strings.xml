@@ -41,6 +41,8 @@
     <string name="hujiDest">HUJI</string>
     <string name="deleteRideDialogTitle">Delete Ride From My Rides</string>
     <string name="deleteRideDialogTxt">Are you sure you want to delete this ride from your rides list?</string>
+    <string name="deleteRidePublishedDialogTitle">Delete Ride I Created</string>
+    <string name="deleteRidePublishedTxt">Are you sure you want to delete this ride?</string>
     <string name="deleteRideDialogToast">Ride has been deleted successfully</string>
     <string name="addRideDialogToast">Ride was added successfully</string>
     <string name="addRideBtnTxt">Add to my rides</string>

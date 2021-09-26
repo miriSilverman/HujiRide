@@ -179,5 +179,4 @@ class DriversDetails : Fragment() {
             }
             .create().show()
     }
-
 }
