@@ -155,7 +155,7 @@ class NewRide : Fragment() {
             commentsDialog()
         }
 
-        audioNotification()
+//        audioNotification()
 
 
         aView.findViewById<ImageView>(R.id.done_btn)?.setOnClickListener {
@@ -219,7 +219,8 @@ class NewRide : Fragment() {
                     vm.srcOrDest = ""
 
 
-                    sendNotification()
+//                    sendNotification()
+                    Toast.makeText(activity, "Ride was added successfully", Toast.LENGTH_SHORT).show()
 
                     Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
 
@@ -259,33 +260,33 @@ class NewRide : Fragment() {
         return true
     }
 
-    private fun audioNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "New Ride Notification",
-                "New Ride Notification",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            val manager: NotificationManager =
-                activity?.getSystemService(NotificationManager::class.java)!!
+//    private fun audioNotification() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channel = NotificationChannel(
+//                "New Ride Notification",
+//                "New Ride Notification",
+//                NotificationManager.IMPORTANCE_DEFAULT
+//            )
+//            val manager: NotificationManager =
+//                activity?.getSystemService(NotificationManager::class.java)!!
+//
+//            manager.createNotificationChannel(channel)
+//        }
+//
+//    }
 
-            manager.createNotificationChannel(channel)
-        }
-
-    }
-
-    private fun sendNotification() {
-        // todo: change to something that works
-        val builder =
-            activity?.let { it1 -> NotificationCompat.Builder(it1, "New Ride Notification") }
-        builder?.setContentTitle("New Ride has been created")
-        builder?.setContentText("click here to see more details")
-        builder?.setSmallIcon(R.drawable.ic_baseline_notifications_24)
-        builder?.setAutoCancel(true)
-
-        val manageCompat = activity?.let { it1 -> NotificationManagerCompat.from(it1) }
-        builder?.build()?.let { it1 -> manageCompat?.notify(1, it1) }
-    }
+//    private fun sendNotification() {
+//        // todo: change to something that works
+//        val builder =
+//            activity?.let { it1 -> NotificationCompat.Builder(it1, "New Ride Notification") }
+//        builder?.setContentTitle("New Ride has been created")
+//        builder?.setContentText("click here to see more details")
+//        builder?.setSmallIcon(R.drawable.ic_baseline_notifications_24)
+//        builder?.setAutoCancel(true)
+//
+//        val manageCompat = activity?.let { it1 -> NotificationManagerCompat.from(it1) }
+//        builder?.build()?.let { it1 -> manageCompat?.notify(1, it1) }
+//    }
 
 
     private fun findViews() {

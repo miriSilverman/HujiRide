@@ -1,11 +1,14 @@
 package huji.postpc.year2021.hujiride.Onboarding
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ProgressBar
 import huji.postpc.year2021.hujiride.ApplicationActivity
 import huji.postpc.year2021.hujiride.R
@@ -49,6 +52,7 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
         val db = (requireActivity().application as HujiRideApplication).db
         loadingBar.visibility = View.VISIBLE
 
+
         GlobalScope.launch (Dispatchers.IO) {
             val e = db.setClientData(
                 firstName = viewModel.firstName!!,
@@ -58,10 +62,11 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
             )
             withContext(Dispatchers.Main) {
                 loadingBar.visibility = View.INVISIBLE
+                agreeToTermsDialog()
             }
-            val activity = requireActivity()
-            activity.startActivity(Intent(requireContext(), ApplicationActivity::class.java))
-            activity.finish()
+//            val activity = requireActivity()
+//            activity.startActivity(Intent(requireContext(), ApplicationActivity::class.java))
+//            activity.finish()
         }
         return false
     }
@@ -74,5 +79,37 @@ class Successful_log : BaseOnbaordingFragment(R.layout.fragment_successful_log, 
     private fun throwCancelRegDialog() {
         cancelRegDialog.show()
     }
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private fun agreeToTermsDialog() {
+
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(activity)
+
+        val view = layoutInflater.inflate(R.layout.agree_to_terms, null)
+        val checkBox = view.findViewById<CheckBox>(R.id.terms_checkbox)
+
+        builder.setPositiveButton("Next", DialogInterface.OnClickListener { d, m ->
+            val activity = requireActivity()
+            activity.startActivity(Intent(requireContext(), ApplicationActivity::class.java))
+            activity.finish()
+        })
+
+
+        builder.setView(view)
+        dialog = builder.create()
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
+
+            checkBox.setOnClickListener {
+                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = checkBox.isChecked
+            }
+
+        }
+
+        dialog.show()
+
+    }
+
 
 }

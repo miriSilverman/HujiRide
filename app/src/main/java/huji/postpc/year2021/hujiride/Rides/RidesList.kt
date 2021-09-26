@@ -2,6 +2,7 @@ package huji.postpc.year2021.hujiride.Rides
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -186,6 +187,37 @@ class RidesList : Fragment() {
 //        dialog.show(activity?.supportFragmentManager!!, "dest dialog")
     }
 
+
+
+//    @SuppressLint("UseSwitchCompatOrMaterialCode")
+//    private fun agreeToTermsDialog() {
+//
+//        var dialog: AlertDialog? = null
+//        val builder = AlertDialog.Builder(activity)
+//
+//        val view = layoutInflater.inflate(R.layout.agree_to_terms, null)
+//        val checkBox = view.findViewById<CheckBox>(R.id.terms_checkbox)
+//
+//        builder.setPositiveButton("Next", DialogInterface.OnClickListener { d, m ->
+//        })
+//
+//
+//        builder.setView(view)
+//        dialog = builder.create()
+//        dialog.setOnShowListener {
+//            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
+//
+//            checkBox.setOnClickListener {
+//                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = checkBox.isChecked
+//            }
+//
+//        }
+//
+//        dialog.show()
+//
+//    }
+
+
 //
 //    @SuppressLint("UseSwitchCompatOrMaterialCode")
 //    private fun settingPressed() {
@@ -280,6 +312,7 @@ class RidesList : Fragment() {
     private fun sortAccordingToAlloc() {
         if (vm.latLng == null) {
             insertDestDialog()
+//            agreeToTermsDialog()
 
         } else {
 
