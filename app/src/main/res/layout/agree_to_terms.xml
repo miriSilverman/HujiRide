@@ -11,7 +11,7 @@
         android:id="@+id/title_terms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="השימוש באפליקציה ועליה על טרמפ באחריות המשתמש בלבד."
+        android:text="It is clarified that any liability to the use of the app, including (but not limited to) taking rides or serving as drivers is strictly on the users"
         />
 
     <CheckBox
