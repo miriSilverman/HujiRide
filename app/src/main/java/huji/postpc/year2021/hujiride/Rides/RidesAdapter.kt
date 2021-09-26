@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.database.Ride
+import java.text.SimpleDateFormat
 
 
 class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
@@ -39,7 +40,15 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
         val ride = _ridesList[position]
         holder.source.text = "HUJI"
         holder.dest.text = "HUJI"
-        holder.time.text = ride.time
+
+        val stamp = ride.timeStamp
+        val dt = stamp.toDate()
+        val datFrm = SimpleDateFormat("dd/MM")
+        val timeFrm = SimpleDateFormat("HH:mm")
+        val timeStr= "${timeFrm.format(dt)}   ${datFrm.format(dt)}"
+
+        holder.time.text = timeStr
+
         if (ride.isDestinationHuji){
             holder.source.text = ride.destName
         }else{
