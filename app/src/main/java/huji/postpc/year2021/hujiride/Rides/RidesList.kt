@@ -150,6 +150,7 @@ class RidesList : Fragment() {
 
             dbRidesArr = app.db.getRidesListOfGroup(groupsName)
 
+            ridesList.clear()
             ridesList.addAll(dbRidesArr)
             adapter.setRidesList(ridesList)
 
