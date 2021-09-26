@@ -8,42 +8,44 @@
     android:layout_marginTop="2dp"
     android:layout_marginRight="4dp"
     android:layout_marginBottom="2dp"
-    android:background="#D2E1E1">
+    android:background="#191B1B">
 
 
     <TextView
         android:id="@+id/src"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
-        android:fontFamily="@font/fredoka_one"
-        android:maxLines="1"
-        android:text="Gilo"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/press_start_2p"
         android:maxWidth="100sp"
+        android:maxLines="1"
         android:minWidth="100sp"
+        android:text="Gilo"
+        android:textAlignment="textStart"
+        android:textColor="#F6B30B"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <TextView
         android:id="@+id/dest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
-        android:fontFamily="@font/fredoka_one"
+        android:fontFamily="@font/press_start_2p"
         android:maxWidth="100sp"
         android:maxLines="1"
         android:minWidth="100sp"
         android:text="dest"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textAlignment="textStart"
+        android:textColor="#F6B30B"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/arrow"
         app:layout_constraintTop_toTopOf="parent" />
@@ -55,21 +57,24 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/src"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.486"
+        app:layout_constraintVertical_bias="0.611"
         app:srcCompat="@drawable/ic_baseline_arrow_forward_24" />
 
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:fontFamily="@font/fredoka_one"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="@font/press_start_2p"
         android:text="15:39"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:textAlignment="textStart"
+        android:textColor="#F6B30B"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/dest"
+        app:layout_constraintStart_toEndOf="@+id/dest"
         app:layout_constraintTop_toTopOf="parent" />
 
 
