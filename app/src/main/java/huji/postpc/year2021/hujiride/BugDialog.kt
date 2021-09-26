@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
 
 class BugDialog: AppCompatDialogFragment() {
@@ -26,16 +24,17 @@ class BugDialog: AppCompatDialogFragment() {
 
         builder.setView(aView)
             .setTitle("Report New Bug")
-            .setNegativeButton("cancel", DialogInterface.OnClickListener{ dialogInterface: DialogInterface, i: Int -> })
-            .setPositiveButton("report", DialogInterface.OnClickListener{ dialogInterface: DialogInterface, i: Int ->
+            .setNegativeButton("cancel") { _: DialogInterface, _: Int -> }
+            .setPositiveButton("report") { _: DialogInterface, _: Int ->
 
-                if (!comment.text.isEmpty()){
-                    HujiRideApplication.getInstance().addBug(comment.text.toString()) // todo: change to real add bug in firestore
+                if (comment.text.isNotEmpty()) {
+                    HujiRideApplication.getInstance()
+                        .addBug(comment.text.toString()) // todo: change to real add bug in firestore
                     onReportCallback?.invoke()
                 }
 
-            })
-        
+            }
+
 
         return builder.create()
 

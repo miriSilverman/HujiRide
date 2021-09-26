@@ -17,22 +17,12 @@ import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import huji.postpc.year2021.hujiride.database.Ride
 
 import java.util.*
-import android.widget.RadioButton
-
-import android.content.DialogInterface
 import android.graphics.drawable.ColorDrawable
-
 import android.util.Log
-
 import android.widget.EditText
-
-import android.widget.RadioGroup
-import huji.postpc.year2021.hujiride.database.Ride as ClientRide
-
 import android.widget.CheckBox
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
-import com.firebase.geofire.core.GeoHash
 import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
@@ -40,7 +30,6 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.firebase.Timestamp
-import huji.postpc.year2021.hujiride.database.dateFormat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -91,21 +80,21 @@ class NewRide : Fragment() {
     }
 
 
-    override fun onResume() {
-        super.onResume()
-//        val stopsSortItems = resources.getStringArray(R.array.stops_list)
-//        val stopsArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, stopsSortItems)
-//        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)
-//          //  ?.setAdapter(stopsArrayAdapter)
+//    override fun onResume() {
+//        super.onResume()
+////        val stopsSortItems = resources.getStringArray(R.array.stops_list)
+////        val stopsArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, stopsSortItems)
+////        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteStops)
+////          //  ?.setAdapter(stopsArrayAdapter)
+////
+////
+////        val commentsSortItems = resources.getStringArray(R.array.comments_list)
+////        val commentsArrayAdapter =
+////            ArrayAdapter(requireContext(), R.layout.sort_item, commentsSortItems)
+////        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteComments)
+////            ?.setAdapter(commentsArrayAdapter)
 //
-//
-//        val commentsSortItems = resources.getStringArray(R.array.comments_list)
-//        val commentsArrayAdapter =
-//            ArrayAdapter(requireContext(), R.layout.sort_item, commentsSortItems)
-//        aView.findViewById<AutoCompleteTextView>(R.id.autoCompleteComments)
-//            ?.setAdapter(commentsArrayAdapter)
-
-    }
+//    }
 
 
     override fun onCreateView(
@@ -141,11 +130,11 @@ class NewRide : Fragment() {
             timeDialog()
         }
 
-        dateListener = DatePickerDialog.OnDateSetListener(){
-                datePicker: DatePicker, aYear: Int, aMonth: Int, dayOfMonth: Int ->
+        dateListener = DatePickerDialog.OnDateSetListener {
+                _: DatePicker, aYear: Int, aMonth: Int, dayOfMonth: Int ->
             val m = aMonth + 1
             val date = "$dayOfMonth/$m/$aYear"
-            dateTextView.setText(date)
+            dateTextView.text = date
             day = dayOfMonth
             year = aYear
             month = aMonth
@@ -181,7 +170,7 @@ class NewRide : Fragment() {
     private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
         // places search bar
         Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
-        val placesClient = Places.createClient(requireActivity())
+//        val placesClient = Places.createClient(requireActivity())
 
         // Initialize the AutocompleteSupportFragment.
         //        val autocompleteFragment =
@@ -197,12 +186,12 @@ class NewRide : Fragment() {
             .setCountry("IL")
             .setHint("חפש מוצא...") // TODO translated version?
 
-        val TAG = "SEARCH"
+        val tag = "SEARCH"
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
+                Log.i(tag, "Place: ${place.name}, ${place.id}, ${place.latLng}")
                 srcOrDestStr = place.name.toString()
                 if (place.latLng != null){
                     latLng = place.latLng!!
@@ -211,7 +200,7 @@ class NewRide : Fragment() {
 
             override fun onError(status: Status) {
                 // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: $status")
+                Log.i(tag, "An error occurred: $status")
             }
         })
     }
@@ -363,7 +352,7 @@ class NewRide : Fragment() {
 
     private fun getTextFromBox(box: CheckBox)
     {
-        if (box.isChecked()){
+        if (box.isChecked){
             comments.add(box.text.toString())
         }
 
@@ -375,14 +364,14 @@ class NewRide : Fragment() {
     private fun commentsDialog(){
         var dialog: AlertDialog? = null
         val builder = AlertDialog.Builder(activity)
-        val boxes = ArrayList<android.widget.CheckBox>()
+//        val boxes = ArrayList<android.widget.CheckBox>()
 
         val view = layoutInflater.inflate(R.layout.comments_alert_dialog, null)
         val smokingCheckBox : CheckBox = view.findViewById(R.id.smokingCheckBox)
         val vaccineCheckBox : CheckBox = view.findViewById(R.id.vaccineCheckBox)
         val womenCheckBox : CheckBox = view.findViewById(R.id.womenCheckBox)
         val distanceCheckBox : CheckBox = view.findViewById(R.id.distanceCheckBox)
-        val StopsCheckBox : CheckBox = view.findViewById(R.id.StopsCheckBox)
+        val stopsCheckBox : CheckBox = view.findViewById(R.id.StopsCheckBox)
         val onTimeCheckBox : CheckBox = view.findViewById(R.id.onTimeCheckBox)
         val otherText : EditText = view.findViewById(R.id.othersText)
 
@@ -392,41 +381,41 @@ class NewRide : Fragment() {
             vaccineCheckBox,
             womenCheckBox,
             distanceCheckBox,
-            StopsCheckBox,
+            stopsCheckBox,
             onTimeCheckBox,
             otherText
         )
 
         builder.setView(view)
         builder.setTitle("Comments")
-        builder.setPositiveButton("Done",
-            DialogInterface.OnClickListener { d, m ->
-                comments.clear()
-                getTextFromBox(smokingCheckBox)
-                getTextFromBox(vaccineCheckBox)
-                getTextFromBox(womenCheckBox)
-                getTextFromBox(distanceCheckBox)
-                getTextFromBox(StopsCheckBox)
-                getTextFromBox(onTimeCheckBox)
-                if (!otherText.text.isEmpty()){
-                    comments.add(otherText.text.toString())
-                }
+        builder.setPositiveButton("Done"
+        ) { _, _ ->
+            comments.clear()
+            getTextFromBox(smokingCheckBox)
+            getTextFromBox(vaccineCheckBox)
+            getTextFromBox(womenCheckBox)
+            getTextFromBox(distanceCheckBox)
+            getTextFromBox(stopsCheckBox)
+            getTextFromBox(onTimeCheckBox)
+            if (otherText.text.isNotEmpty()) {
+                comments.add(otherText.text.toString())
+            }
 
 
-                showComments()
+            showComments()
 
-                setCheckedArr(
-                    smokingCheckBox,
-                    vaccineCheckBox,
-                    womenCheckBox,
-                    distanceCheckBox,
-                    StopsCheckBox,
-                    onTimeCheckBox,
-                    otherText
-                )
+            setCheckedArr(
+                smokingCheckBox,
+                vaccineCheckBox,
+                womenCheckBox,
+                distanceCheckBox,
+                stopsCheckBox,
+                onTimeCheckBox,
+                otherText
+            )
 
 
-            })
+        }
         dialog = builder.create()
         dialog.show()
 
@@ -439,7 +428,7 @@ class NewRide : Fragment() {
             commentStr += c
             commentStr += "\n"
         }
-        commentsTextView.setText(commentStr)
+        commentsTextView.text = commentStr
     }
 
     private fun setCheckedArr(

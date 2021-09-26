@@ -1,6 +1,5 @@
 package huji.postpc.year2021.hujiride.Rides
 
-import java.util.*
 import kotlin.collections.ArrayList
 
 data class appRide (

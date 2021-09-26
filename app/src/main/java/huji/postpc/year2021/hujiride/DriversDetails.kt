@@ -67,7 +67,7 @@ class DriversDetails : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         aView = inflater.inflate(R.layout.fragment_drivers_details, container, false)
         app = HujiRideApplication.getInstance()
         findViews()
@@ -157,8 +157,8 @@ class DriversDetails : Fragment() {
             .setMessage(R.string.deleteRideDialogTxt)
             .setIcon(R.drawable.ic_delete)
             .setCancelable(false)
-            .setNegativeButton(android.R.string.no, null)
-            .setPositiveButton(android.R.string.yes) { _: DialogInterface, _: Int ->
+            .setNegativeButton("no", null)
+            .setPositiveButton("yes") { _: DialogInterface, _: Int ->
 
                 GlobalScope.launch(Dispatchers.IO) {
                     vm.pressedRide.value?.let { it1 ->

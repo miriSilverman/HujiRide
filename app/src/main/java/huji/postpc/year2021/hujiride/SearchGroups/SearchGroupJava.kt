@@ -1,7 +1,6 @@
 package huji.postpc.year2021.hujiride.SearchGroups
 
 import android.annotation.SuppressLint
-import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupAdapter
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -76,7 +75,7 @@ class SearchGroupJava : Fragment() {
             if (groupsName!!.lowercase(Locale.getDefault())
                     .contains(text.lowercase(Locale.getDefault()))
             ) {
-                filteredList.add(Pair<String, String>(groupId, groupsName))
+                filteredList.add(Pair(groupId, groupsName))
             }
         }
         app.groupsData.setFiltered(filteredList)

@@ -2,25 +2,16 @@ package huji.postpc.year2021.hujiride.Rides
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.icu.text.MessageFormat.format
 import android.os.Bundle
-import android.text.format.DateFormat.format
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.google.gson.internal.bind.util.ISO8601Utils.format
-import com.squareup.okhttp.internal.http.HttpDate.format
 import huji.postpc.year2021.hujiride.R
-import java.lang.String.format
-import java.text.DateFormat
-import java.text.MessageFormat.format
-import java.util.*
 import java.text.SimpleDateFormat
 
 
@@ -130,7 +121,7 @@ class RidesDetails : Fragment() {
 
             shareRideBtn.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("text/plain")
+                intent.type = "text/plain"
                 val body = "Sharing a ride with you"
                 var commentMsg = ""
                 if (comments != ""){
@@ -138,7 +129,7 @@ class RidesDetails : Fragment() {
                 }
                 val sub = "Hi!\nYou might be interested in this ride:\n\n" +
                         "Its going to be at ${timeFrm.format(dt)}  at  ${datFrm.format(dt)}\n\n" +
-                        "From ${src} to ${dest}\n\n" +
+                        "From $src to ${dest}\n\n" +
                         "${commentMsg}\n\n" +
                         "You are welcome to download the HujiRides in the following link\n" +
                         " http://play.google.com" //todo: change to real link

@@ -6,8 +6,8 @@ import java.util.*
 
 class GroupsRides {
 
-    var idSet: Set<UUID> = setOf()
-    var ridesList: List<Ride> = arrayListOf()
+//    var idSet: Set<UUID> = setOf()
+//    var ridesList: List<Ride> = arrayListOf()
 
 //    fun addRide(ride: Ride){
 //        val id = ride.id

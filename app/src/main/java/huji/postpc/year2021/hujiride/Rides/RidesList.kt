@@ -2,7 +2,6 @@ package huji.postpc.year2021.hujiride.Rides
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,13 +9,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.Status
-import com.google.android.gms.maps.model.LatLng
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -24,7 +21,6 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.material.textfield.TextInputLayout
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.HujiRideApplication
-import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -38,8 +34,8 @@ import huji.postpc.year2021.hujiride.database.Ride
 class RidesList : Fragment() {
 
     private lateinit var aView: View
-    private var setDirecDialogView: View? = null
-    private var toHuji: Boolean = true
+//    private var setDirecDialogView: View? = null
+//    private var toHuji: Boolean = true
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
 
@@ -113,7 +109,7 @@ class RidesList : Fragment() {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_ridesDetails)
         }
 
-        sortACTV.setOnItemClickListener { parent, view, pos, id ->
+        sortACTV.setOnItemClickListener { parent, _, pos, _ ->
 
             if (parent.getItemAtPosition(pos).toString() == "src and dest") {
                 setDestinationSorting()
@@ -190,25 +186,25 @@ class RidesList : Fragment() {
 //        dialog.show(activity?.supportFragmentManager!!, "dest dialog")
     }
 
-
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private fun settingPressed() {
-
-        var dialog: AlertDialog? = null
-        val builder = AlertDialog.Builder(activity)
-
-        val view = layoutInflater.inflate(R.layout.setting_alert_dialog, null)
-
-        builder.setPositiveButton("Done", DialogInterface.OnClickListener { d, m ->
-            Toast.makeText(activity, "changed!", Toast.LENGTH_SHORT).show()
-        })
-
-
-        builder.setView(view)
-        dialog = builder.create()
-        dialog.show()
-
-    }
+//
+//    @SuppressLint("UseSwitchCompatOrMaterialCode")
+//    private fun settingPressed() {
+//
+//        var dialog: AlertDialog? = null
+//        val builder = AlertDialog.Builder(activity)
+//
+//        val view = layoutInflater.inflate(R.layout.setting_alert_dialog, null)
+//
+//        builder.setPositiveButton("Done", DialogInterface.OnClickListener { d, m ->
+//            Toast.makeText(activity, "changed!", Toast.LENGTH_SHORT).show()
+//        })
+//
+//
+//        builder.setView(view)
+//        dialog = builder.create()
+//        dialog.show()
+//
+//    }
 
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -219,8 +215,8 @@ class RidesList : Fragment() {
 
         val view = layoutInflater.inflate(R.layout.set_direction_dialog, null)
 
-        builder.setPositiveButton("Got it", DialogInterface.OnClickListener { d, m ->
-        })
+        builder.setPositiveButton("Got it") { _, _ ->
+        }
 
 
         builder.setView(view)
@@ -233,7 +229,7 @@ class RidesList : Fragment() {
     private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
         // places search bar
         Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
-        val placesClient = Places.createClient(requireActivity())
+//        val placesClient = Places.createClient(requireActivity())
 
         // Specify the types of place data to return.
         autocompleteFragment
@@ -241,12 +237,12 @@ class RidesList : Fragment() {
             .setCountry("IL")
             .setHint("חפש מוצא...") // TODO translated version?
 
-        val TAG = "SEARCH"
+        val tag = "SEARCH"
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
+                Log.i(tag, "Place: ${place.name}, ${place.id}, ${place.latLng}")
                 vm.srcOrDest = place.name.toString()
                 if (place.latLng != null) {
                     vm.latLng = place.latLng!!
@@ -258,7 +254,7 @@ class RidesList : Fragment() {
 
             override fun onError(status: Status) {
                 // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: $status")
+                Log.i(tag, "An error occurred: $status")
             }
         })
 
@@ -416,18 +412,6 @@ class RidesList : Fragment() {
 //
 //    }
 
-//    private fun setDirection() {
-//
-//        if (toHuji) {
-//
-//            srcDestImg.setImageResource(R.drawable.resource_switch)
-//
-//        } else {
-//            srcDestImg.setImageResource(R.drawable.switchfromhuji)
-//
-//
-//        }
-//    }
 
 
     }
