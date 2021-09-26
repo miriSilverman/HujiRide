@@ -97,6 +97,7 @@ public class HujiRideApplication extends Application {
     public void addBug(String bug){
         // todo: @bug to db
         Toast.makeText(this, "duvah", Toast.LENGTH_SHORT).show();
+//        db.addBug(bug);
     }
 
     public void saveNotificationsState(boolean allNotifications, boolean justGroupsNotifications){
