@@ -11,13 +11,6 @@
         android:label="fragment_groups_home"
         tools:layout="@layout/fragment_groups_home" >
         <action
-            android:id="@+id/action_groups_home_to_searchNewGroup"
-            app:destination="@id/searchNewGroup"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
-        <action
             android:id="@+id/action_groups_home_to_ridesList"
             app:destination="@id/ridesList"
             app:enterAnim="@android:anim/fade_in"
@@ -176,21 +169,6 @@
             app:exitAnim="@anim/to_up"
             app:popEnterAnim="@anim/from_up"
             app:popExitAnim="@anim/to_down" />
-    </fragment>
-    <fragment
-        android:id="@+id/searchNewGroup"
-        android:name="huji.postpc.year2021.hujiride.toDelete.SearchNewGroup"
-        android:label="fragment_search_new_group"
-        tools:layout="@layout/fragment_search_new_group" >
-        <action
-            android:id="@+id/action_searchNewGroup_to_groups_home"
-            app:destination="@id/groups_home" />
-        <action
-            android:id="@+id/action_searchNewGroup_to_groups_home2"
-            app:destination="@id/groups_home"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left" />
     </fragment>
     <fragment
         android:id="@+id/searchGroup"

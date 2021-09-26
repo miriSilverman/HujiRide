@@ -64,6 +64,13 @@ class Dashboard : Fragment() {
         publishedAdapter = PublishedRidesAdapter()
         val clientId = app.userDetails.clientUniqueID
 
+        setAdapters(clientId)
+
+        return aView
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setAdapters(clientId: String) {
         GlobalScope.launch(Dispatchers.IO) {
 
             val myRides = app.db.getRidesOfClient(clientId)
@@ -77,26 +84,27 @@ class Dashboard : Fragment() {
                 publishedAdapter.notifyDataSetChanged()
             }
             withContext(Dispatchers.Main) {
-                if (myRidesAdapter.itemCount == 0) {
-                    noMyRidesCase()
-                } else {
-                    thereAreMyRidesCase()
-                }
-
-
-                if (publishedAdapter.itemCount == 0) {
-                    noMyPublishedRidesCase()
-                } else {
-                    thereAreMyPublishedRidesCase()
-                }
-
-
-
+                myRidesCase()
+                publishedRidesCase()
             }
 
         }
+    }
 
-        return aView
+    private fun publishedRidesCase() {
+        if (publishedAdapter.itemCount == 0) {
+            noMyPublishedRidesCase()
+        } else {
+            thereAreMyPublishedRidesCase()
+        }
+    }
+
+    private fun myRidesCase() {
+        if (myRidesAdapter.itemCount == 0) {
+            noMyRidesCase()
+        } else {
+            thereAreMyRidesCase()
+        }
     }
 
     private fun findViews() {
