@@ -45,7 +45,7 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
         val dt = stamp.toDate()
         val datFrm = SimpleDateFormat("dd/MM")
         val timeFrm = SimpleDateFormat("HH:mm")
-        val timeStr= "${timeFrm.format(dt)}   ${datFrm.format(dt)}"
+        val timeStr= "${timeFrm.format(dt)}  ${datFrm.format(dt)}"
 
         holder.time.text = timeStr
 
