@@ -32,6 +32,7 @@ exports.cleanOldRides = functions.https.onRequest(
         batch.delete(ride.ref);
       });
       await batch.commit();
+      functions.logger.log("Deleted: " + oldSize);
       res.json({
         deleted: `${oldSize}`,
       });
@@ -56,22 +57,46 @@ exports.cleanOldRides = functions.https.onRequest(
 //       return snap.ref.set({uppercase}, {merge: true});
 //     });
 
+exports.ridesGroupsNotifications = functions.firestore.document("/Rides/{rideID}")
+    .onCreate(async (snap, context) => {
+      const rideID = snap.data().id;
+      const groupID = snap.data().groupID;
+
+      const clients = await admin.firestore()
+          .collection("Clients")
+          .where("registeredGroups", "array-contains", `${groupID}`)
+          .get();
+      const tokens = clients.docs.map((client) => client.data().fcmtoken);
+      await admin.firestore().collection("Results").doc("r1").set({arr: tokens});
+
+      const notificationTasks = tokens.map((t) => sendNotification(t, rideID));
+      await Promise.all(notificationTasks);
+      functions.logger.log(`Sent Notifications to ${notificationTasks.size} clients!`);
+    },
+    );
+
+const sendNotification = (token, rideID) => {
+  const message = {
+    notification: {
+      title: "A New Ride!",
+      body: "A New Ride has been created in one of your groups!",
+    },
+    token: token,
+    data: {
+      rideID: rideID,
+    },
+  };
+  return admin.messaging().send(message);
+};
+
 exports.sendNotification = functions.https.onRequest(
     async (req, res) => {
       const id = req.query.id;
       const user = await admin.firestore().collection("Clients").doc(`${id}`).get();
       const token = user.data().fcmtoken;
-      const message = {
-        notification: {
-          title: "TEST",
-          body: "TEST",
-        },
-        data: {
-          rideID: "none",
-        },
-        token: token,
-      };
-      const mRes = await admin.messaging().send(message);
+      const mRes = await sendNotification(token, "NONE");
       res.json({res: JSON.stringify(mRes)});
     },
 );
+
+
