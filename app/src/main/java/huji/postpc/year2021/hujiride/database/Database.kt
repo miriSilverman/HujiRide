@@ -295,7 +295,13 @@ class Database {
     }
 
 
-    suspend fun deleteRide(rideId: String) {
-
+    suspend fun deleteRide(rideId: String) : Boolean {
+        return try {
+            rides.document(rideId).delete().await()
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            true
+        }
     }
 }

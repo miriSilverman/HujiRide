@@ -66,7 +66,6 @@ class Scan : BaseOnbaordingFragment(
 
 
     override fun onClickNext(): Boolean {
-        return true //todo: delete line
         if (viewModel.isScanCompleted) {
             return true
         }
