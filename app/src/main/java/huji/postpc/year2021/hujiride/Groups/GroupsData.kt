@@ -4,26 +4,7 @@ import kotlin.collections.ArrayList
 
 class GroupsData {
 
-
-
-
-
-    // groups that were added
-//    private val mutableDataGroups: MutableLiveData<MutableList<String>> = MutableLiveData<MutableList<String>>()
-//    var liveDataGroups: LiveData<MutableList<String>> = mutableDataGroups
-
-
-
-    // the filtered list
-//    val mutableDataFilteredGroups: MutableLiveData<MutableList<String>> = MutableLiveData<MutableList<String>>()
-//    var mutableDataFilteredGroups: Map<String,String> = HashMap()
     var mutableDataFilteredGroups: ArrayList<Pair<String,String>> = arrayListOf()
-
-
-//    private var groupsList : ArrayList<String> = arrayListOf()
-
-
-
 
 
     fun setFiltered(map: Map<String,String>){
@@ -37,34 +18,6 @@ class GroupsData {
     fun setFiltered(array: ArrayList<Pair<String,String>>){
         mutableDataFilteredGroups = array
     }
-
-
-
-//    fun getFiltered() : MutableList<String>? {
-//        return mutableDataFilteredGroups.value
-//    }
-
-
-
-
-//    fun getGroups() : List<String> {
-//        val newList = ArrayList<String>()
-//        liveDataGroups.value?.let { newList.addAll(it) }
-//        return newList
-//    }
-
-//
-//    fun addGroup(newGroup: String) {
-//        groupsList.add(newGroup)
-//        mutableDataGroups.value = groupsList
-//    }
-//
-//
-//    fun removeGroup(group: String){
-//        groupsList.remove(group)
-//        mutableDataGroups.value = groupsList
-//    }
-
 
 
 
