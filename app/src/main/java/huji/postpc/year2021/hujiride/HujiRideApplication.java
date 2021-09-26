@@ -6,9 +6,11 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,7 +78,11 @@ public class HujiRideApplication extends Application {
         }
 
         Gson gson = new Gson();
-        jerusalemNeighborhoods.putAll(gson.fromJson(neighborhoodsJson, jerusalemNeighborhoods.getClass()));
+        Type typeOfT = new TypeToken<Map<String, Map<String, String>>>(){}.getType();
+        Map<String, Map<String, String>> fullJSObject = gson.fromJson(neighborhoodsJson, typeOfT);
+        for (Map.Entry<String, Map<String, String>> entry : fullJSObject.entrySet()) {
+            jerusalemNeighborhoods.put(entry.getKey(), entry.getValue().get("english"));
+        }
     }
 
     public GroupsData getGroupsData()
