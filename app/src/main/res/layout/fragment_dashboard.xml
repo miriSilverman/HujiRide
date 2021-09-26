@@ -52,8 +52,8 @@
 
     <ImageView
         android:id="@+id/no_rides_img"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:src="@drawable/square_logo"
         app:layout_constraintEnd_toEndOf="parent"
