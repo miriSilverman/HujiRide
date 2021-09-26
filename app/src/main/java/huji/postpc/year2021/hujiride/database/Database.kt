@@ -106,6 +106,28 @@ class Database {
         return true
     }
 
+    private val allGroup = "-1";
+
+    suspend fun registerClientToAllNotifications(clientUniqueID: String) : Boolean {
+        return try {
+            messaging.subscribeToTopic(allGroup).await()
+            true
+        } catch (e : Exception) {
+            Log.e(TAG, e.message!!)
+            false
+        }
+    }
+
+    suspend fun unregisterClientToAllNotifications(clientUniqueID: String) : Boolean {
+        return try {
+            messaging.unsubscribeFromTopic(allGroup).await()
+            true
+        } catch (e : Exception) {
+            Log.e(TAG, e.message!!)
+            false
+        }
+    }
+
     suspend fun sortRidesAccordingToALocation(latLng: com.google.android.gms.maps.model.LatLng): ArrayList<Ride> {
         val closeRidesSnaps = rides.orderBy(FIELD_GEO_HASH)
             .startAt(
