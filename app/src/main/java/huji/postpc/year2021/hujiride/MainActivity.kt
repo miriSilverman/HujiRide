@@ -11,6 +11,9 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import huji.postpc.year2021.hujiride.Onboarding.OnboradingActivity
 import huji.postpc.year2021.hujiride.database.Client
 import huji.postpc.year2021.hujiride.database.Ride
@@ -22,6 +25,7 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var app: HujiRideApplication
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -36,6 +40,7 @@ class MainActivity : AppCompatActivity() {
             Log.d(TAG, "OpenCV not Loaded")
         }
 
+
         val userUniqueID = getUniqueID()
         app.userDetails.clientUniqueID = userUniqueID
 
@@ -46,14 +51,10 @@ class MainActivity : AppCompatActivity() {
             } else if (!client.isAuth) {
                 clientNotExistCase()
             } else {
-
                 clientExistsCase(client, userUniqueID)
             }
         }
-
-        TESTS()
-
-
+//        TESTS()
     }
 
     private fun TESTS() {
@@ -111,40 +112,6 @@ class MainActivity : AppCompatActivity() {
         app.setClientData(client.firstName, client.lastName, client.phoneNumber, userUniqueID)
         startActivity(Intent(this, ApplicationActivity::class.java))
         finish()
-    }
-
-    private fun placesSearch() {
-        // places search bar
-        Places.initialize(this, "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
-        val placesClient = Places.createClient(this)
-
-        // Initialize the AutocompleteSupportFragment.
-//        val autocompleteFragment =
-//            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment)
-//                    as AutocompleteSupportFragment
-
-        val autocompleteFragment =
-            supportFragmentManager.findFragmentById(-1)
-                    as AutocompleteSupportFragment
-        // Specify the types of place data to return.
-        autocompleteFragment
-            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
-            .setCountry("IL")
-            .setHint("חפש מוצא...") // TODO translated version?
-
-        val TAG = "SEARCH"
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
-                Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
-            }
-
-            override fun onError(status: Status) {
-                // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: $status")
-            }
-        })
     }
 
 }

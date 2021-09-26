@@ -44,6 +44,7 @@ apply plugin: 'com.google.gms.google-services'
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.4.0')
+    implementation 'com.google.firebase:firebase-auth-ktx'
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.3.9"
     implementation 'com.firebase:geofire-android-common:3.1.0'
     implementation 'com.google.firebase:firebase-firestore-ktx'
