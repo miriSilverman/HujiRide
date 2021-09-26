@@ -12,7 +12,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 
 
@@ -32,7 +37,8 @@ class RidesDetails : Fragment() {
     private lateinit var destTV: TextView
     private lateinit var timeTV: TextView
     private lateinit var commentsTV: TextView
-
+    private lateinit var app: HujiRideApplication
+    private lateinit var vm: RidesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,16 +59,21 @@ class RidesDetails : Fragment() {
         commentsTV = aView.findViewById(R.id.comments)
     }
 
-    private fun deleteRide(){
-        Toast.makeText(activity, "Ride was deleted successfully", Toast.LENGTH_SHORT).show()
-        Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_dashboard)
+    private fun deleteRide() {
+        val ride = vm.pressedRide.value
+        GlobalScope.launch(Dispatchers.IO) {
+            app.db.deleteRide(ride!!.id)
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(activity, "Ride was deleted successfully", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_dashboard)
+            }
+        }
     }
 
-    private fun contactDriver(){
+    private fun contactDriver() {
         Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
     }
-
-
 
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -70,14 +81,14 @@ class RidesDetails : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        aView =  inflater.inflate(R.layout.fragment_rides_details, container, false)
+        aView = inflater.inflate(R.layout.fragment_rides_details, container, false)
         findViews()
+        app = HujiRideApplication.getInstance()
+        vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
-        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
-
-        if (vm.fromDashboard){
+        if (vm.fromDashboard) {
             contactDriverBtn.text = "Delete ride"
-        }else{
+        } else {
             contactDriverBtn.text = "contact driver"
 
         }
@@ -89,9 +100,9 @@ class RidesDetails : Fragment() {
         }
 
         contactDriverBtn.setOnClickListener {
-            if (vm.fromDashboard){
+            if (vm.fromDashboard) {
                 deleteRide()
-            }else{
+            } else {
                 contactDriver()
             }
         }
@@ -102,18 +113,15 @@ class RidesDetails : Fragment() {
         }
 
 
-
-
-
         val ride = vm.pressedRide.value
-        if (ride != null){
+        if (ride != null) {
 
             var src = "HUJI"
             var dest = "HUJI"
 
-            if (ride.isDestinationHuji){
+            if (ride.isDestinationHuji) {
                 src = ride.destName
-            }else{
+            } else {
                 dest = ride.destName
             }
 
@@ -126,15 +134,11 @@ class RidesDetails : Fragment() {
             timeTV.text = "${timeFrm.format(dt)}  at  ${datFrm.format(dt)}"
 
 
-
-
-
             var comments = ""
-            for (s in ride.comments)
-            {
-                comments += "\n"+s
+            for (s in ride.comments) {
+                comments += "\n" + s
             }
-            if (comments != ""){
+            if (comments != "") {
                 commentsTV.text = comments
             }
 
@@ -144,7 +148,7 @@ class RidesDetails : Fragment() {
                 intent.type = "text/plain"
                 val body = "Sharing a ride with you"
                 var commentMsg = ""
-                if (comments != ""){
+                if (comments != "") {
                     commentMsg = "Please be aware of the following things:$comments"
                 }
                 val sub = "Hi!\nYou might be interested in this ride:\n\n" +
