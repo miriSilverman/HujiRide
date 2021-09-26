@@ -26,7 +26,7 @@ class GroupsData {
 
 
 
-    fun setFiltered(map: HashMap<String,String>){
+    fun setFiltered(map: Map<String,String>){
         val filtered : ArrayList<Pair<String,String>> = arrayListOf()
         for (p in map){
             filtered.add(Pair(p.key, p.value))

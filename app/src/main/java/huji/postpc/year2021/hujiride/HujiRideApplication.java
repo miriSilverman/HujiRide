@@ -11,6 +11,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
 import huji.postpc.year2021.hujiride.database.Database;
@@ -20,7 +23,7 @@ public class HujiRideApplication extends Application {
     private static HujiRideApplication instance;
     private GroupsData groupsData;
     private UserDetails userDetails;
-    private final HashMap<String, String> jerusalemNeighborhoods = new HashMap<>();
+    private final Map<String, String> jerusalemNeighborhoods = new TreeMap<>();
     private final String JERUSALEM_NEIGHBORS_JSON_FILENAME = "JerusalemNeighborhoods.json";
 
     private static final String ALL_NOTIFICATIONS = "all_notifiactions";
@@ -106,7 +109,7 @@ public class HujiRideApplication extends Application {
         editor.putBoolean(GROUPS_NOTIFICATIONS, justGroupsNotifications);
         editor.apply();
     }
-    public HashMap<String, String> getJerusalemNeighborhoods() {
+    public Map<String, String> getJerusalemNeighborhoods() {
         return jerusalemNeighborhoods;
     }
 

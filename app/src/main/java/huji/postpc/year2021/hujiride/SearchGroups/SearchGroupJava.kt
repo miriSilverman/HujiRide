@@ -21,7 +21,7 @@ import java.util.*
 
 class SearchGroupJava : Fragment() {
     private lateinit var adapter: SearchGroupAdapter
-    private lateinit var neighborhoods: HashMap<String, String>
+    private lateinit var neighborhoods: Map<String, String>
     private lateinit var app: HujiRideApplication
 
 
