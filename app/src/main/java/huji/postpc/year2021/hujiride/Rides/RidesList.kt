@@ -175,6 +175,7 @@ class RidesList : Fragment() {
             "no sorting" -> noSorting()
             "time" -> sortAccordingToTime()
             "src and dest" -> sortAccordingToAlloc()
+            "lexicographic order" -> sortAccordingToLexicographic()
         }
 
         if (sortACTV.text.toString() != "src and dest"){
@@ -302,6 +303,10 @@ class RidesList : Fragment() {
         return ride.timeStamp.toDate()
     }
 
+    private fun selectorLexicographic(ride: Ride): String {
+        return ride.destName
+    }
+
     private fun noSorting() {
         ridesList.clear()
         ridesList.addAll(dbRidesArr)
@@ -311,6 +316,12 @@ class RidesList : Fragment() {
         ridesList.clear()
         ridesList.addAll(dbRidesArr)
         ridesList.sortBy { selectorTime(it) }
+    }
+
+    private fun sortAccordingToLexicographic() {
+        ridesList.clear()
+        ridesList.addAll(dbRidesArr)
+        ridesList.sortBy { selectorLexicographic(it) }
     }
 
     @SuppressLint("NotifyDataSetChanged")

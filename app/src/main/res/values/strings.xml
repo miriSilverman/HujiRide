@@ -59,6 +59,7 @@
         <item>no sorting</item>
         <item>time</item>
         <item>src and dest</item>
+        <item>lexicographic order</item>
     </string-array>
 
     <string-array name="filtering_list">
