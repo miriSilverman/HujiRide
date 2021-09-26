@@ -139,7 +139,7 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             .setPositiveBtnBackground("#FF4081")
             .setPositiveBtnText("Got it").setNegativeBtnText("confused")
             //todo change gif
-            .setGifResource(R.drawable.oamjn) //Pass your Gif here
+            .setGifResource(R.drawable.map) //Pass your Gif here
             .isCancellable(true)
             .OnPositiveClicked {
                 Toast.makeText(this, "Good Luck!", Toast.LENGTH_SHORT).show()
@@ -222,13 +222,13 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     {
         FancyGifDialog.Builder(this)
             .setTitle("About Us")
-            .setMessage("This is the first version of HujiRide, The app that was built by Hebrew University's students for a SAFE, FAST and FUN way to get to campus and back home.\n\nOur Team was formed and guided in the course \"POST PC COMPUTING: HUMAN-CENTRIC MOBILE COMPUTING\".\n\n credits: Vector House Icon https://pngtree.com/freepng/vector-house-icon_4017483.html?share=1\n")
+            .setMessage("This is the first version of HujiRide, The app that was built by Hebrew University's students for a SAFE, FAST and FUN way to get to campus and back home.\n\nOur Team was formed and guided in the course \"POST PC COMPUTING: HUMAN-CENTRIC MOBILE COMPUTING\".\n\n credits: Vector House Icon https://pngtree.com/freepng/vector-house-icon_4017483.html?share=1\n Pile of Papers, Map gifs by cliply.co")
             .setNegativeBtnText("Contact")
             .setPositiveBtnBackground("#FF4081")
             .setPositiveBtnText("OK")
             .setNegativeBtnBackground("#FFA9A7A8")
                 //todo change gif
-            .setGifResource(R.drawable.flight) //Pass your Gif here
+            .setGifResource(R.drawable.glassgif) //Pass your Gif here
             .isCancellable(true)
             .OnPositiveClicked {
                 Toast.makeText(this, "Thanks For Reading", Toast.LENGTH_SHORT).show()
