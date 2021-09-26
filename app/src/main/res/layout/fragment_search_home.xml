@@ -71,11 +71,11 @@
             android:layout_height="100dp"
             android:layout_marginTop="96dp"
             android:layout_marginEnd="80dp"
-            android:background="@drawable/circle"
+            android:background="@drawable/circle_blue"
             android:backgroundTint="#009688"
             android:drawableTop="@drawable/ic_twotone_directions_car_24"
             android:text="@string/driverBtnText"
-            app:backgroundTint="#80CBC4"
+            app:backgroundTint="#27A9E1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment_dest" />
 
@@ -86,10 +86,10 @@
             android:layout_marginStart="80dp"
 
             android:layout_marginTop="96dp"
-            android:background="@drawable/circle"
+            android:background="@drawable/circle_blue"
             android:drawableTop="@drawable/ic_twotone_person_outline_24"
             android:text="@string/trampistBtnText"
-            app:backgroundTint="#80CBC4"
+            app:backgroundTint="#27A9E1"
 
             app:layout_constraintEnd_toStartOf="@+id/driver_btn"
             app:layout_constraintHorizontal_bias="0.0"
