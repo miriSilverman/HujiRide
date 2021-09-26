@@ -23,7 +23,7 @@ class Database {
     private val clients = db.collection("Clients")
     private val rides = db.collection("Rides")
     private val groups = db.collection("Groups")
-
+    private val bugs = db.collection("Bugs")
 
     suspend fun newClient(uniqueID: String): Boolean {
         return try {
@@ -302,6 +302,16 @@ class Database {
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             true
+        }
+    }
+
+    suspend fun addBug(bug: String) : Boolean {
+        return try {
+            bugs.document().set(mapOf("info" to bug)).await()
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, e.message!!)
+            false
         }
     }
 }
