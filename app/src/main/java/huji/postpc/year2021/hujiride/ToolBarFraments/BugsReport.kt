@@ -17,7 +17,7 @@ class BugsReport: Fragment() {
     private lateinit var usersReport: TextView
     private lateinit var addBug: FloatingActionButton
     private lateinit var thanksTxt: TextView
-    private lateinit var thanksImg: ImageView
+    //private lateinit var thanksImg: ImageView
 
 
 
@@ -29,9 +29,9 @@ class BugsReport: Fragment() {
         val view = inflater.inflate(R.layout.bugs_report, container, false)
         addBug = view.findViewById(R.id.add_bug_btn)
         thanksTxt = view.findViewById(R.id.thanks)
-        thanksImg = view.findViewById(R.id.thanks_img)
+        //thanksImg = view.findViewById(R.id.thanks_img)
         thanksTxt.visibility = View.INVISIBLE
-        thanksImg.visibility = View.INVISIBLE
+        //thanksImg.visibility = View.INVISIBLE
 
 
         addBug.setOnClickListener{
@@ -43,7 +43,7 @@ class BugsReport: Fragment() {
 
     fun makeVisible(){
         thanksTxt.visibility = View.VISIBLE
-        thanksImg.visibility = View.VISIBLE
+        //thanksImg.visibility = View.VISIBLE
     }
 
 
