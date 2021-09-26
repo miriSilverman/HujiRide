@@ -8,6 +8,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.getField
+import com.google.firebase.messaging.ktx.messaging
 import com.google.type.LatLng
 import huji.postpc.year2021.hujiride.MainActivity
 import kotlinx.coroutines.*
@@ -20,6 +21,7 @@ import kotlin.reflect.typeOf
 class Database {
     private val TAG = "Database"
     private val db = Firebase.firestore
+    private val messaging = Firebase.messaging
     private val clients = db.collection("Clients")
     private val rides = db.collection("Rides")
     private val groups = db.collection("Groups")
@@ -69,8 +71,15 @@ class Database {
 
     suspend fun registerClientToGroup(clientUniqueID: String, groupID: String): Boolean {
         try {
-            clients.document(clientUniqueID)
-                .update(mapOf(FIELD_REGISTERED_GROUPS to FieldValue.arrayUnion(groupID))).await()
+            coroutineScope {
+                listOf(
+                    async {
+                    clients.document(clientUniqueID)
+                    .update(mapOf(FIELD_REGISTERED_GROUPS to FieldValue.arrayUnion(groupID)))
+                    },
+                    async { messaging.subscribeToTopic(groupID) }
+                ).awaitAll()
+            }
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return false
@@ -83,8 +92,13 @@ class Database {
      */
     suspend fun unregisterClientToGroup(clientUniqueID: String, groupId: String): Boolean {
         try {
-            clients.document(clientUniqueID)
-                .update(mapOf(FIELD_REGISTERED_GROUPS to FieldValue.arrayRemove(groupId))).await()
+            coroutineScope {
+                listOf(
+                    async { clients.document(clientUniqueID)
+                        .update(mapOf(FIELD_REGISTERED_GROUPS to FieldValue.arrayRemove(groupId))) },
+                    async { messaging.unsubscribeFromTopic(groupId) }
+                ).awaitAll()
+            }
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return false
@@ -152,11 +166,7 @@ class Database {
      * adds a ride go the rideList of a certain group + the func adds the ride to the "all rides"
      * list
      */
-    suspend fun addRide(
-        ride: Ride,
-        clientUniqueID: String,
-        groupID: String? = null
-    ): String? {
+    suspend fun addRide(ride: Ride, clientUniqueID: String, groupID: String? = null): String? {
         ride.groupID = groupID ?: "-1"
         val id = newRide(ride, clientUniqueID) ?: return null
         if (groupID == null) return id

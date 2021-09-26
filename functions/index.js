@@ -39,48 +39,54 @@ exports.cleanOldRides = functions.https.onRequest(
     },
 );
 
-// Listens for new messages added to /messages/:documentId/original and creates an
-// uppercase version of the message to /messages/:documentId/uppercase
-// exports.makeUppercase = functions.firestore.document("/messages/{documentId}")
-//     .onCreate((snap, context) => {
-//       // Grab the current value of what was written to Firestore.
-//       const original = snap.data().original;
 
-//       // Access the parameter `{documentId}` with `context.params`
-//       functions.logger.log("Uppercasing", context.params.documentId, original);
+// exports.ridesGroupsNotifications = functions.firestore.document("/Rides/{rideID}")
+//     .onCreate(async (snap, context) => {
+//       const rideID = snap.data().id;
+//       const groupID = snap.data().groupID;
 
-//       const uppercase = original.toUpperCase();
+//       const clients = await admin.firestore()
+//           .collection("Clients")
+//           .where("registeredGroups", "array-contains", `${groupID}`)
+//           .get();
+//       const tokens = clients.docs.map((client) => client.data().fcmtoken);
+//       await admin.firestore().collection("Results").doc("r1").set({arr: tokens});
 
-//       // You must return a Promise when performing asynchronous tasks inside a Functions such as
-//       // writing to Firestore.
-//       // Setting an 'uppercase' field in Firestore document returns a Promise.
-//       return snap.ref.set({uppercase}, {merge: true});
-//     });
+//       const notificationTasks = tokens.map((t) => sendNotification(t, rideID));
+//       await Promise.all(notificationTasks);
+//       functions.logger.log(`Sent Notifications to ${notificationTasks.size} clients!`);
+//     },
+//     );
 
 exports.ridesGroupsNotifications = functions.firestore.document("/Rides/{rideID}")
     .onCreate(async (snap, context) => {
       const rideID = snap.data().id;
       const groupID = snap.data().groupID;
 
-      const clients = await admin.firestore()
-          .collection("Clients")
-          .where("registeredGroups", "array-contains", `${groupID}`)
-          .get();
-      const tokens = clients.docs.map((client) => client.data().fcmtoken);
-      await admin.firestore().collection("Results").doc("r1").set({arr: tokens});
-
-      const notificationTasks = tokens.map((t) => sendNotification(t, rideID));
-      await Promise.all(notificationTasks);
-      functions.logger.log(`Sent Notifications to ${notificationTasks.size} clients!`);
+      await sendTopicNotification(groupID, rideID);
+      functions.logger.log(`Sent Notifications to ${groupID} topic!`);
     },
     );
 
+const notificationMessage = {
+  title: "A New Ride!",
+  body: "A New Ride has been created in one of your groups!",
+};
+
+const sendTopicNotification = (topic, rideID) => {
+  const message = {
+    notification: notificationMessage,
+    topic: topic,
+    data: {
+      rideID: rideID,
+    },
+  };
+  return admin.messaging().send(message);
+};
+
 const sendNotification = (token, rideID) => {
   const message = {
-    notification: {
-      title: "A New Ride!",
-      body: "A New Ride has been created in one of your groups!",
-    },
+    notification: notificationMessage,
     token: token,
     data: {
       rideID: rideID,
