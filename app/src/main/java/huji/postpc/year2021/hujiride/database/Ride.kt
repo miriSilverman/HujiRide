@@ -29,8 +29,10 @@ data class Ride (
     val long: Double = 0.0,
     val geoHash: String = "",
     var id: String = "",
-    @JvmField val isDestinationHuji: Boolean = true  // when true, this ride is TO HUJI. when false, this ride is FROM HUJI.
+    @JvmField val isDestinationHuji: Boolean = true,  // when true, this ride is TO HUJI. when false, this ride is FROM HUJI.
+    var groupID: String = "",
 )
 
 const val FIELD_DRIVER_ID = "driverID"
 const val FIELD_GEO_HASH = "geoHash"
+const val FIELD_GROUP_ID = "groupID"

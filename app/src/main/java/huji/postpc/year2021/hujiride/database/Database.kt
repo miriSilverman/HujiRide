@@ -157,6 +157,7 @@ class Database {
         clientUniqueID: String,
         groupID: String? = null
     ): String? {
+        ride.groupID = groupID ?: "-1"
         val id = newRide(ride, clientUniqueID) ?: return null
         if (groupID == null) return id
         try {
@@ -174,6 +175,7 @@ class Database {
      * given groups id returns a list of the rides ID in this group (also "all" group)
      */
     private suspend fun getRidesIDOfGroup(groupID: String): ArrayList<String> {
+        // TODO: query differently!
         try {
             return ArrayList(
                 (groups.document(groupID).get().await()
@@ -196,19 +198,26 @@ class Database {
         })
     }
 
+    fun <E> List<E>.toArrayList(): ArrayList<E> = ArrayList(this)
+
     /**
      * given groups name returns a list of the rides in this group (also "all" group)
      */
     suspend fun getRidesListOfGroup(groupID: String?): ArrayList<Ride> {
         if (groupID == null) {
-            return ArrayList(rides.get().await().documents
-                .mapNotNull { documentSnapshot -> documentSnapshot.toObject(Ride::class.java) })
+            return rides.get()
+                .await()
+                .documents
+                .mapNotNull { documentSnapshot -> documentSnapshot.toObject(Ride::class.java) }
+                .toArrayList()
                 .filterActiveRides()
         } else {
-            return ArrayList(getRidesIDOfGroup(groupID)
-                .mapNotNull { id ->
-                    rides.document(id).get().await().toObject(Ride::class.java)
-                })
+            return rides.whereEqualTo(FIELD_GROUP_ID, groupID)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { ds -> ds.toObject(Ride::class.java) }
+                .toArrayList()
                 .filterActiveRides()
         }
     }
@@ -259,7 +268,6 @@ class Database {
         return addRideToClientsRides(clientId, ride.id)
     }
 
-
     suspend fun setFCMToken(clientUniqueID: String, token: String): Boolean {
         return try {
             clients.document(clientUniqueID).set(hashMapOf(FIELD_FCM_TOKEN to token)).await()
@@ -282,7 +290,6 @@ class Database {
         }
     }
 
-
     suspend fun getClientCreatedRides(clientID: String): ArrayList<Ride>? {
         return try {
             val rideDocs =
@@ -293,7 +300,6 @@ class Database {
             null
         }
     }
-
 
     suspend fun deleteRide(rideId: String) : Boolean {
         return try {
