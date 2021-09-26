@@ -1,12 +1,8 @@
 package huji.postpc.year2021.hujiride
 
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import huji.postpc.year2021.hujiride.ToolBarFraments.About
-import huji.postpc.year2021.hujiride.ToolBarFraments.BugsReport
-import huji.postpc.year2021.hujiride.ToolBarFraments.Settings
 import huji.postpc.year2021.hujiride.Groups.GroupsHome
 
 class BottomNavHelper: BottomNavigationView.OnNavigationItemSelectedListener {

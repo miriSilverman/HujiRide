@@ -1,15 +1,14 @@
-package huji.postpc.year2021.hujiride.Rides
+package huji.postpc.year2021.hujiride
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import huji.postpc.year2021.hujiride.R
+import huji.postpc.year2021.hujiride.Rides.RideViewHolder
 import huji.postpc.year2021.hujiride.database.Ride
 import java.text.SimpleDateFormat
 
-
-class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
+class PublishedRidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
 
     private val _ridesList: MutableList<Ride> = ArrayList()
 
@@ -64,6 +63,4 @@ class RidesAdapter: RecyclerView.Adapter<RideViewHolder>() {
     override fun getItemCount(): Int {
         return _ridesList.size
     }
-
-
 }

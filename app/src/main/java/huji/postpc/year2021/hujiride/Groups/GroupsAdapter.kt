@@ -89,13 +89,13 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
             .setMessage(R.string.unregisterGroupDialogTxt)
             .setIcon(R.drawable.ic_delete)
             .setCancelable(false)
-            .setNegativeButton(android.R.string.no, null)
-            .setPositiveButton(android.R.string.yes) { _: DialogInterface, _: Int ->
+            .setNegativeButton("no", null)
+            .setPositiveButton("yes") { _: DialogInterface, _: Int ->
 
                 GlobalScope.launch (Dispatchers.IO) {
                     val groupsList = app.db.getGroupsOfClient(clientId)
-                    val group = groupsList?.get(holder.adapterPosition)
-                    group?.let { it1 ->
+                    val group = groupsList[holder.adapterPosition]
+                    group.let { it1 ->
                         if (callback != null) {
                             callback(it1)
                         }

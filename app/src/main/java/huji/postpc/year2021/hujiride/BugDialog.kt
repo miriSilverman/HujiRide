@@ -5,9 +5,11 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatDialogFragment
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class BugDialog: AppCompatDialogFragment() {
     private lateinit var comment : EditText
@@ -26,16 +28,21 @@ class BugDialog: AppCompatDialogFragment() {
 
         builder.setView(aView)
             .setTitle("Report New Bug")
-            .setNegativeButton("cancel", DialogInterface.OnClickListener{ dialogInterface: DialogInterface, i: Int -> })
-            .setPositiveButton("report", DialogInterface.OnClickListener{ dialogInterface: DialogInterface, i: Int ->
+            .setNegativeButton("cancel") { _: DialogInterface, _: Int -> }
+            .setPositiveButton("report") { _: DialogInterface, _: Int ->
 
-                if (!comment.text.isEmpty()){
-                    HujiRideApplication.getInstance().addBug(comment.text.toString()) // todo: change to real add bug in firestore
-                    onReportCallback?.invoke()
+                if (comment.text.isNotEmpty()) {
+
+                    GlobalScope.launch(Dispatchers.IO) {
+                        HujiRideApplication.getInstance().db.addBug(comment.text.toString())
+                        withContext(Dispatchers.Main) {
+                            onReportCallback?.invoke()
+                        }
+                    }
                 }
 
-            })
-        
+            }
+
 
         return builder.create()
 

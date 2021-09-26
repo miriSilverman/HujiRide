@@ -26,7 +26,8 @@ import kotlinx.coroutines.withContext
 class Dashboard : Fragment() {
 
     private lateinit var aView: View
-    private lateinit var adapter: MyRidesAdapter
+    private lateinit var myRidesAdapter: MyRidesAdapter
+    private lateinit var publishedAdapter: PublishedRidesAdapter
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
     private lateinit var titleTxt: TextView
@@ -56,21 +57,38 @@ class Dashboard : Fragment() {
         app = HujiRideApplication.getInstance()
         vm.fromMyRides = true
 
-        adapter = MyRidesAdapter()
+        myRidesAdapter = MyRidesAdapter()
+        publishedAdapter = PublishedRidesAdapter()
         val clientId = app.userDetails.clientUniqueID
 
         GlobalScope.launch(Dispatchers.IO) {
 
-            val rides = app.db.getRidesOfClient(clientId)
+            val myRides = app.db.getRidesOfClient(clientId)
+            val myPublishedRides = app.db.getClientCreatedRides(clientId)
 
-            adapter.setClientsRides(rides)
-            adapter.notifyDataSetChanged()
+            myRidesAdapter.setClientsRides(myRides)
+            myRidesAdapter.notifyDataSetChanged()
+
+            if (myPublishedRides != null) {
+                publishedAdapter.setRidesList(myPublishedRides)
+                publishedAdapter.notifyDataSetChanged()
+            }
             withContext(Dispatchers.Main) {
-                if (adapter.itemCount == 0) {
-                    noNearRidesCase()
+                if (myRidesAdapter.itemCount == 0) {
+                    noMyRidesCase()
                 } else {
-                    thereAreRidesCase()
+                    thereAreMyRidesCase()
                 }
+
+
+                if (publishedAdapter.itemCount == 0) {
+                    noMyPublishedRidesCase()
+                } else {
+                    thereAreMyPublishedRidesCase()
+                }
+
+
+
             }
 
         }
@@ -98,20 +116,43 @@ class Dashboard : Fragment() {
 
 
 
-    private fun noNearRidesCase() {
+    private fun noMyRidesCase() {
         setVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
     }
 
 
-    private fun thereAreRidesCase() {
+
+
+    private fun thereAreMyRidesCase() {
         setVisibility(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
 
         val ridesRecycler: RecyclerView = aView.findViewById(R.id.my_rides_recycler)
-        ridesRecycler.adapter = adapter
+        ridesRecycler.adapter = myRidesAdapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
 
-        adapter.onItemClickCallback = { ride: Ride ->
+        myRidesAdapter.onItemClickCallback = { ride: Ride ->
+            vm.fromDashboard = false
+            vm.pressedRide.value = ride
+            Navigation.findNavController(aView).navigate(R.id.action_dashboard_to_ridesDetails)
+        }
+    }
+
+
+    private fun noMyPublishedRidesCase() {
+//        setVisibility(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
+    }
+
+    private fun thereAreMyPublishedRidesCase() {
+//        setVisibility(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
+
+        val ridesRecycler: RecyclerView = aView.findViewById(R.id.my_published_rides_recycler)
+        ridesRecycler.adapter = publishedAdapter
+        ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+
+
+        publishedAdapter.onItemClickCallback = { ride: Ride ->
+            vm.fromDashboard = true
             vm.pressedRide.value = ride
             Navigation.findNavController(aView).navigate(R.id.action_dashboard_to_ridesDetails)
         }

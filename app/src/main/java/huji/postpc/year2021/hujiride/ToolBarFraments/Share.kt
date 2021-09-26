@@ -22,7 +22,7 @@ class Share: Fragment() {
 
         shareBtn.setOnClickListener{
             val intent = Intent(Intent.ACTION_SEND)
-            intent.setType("text/plain")
+            intent.type = "text/plain"
             val body = "Download this app"
             val sub = "http://play.google.com" //todo: change to real link
             intent.putExtra(Intent.EXTRA_TEXT, body)

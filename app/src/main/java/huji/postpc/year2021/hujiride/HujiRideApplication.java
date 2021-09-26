@@ -3,33 +3,27 @@ package huji.postpc.year2021.hujiride;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.provider.DocumentsContract;
 import android.widget.Toast;
 
-import com.google.common.base.Joiner;
 import com.google.gson.Gson;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import huji.postpc.year2021.hujiride.Groups.GroupsData;
-import huji.postpc.year2021.hujiride.MyRides.MyRides;
 import huji.postpc.year2021.hujiride.database.Database;
-import kotlin.Pair;
 
 public class HujiRideApplication extends Application {
 
     private static HujiRideApplication instance;
     private GroupsData groupsData;
-    private RidesPerGroups ridesPerGroups;
     private UserDetails userDetails;
-    private MyRides myRides;
-    private final HashMap<String, String> jerusalemNeighborhoods = new HashMap<>();
+    private final Map<String, String> jerusalemNeighborhoods = new TreeMap<>();
     private final String JERUSALEM_NEIGHBORS_JSON_FILENAME = "JerusalemNeighborhoods.json";
 
     private static final String ALL_NOTIFICATIONS = "all_notifiactions";
@@ -49,8 +43,6 @@ public class HujiRideApplication extends Application {
             instance = this;
         }
         groupsData = new GroupsData();
-        ridesPerGroups = new RidesPerGroups();
-        myRides = new MyRides();
         sp = getSharedPreferences(SHARED, Context.MODE_PRIVATE);
 
         userDetails = new UserDetails(sp.getString(FIRST_NAME, ""),
@@ -91,16 +83,10 @@ public class HujiRideApplication extends Application {
     {
         return groupsData;
     }
-    public RidesPerGroups getRidesPerGroup() {
-        return ridesPerGroups;
-    }
     public UserDetails getUserDetails() {
         return userDetails;
     }
 
-    public MyRides getMyRides() {
-        return myRides;
-    }
 
     public Database getDb() {
         return db;
@@ -112,8 +98,9 @@ public class HujiRideApplication extends Application {
     }
 
     public void addBug(String bug){
-        // @bug to db
+        // todo: @bug to db
         Toast.makeText(this, "duvah", Toast.LENGTH_SHORT).show();
+//        db.addBug(bug);
     }
 
     public void saveNotificationsState(boolean allNotifications, boolean justGroupsNotifications){
@@ -122,7 +109,7 @@ public class HujiRideApplication extends Application {
         editor.putBoolean(GROUPS_NOTIFICATIONS, justGroupsNotifications);
         editor.apply();
     }
-    public HashMap<String, String> getJerusalemNeighborhoods() {
+    public Map<String, String> getJerusalemNeighborhoods() {
         return jerusalemNeighborhoods;
     }
 

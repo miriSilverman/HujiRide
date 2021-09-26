@@ -109,6 +109,8 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId){
+            R.id.nav_HowToUse->
+                howPressed()
             R.id.nav_settings ->
                  settingPressed()
                  //supportFragmentManager.beginTransaction().replace(R.id.onborading_nav_fragment_container, Settings()).commit()
@@ -128,6 +130,28 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         return true
     }
+
+    private fun howPressed()
+    {
+        FancyGifDialog.Builder(this)
+            .setTitle("How to use?")
+            .setMessage("This app allows you to connect to fellow students and drive with them to campus and back. \n\n At New Ride screen - which is reachable through the bottom menu - you can add a ride you are planning to drive or search for a ride as a passenger. \n\n Moreover, the GROUPS allows you to sign up to certain locations, and see all the rides to and from there. We recommend signing up to any group that is close to your home!")
+            .setPositiveBtnBackground("#FF4081")
+            .setPositiveBtnText("Got it").setNegativeBtnText("confused")
+            //todo change gif
+            .setGifResource(R.drawable.oamjn) //Pass your Gif here
+            .isCancellable(true)
+            .OnPositiveClicked {
+                Toast.makeText(this, "Good Luck!", Toast.LENGTH_SHORT).show()
+            }.OnNegativeClicked {
+                Toast.makeText(this, "Try 'New Ride' first, you will get it!", Toast.LENGTH_SHORT).show()
+
+            }
+            .build()    }
+
+
+
+
 
     private fun bugPressed()
     {

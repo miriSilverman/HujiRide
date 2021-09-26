@@ -47,7 +47,7 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
             GlobalScope.launch(Dispatchers.IO) {
                 if (holder.checkBox.isChecked) {
                     app.db.registerClientToGroup(clientId, getIdOfGroup(groupName))
-                    app.db.getGroupsOfClient(clientId)?.let { it1 -> setGroupsList(it1) }
+                    app.db.getGroupsOfClient(clientId).let { it1 -> setGroupsList(it1) }
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
                             app,
@@ -59,7 +59,7 @@ class SearchGroupAdapter : RecyclerView.Adapter<SearchGroupViewHolder>() {
 
                 } else {
                     app.db.unregisterClientToGroup(clientId, getIdOfGroup(groupName))
-                    app.db.getGroupsOfClient(clientId)?.let { it1 -> setGroupsList(it1) }
+                    app.db.getGroupsOfClient(clientId).let { it1 -> setGroupsList(it1) }
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
                             app,

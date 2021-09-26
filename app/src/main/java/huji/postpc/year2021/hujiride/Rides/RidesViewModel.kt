@@ -12,11 +12,13 @@ class RidesViewModel: ViewModel() {
     var pressedRide: MutableLiveData<Ride> = MutableLiveData()
 
     var pressedGroup: MutableLiveData<SearchGroupItem> = MutableLiveData()
-    var latLng : LatLng = LatLng(0.0, 0.0)
+    var latLng : LatLng? = null
 
     var toHuji: Boolean = true
     var srcOrDest: String = ""
 
     var fromMyRides :Boolean = true
+
+    var fromDashboard : Boolean = true
 
 }

@@ -52,8 +52,12 @@ class SearchHome : Fragment() {
     ): View? {
         val view =  inflater.inflate(R.layout.fragment_search_home, container, false)
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        vm.latLng = null
+        vm.srcOrDest = ""
         vm.pressedGroup.value = SearchGroupItem(null, false)
-        vm.fromMyRides = false // todo: change to false
+        vm.fromMyRides = false
+        vm.fromDashboard = false
+
 
         findViews(view)
 

@@ -1,7 +1,10 @@
 package huji.postpc.year2021.hujiride.Rides
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +14,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.api.Status
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.textfield.TextInputLayout
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.HujiRideApplication
@@ -19,9 +27,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import huji.postpc.year2021.hujiride.database.Ride
-import java.sql.Date
-import java.sql.Timestamp
-import java.text.SimpleDateFormat
 
 
 /**
@@ -30,30 +35,29 @@ import java.text.SimpleDateFormat
 class RidesList : Fragment() {
 
     private lateinit var aView: View
-    private var toHuji: Boolean = true
+//    private var setDirecDialogView: View? = null
+//    private var toHuji: Boolean = true
     private lateinit var img: ImageView
     private lateinit var noRidesTxt: TextView
 
     private lateinit var sortTIL: TextInputLayout
-    private lateinit var sortACTV : AutoCompleteTextView
+    private lateinit var sortACTV: AutoCompleteTextView
 
     private lateinit var filterTIL: TextInputLayout
-    private lateinit var filterACTV : AutoCompleteTextView
+    private lateinit var filterACTV: AutoCompleteTextView
 
     private lateinit var adapter: RidesAdapter
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
-    private lateinit var addRideBtn : Button
-    private lateinit var applyBtn : ImageButton
+    private lateinit var addRideBtn: Button
+    private lateinit var applyBtn: ImageButton
     private lateinit var ridesRecycler: RecyclerView
-    private var ridesList : ArrayList<Ride> = arrayListOf()
+    private var ridesList: ArrayList<Ride> = arrayListOf()
     private var newList = ArrayList<Ride>()
     private var dbRidesArr = ArrayList<Ride>()
     private var sortedAllocationDbRidesArr = ArrayList<Ride>()
-
-
-
+    private lateinit var autoCompleteFrag: AutocompleteSupportFragment
 
 
 
@@ -77,9 +81,6 @@ class RidesList : Fragment() {
     }
 
 
-
-
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -90,24 +91,19 @@ class RidesList : Fragment() {
 
         findViews()
 
+
         addRideBtn.setOnClickListener {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_newRide2)
         }
         setVisibility(View.INVISIBLE, View.INVISIBLE, false, View.VISIBLE)
 
-
         adapter = RidesAdapter()
 
-//        setDirection()
-
-//        switchDirectionBtn.setOnClickListener {
-//            toHuji = !toHuji
-//            setDirection()
-//        }
-
-
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
-        val curGroup = vm.pressedGroup
+
+        if (vm.srcOrDest != "") {
+            autoCompleteFrag.setText(vm.srcOrDest)
+        }
 
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -118,62 +114,45 @@ class RidesList : Fragment() {
             Navigation.findNavController(aView).navigate(R.id.action_ridesList_to_ridesDetails)
         }
 
+        sortACTV.setOnItemClickListener { parent, _, pos, _ ->
 
-
+            if (parent.getItemAtPosition(pos).toString() == "src and dest") {
+                setDestinationSorting()
+            }else{
+                autoCompleteFrag.requireView().visibility = View.INVISIBLE
+            }
+        }
 
         applyBtn.setOnClickListener {
-
-
-            when (sortACTV.text.toString()){
-                "no sorting" -> noSorting()
-                "time" -> sortAccordingToTime()
-                "src and dest" -> sortAccordingToAlloc()
-            }
-
-
-
-            when (filterACTV.text.toString()){
-                "source to Huji" -> filterToHuji(true)
-                "Huji to destination" -> filterToHuji(false)
-                "all" -> filterAll()
-            }
-
-
-
-            adapter.setRidesList(newList)
-            adapter.notifyDataSetChanged()
+            applyBtnOnPressed()
         }
 
 
+        setAdaptersList()
+
+        return aView
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun setAdaptersList() {
+        val curGroup = vm.pressedGroup
+        val group = curGroup.value?.name
+        var groupsName: String? = null
+        if (group != null) {
+            groupsName = group.toString()
+        }
+
         GlobalScope.launch(Dispatchers.IO) {
-            val group = curGroup.value?.name
-            var groupsName: String? = null
-            if (group != null){
-                groupsName = group.toString()
+
+            if (vm.latLng != null) {
+                sortedAllocationDbRidesArr = app.db.sortRidesAccordingToALocation(vm.latLng!!)
             }
 
-            if (group == null){
-                sortedAllocationDbRidesArr = app.db.sortRidesAccordingToALocation(vm.latLng)
-                dbRidesArr = app.db.getRidesListOfGroup(groupsName)
+            dbRidesArr = app.db.getRidesListOfGroup(groupsName)
 
-//                for (r in sortedAllocationDbRidesArr){
-//                    println(r.destName+"   !!!!!!!!!!!!!!!!")
-//                }
-//                println("..............")
-//                for (r in dbRidesArr){
-//                    println(r.destName+"   !!!!!!!!!!!!!!!!")
-//                }
-
-            }else{
-                dbRidesArr = app.db.getRidesListOfGroup(groupsName)
-            }
-
+            ridesList.clear()
             ridesList.addAll(dbRidesArr)
-
-
             adapter.setRidesList(ridesList)
-
-
 
             withContext(Dispatchers.Main) {
                 adapter.notifyDataSetChanged()
@@ -186,112 +165,305 @@ class RidesList : Fragment() {
 
         }
 
-        return aView
+
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun applyBtnOnPressed() {
+        when (sortACTV.text.toString()) {
+            "no sorting" -> noSorting()
+            "time" -> sortAccordingToTime()
+            "src and dest" -> sortAccordingToAlloc()
+            "lexicographic order" -> sortAccordingToLexicographic()
+        }
+
+        if (sortACTV.text.toString() != "src and dest"){
+            filteringSwitchCase()
+        }
+
+    }
+
+    private fun setDestinationSorting() {
+        autoCompleteFrag.requireView().visibility = View.VISIBLE
+        autoCompletePlaces(autoCompleteFrag)
+//        settingPressed()
+//        val dialog = SetDestinationDialog()
+//
+//        dialog.show(activity?.supportFragmentManager!!, "dest dialog")
     }
 
 
 
-    private fun selectorTime(ride: Ride): com.google.firebase.Timestamp = ride.timeStamp
-//    private fun selectorNotTime(ride: Ride): String = ride.destName
-    private fun selectorNotTime(ride: Ride): java.util.Date {
+//    @SuppressLint("UseSwitchCompatOrMaterialCode")
+//    private fun agreeToTermsDialog() {
+//
+//        var dialog: AlertDialog? = null
+//        val builder = AlertDialog.Builder(activity)
+//
+//        val view = layoutInflater.inflate(R.layout.agree_to_terms, null)
+//        val checkBox = view.findViewById<CheckBox>(R.id.terms_checkbox)
+//
+//        builder.setPositiveButton("Next", DialogInterface.OnClickListener { d, m ->
+//        })
+//
+//
+//        builder.setView(view)
+//        dialog = builder.create()
+//        dialog.setOnShowListener {
+//            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
+//
+//            checkBox.setOnClickListener {
+//                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = checkBox.isChecked
+//            }
+//
+//        }
+//
+//        dialog.show()
+//
+//    }
+
+
+//
+//    @SuppressLint("UseSwitchCompatOrMaterialCode")
+//    private fun settingPressed() {
+//
+//        var dialog: AlertDialog? = null
+//        val builder = AlertDialog.Builder(activity)
+//
+//        val view = layoutInflater.inflate(R.layout.setting_alert_dialog, null)
+//
+//        builder.setPositiveButton("Done", DialogInterface.OnClickListener { d, m ->
+//            Toast.makeText(activity, "changed!", Toast.LENGTH_SHORT).show()
+//        })
+//
+//
+//        builder.setView(view)
+//        dialog = builder.create()
+//        dialog.show()
+//
+//    }
+
+
+    @SuppressLint("UseSwitchCompatOrMaterialCode")
+    private fun insertDestDialog() {
+
+        var dialog: AlertDialog? = null
+        val builder = AlertDialog.Builder(activity)
+
+        val view = layoutInflater.inflate(R.layout.set_direction_dialog, null)
+
+        builder.setPositiveButton("Got it") { _, _ ->
+        }
+
+
+        builder.setView(view)
+        dialog = builder.create()
+        dialog.show()
+
+    }
+
+
+    private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
+        // places search bar
+        Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
+//        val placesClient = Places.createClient(requireActivity())
+
+        // Specify the types of place data to return.
+        autocompleteFragment
+            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+            .setCountry("IL")
+            .setHint("חפש מוצא...") // TODO translated version?
+
+        val tag = "SEARCH"
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                // TODO: Get info about the selected place.
+                Log.i(tag, "Place: ${place.name}, ${place.id}, ${place.latLng}")
+                vm.srcOrDest = place.name.toString()
+                if (place.latLng != null) {
+                    vm.latLng = place.latLng!!
+                }
+
+            }
+
+
+
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Log.i(tag, "An error occurred: $status")
+            }
+        })
+
+    }
+
+
+    private fun selectorTime(ride: Ride): java.util.Date {
         return ride.timeStamp.toDate()
     }
 
-    private fun noSorting(){
+    private fun selectorLexicographic(ride: Ride): String {
+        return ride.destName
+    }
+
+    private fun noSorting() {
         ridesList.clear()
         ridesList.addAll(dbRidesArr)
-//        ridesList.sortBy { selectorNotTime(it) }
-//        newList.sortBy { selectorNotTime(it) }
     }
 
-    private fun sortAccordingToTime(){
+    private fun sortAccordingToTime() {
         ridesList.clear()
         ridesList.addAll(dbRidesArr)
-        ridesList.sortBy { selectorNotTime(it) }
-//        newList.sortBy { selectorNotTime(it) }
+        ridesList.sortBy { selectorTime(it) }
     }
 
-    private fun sortAccordingToAlloc(){
+    private fun sortAccordingToLexicographic() {
         ridesList.clear()
-        ridesList.addAll(sortedAllocationDbRidesArr)
+        ridesList.addAll(dbRidesArr)
+        ridesList.sortBy { selectorLexicographic(it) }
     }
 
-    private fun filterToHuji(condition: Boolean){
-        //            ridesList.filter { ride: Ride ->
-//                ride.isDestinationHuji
-//            }
-        newList.clear()
-        for (r in ridesList){
-            if (r.isDestinationHuji == condition){
-                newList.add(r)
+    @SuppressLint("NotifyDataSetChanged")
+    private fun sortAccordingToAlloc() {
+        if (vm.latLng == null) {
+            insertDestDialog()
+//            agreeToTermsDialog()
+
+        } else {
+
+            GlobalScope.launch(Dispatchers.IO) {
+                if (vm.latLng != null) {
+                    sortedAllocationDbRidesArr.clear()
+                    sortedAllocationDbRidesArr.addAll(app.db.sortRidesAccordingToALocation(vm.latLng!!))
+                }
+
+                withContext(Dispatchers.Main) {
+                    ridesList.clear()
+                    ridesList.addAll(sortedAllocationDbRidesArr)
+
+                    filteringSwitchCase()
+
+                }
+
             }
         }
     }
 
-    private fun filterAll(){
-        newList.clear()
-        newList.addAll(ridesList)
+    @SuppressLint("NotifyDataSetChanged")
+    private fun filteringSwitchCase() {
+        when (filterACTV.text.toString()) {
+            "source to Huji" -> filterToHuji(true)
+            "Huji to destination" -> filterToHuji(false)
+            "all" -> filterAll()
+        }
+
+
+
+        adapter.setRidesList(newList)
+        adapter.notifyDataSetChanged()
     }
 
 
+    private fun filterToHuji(condition: Boolean) {
+            newList.clear()
+            for (r in ridesList) {
+                if (r.isDestinationHuji == condition) {
+                    newList.add(r)
+                }
+            }
+        }
 
-//    private fun setDirection() {
-//
-//        if (toHuji) {
-//
-//            srcDestImg.setImageResource(R.drawable.resource_switch)
-//
-//        } else {
-//            srcDestImg.setImageResource(R.drawable.switchfromhuji)
-//
-//
-//        }
-//    }
+        private fun filterAll() {
+            newList.clear()
+            newList.addAll(ridesList)
+        }
 
 
-    private fun findViews() {
-        sortACTV = aView.findViewById(R.id.autoCompleteTextView2)
-        filterACTV = aView.findViewById(R.id.autoCompleteFilter)
-        addRideBtn = aView.findViewById(R.id.add_new_ride)
-        img = aView.findViewById(R.id.no_rides_img)
-        noRidesTxt = aView.findViewById(R.id.no_near_rides_txt)
-        sortTIL = aView.findViewById(R.id.sort_as)
-        filterTIL = aView.findViewById(R.id.filter)
-        progressBar = aView.findViewById(R.id.rides_progress_bar)
-        ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
-        applyBtn = aView.findViewById(R.id.apply_btn)
+        private fun findViews() {
+            sortACTV = aView.findViewById(R.id.autoCompleteTextView2)
+            filterACTV = aView.findViewById(R.id.autoCompleteFilter)
+            addRideBtn = aView.findViewById(R.id.add_new_ride)
+            img = aView.findViewById(R.id.no_rides_img)
+            noRidesTxt = aView.findViewById(R.id.no_near_rides_txt)
+            sortTIL = aView.findViewById(R.id.sort_as)
+            filterTIL = aView.findViewById(R.id.filter)
+            progressBar = aView.findViewById(R.id.rides_progress_bar)
+            ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
+            applyBtn = aView.findViewById(R.id.apply_btn)
+            autoCompleteFrag =
+                childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
+                        as AutocompleteSupportFragment
 
-    }
+        }
 
-    private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean, progressbarVis: Int){
-        addRideBtn.isEnabled = btnState
+        private fun setVisibility(
+            oneDirection: Int,
+            secondDirection: Int,
+            btnState: Boolean,
+            progressbarVis: Int
+        ) {
+            addRideBtn.isEnabled = btnState
 
-        progressBar.visibility = progressbarVis
+            progressBar.visibility = progressbarVis
 
-        noRidesTxt.visibility = oneDirection
-        img.visibility = oneDirection
+            noRidesTxt.visibility = oneDirection
+            img.visibility = oneDirection
 
-        ridesRecycler.visibility = secondDirection
-        sortTIL.visibility = secondDirection
-        filterTIL.visibility = secondDirection
-        applyBtn.visibility = secondDirection
+            ridesRecycler.visibility = secondDirection
+            sortTIL.visibility = secondDirection
+            filterTIL.visibility = secondDirection
+            applyBtn.visibility = secondDirection
+            autoCompleteFrag.requireView().visibility = View.INVISIBLE
 //        switchDirectionBtn.visibility = secondDirection
 //        srcDestImg.visibility = secondDirection
 
+        }
+
+
+        private fun noNearRidesCase() {
+            setVisibility(View.VISIBLE, View.INVISIBLE, true, View.INVISIBLE)
+        }
+
+        private fun thereAreRidesCase() {
+            setVisibility(View.INVISIBLE, View.VISIBLE, true, View.INVISIBLE)
+        }
+
+
+//
+//    @SuppressLint("UseSwitchCompatOrMaterialCode", "InflateParams")
+//    private fun settingPressedddd()
+//    {
+//
+//        var dialog: AlertDialog? = null
+//        val builder = AlertDialog.Builder(activity)
+//
+//        if (setDirecDialogView == null){
+//            setDirecDialogView = layoutInflater.inflate(R.layout.set_direction_dialog, null)
+//        }
+////        val autoCompleteFrag = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
+////                as AutocompleteSupportFragment
+////
+////        autoCompletePlaces(autoCompleteFrag)
+//
+//        builder.setView(setDirecDialogView)
+//            .setTitle("Select destination")
+//            .setNegativeButton("cancel", DialogInterface.OnClickListener{ dialogInterface: DialogInterface, i: Int -> })
+//            .setPositiveButton("select", DialogInterface.OnClickListener{ dialogInterface: DialogInterface, i: Int ->
+////                onReportCallback?.invoke()
+////                val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+////                vm.latLng = latLng
+////                vm.srcOrDest = srcOrDestStr
+//            })
+//
+//        dialog = builder.create()
+//        dialog.show()
+//
+//    }
+
+
+
     }
-
-
-    private fun noNearRidesCase() {
-        setVisibility(View.VISIBLE, View.INVISIBLE, true, View.INVISIBLE)
-    }
-
-    private fun thereAreRidesCase() {
-        setVisibility(View.INVISIBLE, View.VISIBLE, true, View.INVISIBLE)
-    }
-
-
-
-}
 
 
 

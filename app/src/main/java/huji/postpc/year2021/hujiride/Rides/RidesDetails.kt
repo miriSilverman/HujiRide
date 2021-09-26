@@ -1,26 +1,25 @@
 package huji.postpc.year2021.hujiride.Rides
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
-import android.icu.text.MessageFormat.format
 import android.os.Bundle
-import android.text.format.DateFormat.format
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import com.google.gson.internal.bind.util.ISO8601Utils.format
-import com.squareup.okhttp.internal.http.HttpDate.format
+import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
-import java.lang.String.format
-import java.text.DateFormat
-import java.text.MessageFormat.format
-import java.util.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 
 
@@ -40,7 +39,8 @@ class RidesDetails : Fragment() {
     private lateinit var destTV: TextView
     private lateinit var timeTV: TextView
     private lateinit var commentsTV: TextView
-
+    private lateinit var app: HujiRideApplication
+    private lateinit var vm: RidesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +61,38 @@ class RidesDetails : Fragment() {
         commentsTV = aView.findViewById(R.id.comments)
     }
 
+    private fun deleteRide() {
+        val ride = vm.pressedRide.value
+        GlobalScope.launch(Dispatchers.IO) {
+            app.db.deleteRide(ride!!.id)
+
+            withContext(Dispatchers.Main) {
+                Toast.makeText(activity, "Ride was deleted successfully", Toast.LENGTH_SHORT).show()
+                Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_dashboard)
+            }
+        }
+    }
+
+    private fun deleteRideAlert(){
 
 
+        AlertDialog.Builder(activity)
+            .setTitle(R.string.deleteRidePublishedDialogTitle)
+            .setMessage(R.string.deleteRidePublishedTxt)
+            .setIcon(R.drawable.ic_delete)
+            .setCancelable(false)
+            .setNegativeButton("no", null)
+            .setPositiveButton("yes") { _: DialogInterface, _: Int ->
+                deleteRide()
+
+
+            }
+            .create().show()
+    }
+
+    private fun contactDriver() {
+        Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
+    }
 
 
     @SuppressLint("SimpleDateFormat", "SetTextI18n")
@@ -70,19 +100,30 @@ class RidesDetails : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        aView =  inflater.inflate(R.layout.fragment_rides_details, container, false)
+        aView = inflater.inflate(R.layout.fragment_rides_details, container, false)
         findViews()
+        app = HujiRideApplication.getInstance()
+        vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
-        val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
+        if (vm.fromDashboard) {
+            contactDriverBtn.text = "Delete ride"
+        } else {
+            contactDriverBtn.text = "contact driver"
 
+        }
 
 
         backToRidesBtn.setOnClickListener {
+            vm.fromDashboard = false
             Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_ridesList)
         }
 
         contactDriverBtn.setOnClickListener {
-            Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
+            if (vm.fromDashboard) {
+                deleteRideAlert()
+            } else {
+                contactDriver()
+            }
         }
 
 
@@ -91,18 +132,15 @@ class RidesDetails : Fragment() {
         }
 
 
-
-
-
         val ride = vm.pressedRide.value
-        if (ride != null){
+        if (ride != null) {
 
             var src = "HUJI"
             var dest = "HUJI"
 
-            if (ride.isDestinationHuji){
+            if (ride.isDestinationHuji) {
                 src = ride.destName
-            }else{
+            } else {
                 dest = ride.destName
             }
 
@@ -115,30 +153,26 @@ class RidesDetails : Fragment() {
             timeTV.text = "${timeFrm.format(dt)}  at  ${datFrm.format(dt)}"
 
 
-
-
-
             var comments = ""
-            for (s in ride.comments)
-            {
-                comments += "\n"+s
+            for (s in ride.comments) {
+                comments += "\n" + s
             }
-            if (comments != ""){
+            if (comments != "") {
                 commentsTV.text = comments
             }
 
 
             shareRideBtn.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SEND)
-                intent.setType("text/plain")
+                intent.type = "text/plain"
                 val body = "Sharing a ride with you"
                 var commentMsg = ""
-                if (comments != ""){
+                if (comments != "") {
                     commentMsg = "Please be aware of the following things:$comments"
                 }
                 val sub = "Hi!\nYou might be interested in this ride:\n\n" +
                         "Its going to be at ${timeFrm.format(dt)}  at  ${datFrm.format(dt)}\n\n" +
-                        "From ${src} to ${dest}\n\n" +
+                        "From $src to ${dest}\n\n" +
                         "${commentMsg}\n\n" +
                         "You are welcome to download the HujiRides in the following link\n" +
                         " http://play.google.com" //todo: change to real link
