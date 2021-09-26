@@ -101,6 +101,10 @@ class RidesList : Fragment() {
 
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
+        if (vm.srcOrDest != "") {
+            autoCompleteFrag.setText(vm.srcOrDest)
+        }
+
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 
