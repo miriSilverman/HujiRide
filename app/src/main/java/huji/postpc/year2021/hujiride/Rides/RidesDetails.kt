@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import huji.postpc.year2021.hujiride.R
@@ -52,6 +53,14 @@ class RidesDetails : Fragment() {
         commentsTV = aView.findViewById(R.id.comments)
     }
 
+    private fun deleteRide(){
+        Toast.makeText(activity, "Ride was deleted successfully", Toast.LENGTH_SHORT).show()
+        Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_dashboard)
+    }
+
+    private fun contactDriver(){
+        Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
+    }
 
 
 
@@ -75,11 +84,16 @@ class RidesDetails : Fragment() {
 
 
         backToRidesBtn.setOnClickListener {
+            vm.fromDashboard = false
             Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_ridesList)
         }
 
         contactDriverBtn.setOnClickListener {
-            Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_driversDetails)
+            if (vm.fromDashboard){
+                deleteRide()
+            }else{
+                contactDriver()
+            }
         }
 
 

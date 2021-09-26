@@ -25,7 +25,7 @@ class Database {
     private val groups = db.collection("Groups")
 
 
-    suspend fun newClient(uniqueID: String) :Boolean {
+    suspend fun newClient(uniqueID: String): Boolean {
         return try {
             clients.document(uniqueID).set(mapOf(FIELD_IS_AUTH to false)).await()
             true
@@ -42,12 +42,14 @@ class Database {
         uniqueID: String
     ): Boolean {
         try {
-            clients.document(uniqueID).set(mapOf(
-                FIELD_FIRSTNAME to firstName,
-                FIELD_LASTNAME to lastName,
-                FIELD_PHONENUMBER to phoneNumber,
-                FIELD_IS_AUTH to true,
-            ), SetOptions.merge()).await()
+            clients.document(uniqueID).set(
+                mapOf(
+                    FIELD_FIRSTNAME to firstName,
+                    FIELD_LASTNAME to lastName,
+                    FIELD_PHONENUMBER to phoneNumber,
+                    FIELD_IS_AUTH to true,
+                ), SetOptions.merge()
+            ).await()
             return true
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
@@ -173,16 +175,24 @@ class Database {
      */
     private suspend fun getRidesIDOfGroup(groupID: String): ArrayList<String> {
         try {
-            return ArrayList((groups.document(groupID).get().await().get("rides") as ArrayList<String>).mapNotNull { rideID -> rideID.toString() })
-        } catch (e : Exception) {
+            return ArrayList(
+                (groups.document(groupID).get().await()
+                    .get("rides") as ArrayList<String>).mapNotNull { rideID -> rideID.toString() })
+        } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             return arrayListOf()
         }
     }
 
-    fun ArrayList<Ride>.filterActiveRides() : ArrayList<Ride>{
+    fun ArrayList<Ride>.filterActiveRides(): ArrayList<Ride> {
         return ArrayList(this.filter { ride ->
-            ride.timeStamp > Timestamp(Date(System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(15)))
+            ride.timeStamp > Timestamp(
+                Date(
+                    System.currentTimeMillis() - TimeUnit.MINUTES.toMillis(
+                        15
+                    )
+                )
+            )
         })
     }
 
@@ -196,7 +206,9 @@ class Database {
                 .filterActiveRides()
         } else {
             return ArrayList(getRidesIDOfGroup(groupID)
-                .mapNotNull {id -> rides.document(id).get().await().toObject(Ride::class.java)})
+                .mapNotNull { id ->
+                    rides.document(id).get().await().toObject(Ride::class.java)
+                })
                 .filterActiveRides()
         }
     }
@@ -208,14 +220,16 @@ class Database {
                 ref.get().await()
             }
         }
-        return@coroutineScope deferreds.awaitAll().mapNotNull { doc -> doc.toObject(Ride::class.java) }
+        return@coroutineScope deferreds.awaitAll()
+            .mapNotNull { doc -> doc.toObject(Ride::class.java) }
     }
 
     /**
      * returns the list of all the rides that the client has signed up for
      */
     suspend fun getRidesOfClient(clientUniqueID: String): ArrayList<Ride> {
-        val refRides = (clients.document(clientUniqueID).get().await()?.get(FIELD_CLIENTS_RIDES)) as List<DocumentReference>?
+        val refRides = (clients.document(clientUniqueID).get().await()
+            ?.get(FIELD_CLIENTS_RIDES)) as List<DocumentReference>?
         return ArrayList(fetchRides(refRides.orEmpty())).filterActiveRides()
     }
 
@@ -224,14 +238,16 @@ class Database {
      * return a list of the names of the groups that the client has signed up for
      */
     suspend fun getGroupsOfClient(clientUniqueID: String): ArrayList<String> {
-        val groups = clients.document(clientUniqueID).get().await().get(FIELD_REGISTERED_GROUPS) as List<*>?
+        val groups =
+            clients.document(clientUniqueID).get().await().get(FIELD_REGISTERED_GROUPS) as List<*>?
         return ArrayList(groups?.mapNotNull { g -> g.toString() } ?: ArrayList())
     }
 
-    suspend fun addRideToClientsRides(clientID: String, rideID: String) : Boolean {
+    suspend fun addRideToClientsRides(clientID: String, rideID: String): Boolean {
         return try {
             clients.document(clientID)
-                .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayUnion(rides.document(rideID)))).await()
+                .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayUnion(rides.document(rideID))))
+                .await()
             true
         } catch (e: Exception) {
             Log.e(TAG, e.message!!)
@@ -239,12 +255,12 @@ class Database {
         }
     }
 
-    suspend fun addRideToClientsRides(clientId: String, ride: Ride): Boolean{
+    suspend fun addRideToClientsRides(clientId: String, ride: Ride): Boolean {
         return addRideToClientsRides(clientId, ride.id)
     }
 
 
-    suspend fun setFCMToken(clientUniqueID: String, token: String) : Boolean {
+    suspend fun setFCMToken(clientUniqueID: String, token: String): Boolean {
         return try {
             clients.document(clientUniqueID).set(hashMapOf(FIELD_FCM_TOKEN to token)).await()
             true
@@ -260,20 +276,26 @@ class Database {
                 .update(mapOf(FIELD_CLIENTS_RIDES to FieldValue.arrayRemove(rides.document(ride.id))))
                 .await()
             true
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             false
         }
     }
 
 
-    suspend fun getClientCreatedRides(clientID: String) : ArrayList<Ride>? {
+    suspend fun getClientCreatedRides(clientID: String): ArrayList<Ride>? {
         return try {
-            val rideDocs = rides.whereEqualTo(FIELD_DRIVER_ID, clientID).get().await() as QuerySnapshot
+            val rideDocs =
+                rides.whereEqualTo(FIELD_DRIVER_ID, clientID).get().await() as QuerySnapshot
             ArrayList(rideDocs.mapNotNull { s -> (s as DocumentSnapshot).toObject(Ride::class.java) }).filterActiveRides()
-        } catch (e : Exception) {
+        } catch (e: Exception) {
             Log.e(TAG, e.message!!)
             null
         }
+    }
+
+
+    suspend fun deleteRide(rideId: String) {
+
     }
 }
