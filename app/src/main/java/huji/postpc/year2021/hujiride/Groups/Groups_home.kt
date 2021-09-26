@@ -69,6 +69,7 @@ class GroupsHome : Fragment() {
         app = HujiRideApplication.getInstance()
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         vm.fromMyRides = false
+        vm.fromDashboard = false
         vm.latLng = null
         val clientId = app.userDetails.clientUniqueID
         searchNewGroupBtn.setOnClickListener {

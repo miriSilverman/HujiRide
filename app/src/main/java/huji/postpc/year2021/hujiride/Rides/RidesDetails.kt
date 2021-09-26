@@ -66,6 +66,12 @@ class RidesDetails : Fragment() {
 
         val vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
+        if (vm.fromDashboard){
+            contactDriverBtn.text = "Delete ride"
+        }else{
+            contactDriverBtn.text = "contact driver"
+
+        }
 
 
         backToRidesBtn.setOnClickListener {

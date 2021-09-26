@@ -19,4 +19,6 @@ class RidesViewModel: ViewModel() {
 
     var fromMyRides :Boolean = true
 
+    var fromDashboard : Boolean = true
+
 }

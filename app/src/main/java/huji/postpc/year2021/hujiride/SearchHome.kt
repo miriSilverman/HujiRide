@@ -56,6 +56,8 @@ class SearchHome : Fragment() {
         vm.srcOrDest = ""
         vm.pressedGroup.value = SearchGroupItem(null, false)
         vm.fromMyRides = false
+        vm.fromDashboard = false
+
 
         findViews(view)
 
