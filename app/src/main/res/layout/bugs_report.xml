@@ -50,15 +50,6 @@
         app:layout_constraintTop_toBottomOf="@id/add_bug_btn"
         />
 
-    <ImageView
-        android:id="@+id/thanks_img"
-        android:layout_width="149dp"
-        android:layout_height="146dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.548"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/thanks"
-        app:srcCompat="@drawable/thanks" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
