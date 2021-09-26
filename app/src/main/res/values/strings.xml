@@ -22,8 +22,8 @@
     <string name="driverBtnText">I\'m The Driver</string>
     <string name="trampistBtnText">I Want to Join</string>
     <string name="searchRidesTitle">Search Rides</string>
-    <string name="dashboardText">My Future Rides</string>
-    <string name="dashboardPublishedRidesTitle">Rides That I created</string>
+    <string name="dashboardText">My Rides as Passenger</string>
+    <string name="dashboardPublishedRidesTitle">My Rides as Driver</string>
     <string name="cancel_reg_dialog_body">"Are you sure you want to cancel your registration?\nAll the data will be deleted!"</string>
     <string name="cancel_reg_dialog_title">Cancel Registration?</string>
     <string name="yes">Yes</string>
