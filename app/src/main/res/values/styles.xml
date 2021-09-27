@@ -8,7 +8,33 @@
 
 
 
-<!--    </style>-->
+    <style name="MainAppStyle">
+        <item name="fontFamily">@font/fredoka_one</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="MainAppStyle.Header">
+        <item name="android:textSize">34sp</item>
+        <item name="android:background">@color/main_app_title_bg</item>
+        <item name="android:layout_width">0dp</item>
+    </style>
+
+    <style name="MainAppStyle.rides">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MainAppStyle.Button">
+        <item name="android:layout_height">60dip</item>
+        <item name="android:backgroundTint">@color/main_app_btn_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="MainAppStyle.Button.fab">
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
     <style name="OnboardingStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/onb_colorPrimary</item>
         <item name="fontFamily">@font/catamaran</item>

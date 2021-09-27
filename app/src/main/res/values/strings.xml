@@ -9,12 +9,12 @@
     <string name="insertSourceHint">Insert source ...</string>
     <string name="insertDestHint">Insert destination ...</string>
     <string name="hujirides">HujiRides</string>
-    <string name="addNewGroupBtn">add new group</string>
+    <string name="addNewGroupBtn">Add New Group</string>
     <string name="groupsTitle">GROUPS</string>
     <string name="next_rides_title">Next Rides</string>
     <string name="addNewRideBtn">add new \nride</string>
-    <string name="sortDropDownHintText">sort according to</string>
-    <string name="switchDirectionBtnText">switch direction</string>
+    <string name="sortDropDownHintText">Sort</string>
+    <string name="switchDirectionBtnText">Switch Direction</string>
     <string name="ridesDetailsTitle">Ride\'s Details:</string>
     <string name="contactTheDriverBtnText">contact the\ndriver</string>
     <string name="backToGroupsBtnText">BACK TO \nGROUPS</string>

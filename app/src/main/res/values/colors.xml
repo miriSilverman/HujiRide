@@ -10,4 +10,7 @@
 
     <color name="onb_background">#DCE9F2</color>
     <color name="onb_colorPrimary">#00254D</color>
+
+    <color name="main_app_title_bg">#D2E1E1</color>
+    <color name="main_app_btn_bg">#27A9E1</color>
 </resources>

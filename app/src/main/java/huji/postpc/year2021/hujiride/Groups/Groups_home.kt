@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.Rides.RidesViewModel
@@ -32,10 +34,10 @@ class GroupsHome : Fragment() {
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
     private lateinit var aView: View
-    private lateinit var searchNewGroupBtn: Button
+    private lateinit var searchNewGroupBtn: FloatingActionButton
     private lateinit var groupRecyclerView: RecyclerView
     private lateinit var adapter: GroupsAdapter
-
+    private lateinit var editCheckBox: CheckBox
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +50,7 @@ class GroupsHome : Fragment() {
         progressBar = aView.findViewById(R.id.groups_progress_bar)
         searchNewGroupBtn = aView.findViewById(R.id.search_new_group_btn)
         groupRecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
+        editCheckBox = aView.findViewById(R.id.editCheckbox)
     }
 
     private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
@@ -105,7 +108,6 @@ class GroupsHome : Fragment() {
                         withContext(Dispatchers.Main) {
                             adapter.notifyDataSetChanged()
                         }
-
                     }
                 }
 

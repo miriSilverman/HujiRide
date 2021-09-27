@@ -1,8 +1,11 @@
 package huji.postpc.year2021.hujiride
 
-import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+
 
 class HujirideFirebaseMessagingService : FirebaseMessagingService() {
     override fun onNewToken(token: String) {

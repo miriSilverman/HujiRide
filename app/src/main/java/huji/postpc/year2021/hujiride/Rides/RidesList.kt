@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.Status
@@ -19,6 +20,7 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputLayout
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.HujiRideApplication
@@ -50,7 +52,7 @@ class RidesList : Fragment() {
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
-    private lateinit var addRideBtn: Button
+    private lateinit var addRideBtn: FloatingActionButton
     private lateinit var applyBtn: ImageButton
     private lateinit var ridesRecycler: RecyclerView
     private var ridesList: ArrayList<Ride> = arrayListOf()
@@ -104,7 +106,7 @@ class RidesList : Fragment() {
         if (vm.srcOrDest != "") {
             autoCompleteFrag.setText(vm.srcOrDest)
         }
-
+        ridesRecycler.addItemDecoration(DividerItemDecoration(ridesRecycler.context, DividerItemDecoration.VERTICAL))
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
 

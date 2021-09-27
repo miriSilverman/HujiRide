@@ -77,9 +77,6 @@ const sendTopicNotification = (topic, rideID) => {
   const message = {
     notification: notificationMessage,
     condition: `('${topic}' in topics || '-1' in topics) && !('-2' in topics)`,
-    data: {
-      rideID: rideID,
-    },
   };
   return admin.messaging().send(message);
 };
@@ -88,9 +85,6 @@ const sendNotification = (token, rideID) => {
   const message = {
     notification: notificationMessage,
     token: token,
-    data: {
-      rideID: rideID,
-    },
   };
   return admin.messaging().send(message);
 };
