@@ -17,7 +17,7 @@ class OnBoardingVM: ViewModel() {
 
     var isScanCompleted : Boolean = false
 
-    val bypassValidation = false  // For debugging and testing only! TODO: make it false!
+    var bypassValidation = false  // For debugging and testing only! TODO: make it false!
 
     fun resetData() {
         firstName = null
