@@ -105,6 +105,7 @@ class NewRide : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         if (groupsList.isEmpty()){
 
             GlobalScope.launch(Dispatchers.IO) {

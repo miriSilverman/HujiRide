@@ -22,6 +22,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.material.textfield.TextInputLayout
 import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.HujiRideApplication
+import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -59,12 +60,32 @@ class RidesList : Fragment() {
     private var sortedAllocationDbRidesArr = ArrayList<Ride>()
     private lateinit var autoCompleteFrag: AutocompleteSupportFragment
 
+    private lateinit var groupsTIL: TextInputLayout
+    private lateinit var groupsACTV: AutoCompleteTextView
+    private var groupsList: ArrayList<String> = arrayListOf()
+    private lateinit var clientId: String
+    private final val NOT_FROM_GROUP = "not from a group"
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
         }
+    }
+
+    private fun getGroupsName(id: String): String? {
+        return app.jerusalemNeighborhoods[id]
+    }
+
+    private fun getIdOfGroup(name: String): String? {
+        for (g in app.jerusalemNeighborhoods) {
+            if (g.value == name) {
+                return g.key
+            }
+        }
+        return null
     }
 
 
@@ -78,6 +99,35 @@ class RidesList : Fragment() {
         val filterArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, filteredItems)
         filterACTV.setAdapter(filterArrayAdapter)
 
+
+        if (groupsList.isEmpty()){
+
+            GlobalScope.launch(Dispatchers.IO) {
+                val groupsListAsNums = app.db.getGroupsOfClient(clientId)
+                withContext(Dispatchers.Main) {
+                    for (g in groupsListAsNums) {
+                        val groupsName = getGroupsName(g)
+                        if (groupsName != null) {
+                            groupsList.add(groupsName)
+                        }
+                    }
+                    groupsList.add(NOT_FROM_GROUP)
+                    val groupsArrayAdapter =
+                        ArrayAdapter(requireContext(), R.layout.sort_item, groupsList)
+                    groupsACTV.setAdapter(groupsArrayAdapter)
+
+                    val curGroup = vm.pressedGroup.value?.name
+                    if (curGroup != null) {
+                        val curGroupName = getGroupsName(curGroup)
+                        groupsACTV.hint = curGroupName
+                    }else{
+                        groupsACTV.hint = NOT_FROM_GROUP
+                    }
+                }
+            }
+
+        }
+
     }
 
 
@@ -88,6 +138,7 @@ class RidesList : Fragment() {
     ): View {
         aView = inflater.inflate(R.layout.fragment_rides_list, container, false)
         app = HujiRideApplication.getInstance()
+        clientId = app.userDetails.clientUniqueID
 
         findViews()
 
@@ -129,6 +180,19 @@ class RidesList : Fragment() {
 
 
         setAdaptersList()
+
+        groupsACTV.setOnItemClickListener {  parent, _, pos, _ ->
+            val groupsName = parent.getItemAtPosition(pos).toString()
+            if (groupsName != NOT_FROM_GROUP){
+                val groupsId = getIdOfGroup(groupsName)
+                vm.pressedGroup.value = SearchGroupItem(groupsId, true)
+
+            }else{
+                vm.pressedGroup.value = SearchGroupItem(null, true)
+            }
+
+            setAdaptersList()
+        }
 
         return aView
     }
@@ -193,56 +257,6 @@ class RidesList : Fragment() {
 //        dialog.show(activity?.supportFragmentManager!!, "dest dialog")
     }
 
-
-
-//    @SuppressLint("UseSwitchCompatOrMaterialCode")
-//    private fun agreeToTermsDialog() {
-//
-//        var dialog: AlertDialog? = null
-//        val builder = AlertDialog.Builder(activity)
-//
-//        val view = layoutInflater.inflate(R.layout.agree_to_terms, null)
-//        val checkBox = view.findViewById<CheckBox>(R.id.terms_checkbox)
-//
-//        builder.setPositiveButton("Next", DialogInterface.OnClickListener { d, m ->
-//        })
-//
-//
-//        builder.setView(view)
-//        dialog = builder.create()
-//        dialog.setOnShowListener {
-//            dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = false
-//
-//            checkBox.setOnClickListener {
-//                dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = checkBox.isChecked
-//            }
-//
-//        }
-//
-//        dialog.show()
-//
-//    }
-
-
-//
-//    @SuppressLint("UseSwitchCompatOrMaterialCode")
-//    private fun settingPressed() {
-//
-//        var dialog: AlertDialog? = null
-//        val builder = AlertDialog.Builder(activity)
-//
-//        val view = layoutInflater.inflate(R.layout.setting_alert_dialog, null)
-//
-//        builder.setPositiveButton("Done", DialogInterface.OnClickListener { d, m ->
-//            Toast.makeText(activity, "changed!", Toast.LENGTH_SHORT).show()
-//        })
-//
-//
-//        builder.setView(view)
-//        dialog = builder.create()
-//        dialog.show()
-//
-//    }
 
 
     @SuppressLint("UseSwitchCompatOrMaterialCode")
@@ -395,6 +409,8 @@ class RidesList : Fragment() {
                 childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
                         as AutocompleteSupportFragment
 
+            groupsTIL = aView.findViewById(R.id.groups_drop_down)
+            groupsACTV = aView.findViewById(R.id.autoCompleteGroups)
         }
 
         private fun setVisibility(
