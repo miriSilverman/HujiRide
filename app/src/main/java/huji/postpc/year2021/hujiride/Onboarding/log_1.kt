@@ -46,7 +46,7 @@ class log_1 : BaseOnbaordingFragment(R.layout.fragment_log_1, R.id.action_log_1_
         val firstName = firstNameInput
         val lastName = lastNameInput
 
-        if (firstName == "YNMAgsdk492106") {
+        if (firstName == "##ygms%%ndok") {
             viewModel.bypassValidation = true
         }
 
