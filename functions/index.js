@@ -76,7 +76,7 @@ const notificationMessage = {
 const sendTopicNotification = (topic, rideID) => {
   const message = {
     notification: notificationMessage,
-    condition: `'${topic}' in topics || '-1' in topics`,
+    condition: `('${topic}' in topics || '-1' in topics) && !('-2' in topics)`,
     data: {
       rideID: rideID,
     },
