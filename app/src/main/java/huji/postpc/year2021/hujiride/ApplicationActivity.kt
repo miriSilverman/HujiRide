@@ -161,16 +161,16 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
             }
             app.saveNotificationsState(app.userDetails.allNotifications, app.userDetails.justGroupNotifications);
-            GlobalScope.launch(Dispatchers.IO) {
-                if (b){
-                    app.db.reenableNotifications(clientId)
-                    app.db.registerClientToAllNotifications(clientId)
-                }else{
-                    if (!app.userDetails.justGroupNotifications){
-                        app.db.disableNotifications(clientId)
-                    }
-                }
-            }
+//            GlobalScope.launch(Dispatchers.IO) {
+//                if (b){
+//                    app.db.reenableNotifications(clientId)
+//                    app.db.registerClientToAllNotifications(clientId)
+//                }else{
+//                    if (!app.userDetails.justGroupNotifications){
+//                        app.db.disableNotifications(clientId)
+//                    }
+//                }
+//            }
 
             //    Toast.makeText(this, "all: ${app.userDetails.allNotifications},\n groups: ${app.userDetails.justGroupNotifications}", Toast.LENGTH_SHORT).show()
         })
@@ -190,21 +190,36 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
                 app.userDetails.allNotifications,
                 app.userDetails.justGroupNotifications
             );
-            GlobalScope.launch(Dispatchers.IO) {
-                if (b){
-                    app.db.reenableNotifications(clientId)
-                    app.db.unregisterClientToAllNotifications(clientId)
-                }else{
-                    if (!app.userDetails.allNotifications){
-                        app.db.disableNotifications(clientId)
-                    }
-                }
-            }
+//            GlobalScope.launch(Dispatchers.IO) {
+//                if (b){
+//                    app.db.reenableNotifications(clientId)
+//                    app.db.unregisterClientToAllNotifications(clientId)
+//                }else{
+//                    if (!app.userDetails.allNotifications){
+//                        app.db.disableNotifications(clientId)
+//                    }
+//                }
+//            }
 
         })
 
         builder.setPositiveButton("Done", DialogInterface.OnClickListener { d, m ->
             Toast.makeText(this, "changed!", Toast.LENGTH_SHORT).show()
+            GlobalScope.launch(Dispatchers.IO) {
+                if (switchAllNotifications.isChecked){
+                    app.db.reenableNotifications(clientId)
+                    app.db.registerClientToAllNotifications(clientId)
+                }else{
+                    if (switchGroupsNotifications.isChecked){
+                        app.db.reenableNotifications(clientId)
+                        app.db.unregisterClientToAllNotifications(clientId)
+                    }else{
+                        app.db.disableNotifications(clientId)
+
+                    }
+                }
+            }
+
         })
         builder.setView(view)
         dialog = builder.create()
