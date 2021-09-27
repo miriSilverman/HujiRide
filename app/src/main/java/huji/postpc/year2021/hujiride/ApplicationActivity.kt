@@ -164,6 +164,10 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             GlobalScope.launch(Dispatchers.IO) {
                 if (b){
                     app.db.registerClientToAllNotifications(clientId)
+                }else{
+                    if (!app.userDetails.justGroupNotifications){
+                        app.db.disableNotifications(clientId)
+                    }
                 }
             }
 
@@ -188,6 +192,10 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             GlobalScope.launch(Dispatchers.IO) {
                 if (b){
                     app.db.unregisterClientToAllNotifications(clientId)
+                }else{
+                    if (!app.userDetails.allNotifications){
+                        app.db.disableNotifications(clientId)
+                    }
                 }
             }
 
