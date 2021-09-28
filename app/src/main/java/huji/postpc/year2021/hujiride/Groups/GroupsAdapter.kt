@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,10 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
     var onItemClickCallback: ((String)->Unit)? = null
     var onDeleteIconCallback: ((String)->Unit)? = null
     private lateinit var activityForContext: Context
+    private var editTime : Boolean = false
+    private lateinit var deleteBtn : ImageView
+    private lateinit var nextImageView: ImageView
+
 
 
 
@@ -35,6 +40,10 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
         activityForContext = context
     }
 
+    fun setEdit(boolean: Boolean){
+        editTime = boolean
+    }
+
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
@@ -44,14 +53,17 @@ class GroupsAdapter: RecyclerView.Adapter<GroupViewHolder>() {
 
         val clientId = app.userDetails.clientUniqueID
 
-        val holder = GroupViewHolder(view)
+        val holder = GroupViewHolder(view, editTime)
         view.setOnClickListener{
             val callback = onItemClickCallback?: return@setOnClickListener
             val group = clientsGroupsList[holder.adapterPosition]
             callback(group)
         }
 
-        view.findViewById<ImageView>(R.id.delete_img).setOnClickListener {
+        nextImageView = view.findViewById(R.id.next)
+        deleteBtn = view.findViewById(R.id.delete_img)
+
+        deleteBtn.setOnClickListener {
             val callback = onDeleteIconCallback?: return@setOnClickListener
             deleteGroup(clientId, holder, callback)
         }

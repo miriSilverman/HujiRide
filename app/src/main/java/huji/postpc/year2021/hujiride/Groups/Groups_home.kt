@@ -80,6 +80,8 @@ class GroupsHome : Fragment() {
         }
 
 
+
+
         adapter = GroupsAdapter()
         adapter.setContext(requireActivity())
         val groupsRecycler: RecyclerView = aView.findViewById(R.id.groups_list_recyclerView)
@@ -114,6 +116,12 @@ class GroupsHome : Fragment() {
 
             }
 
+        }
+
+        editCheckBox.setOnClickListener {
+            adapter.setEdit(editCheckBox.isChecked)
+            groupsRecycler.adapter = adapter
+            adapter.notifyDataSetChanged()
         }
 
 
