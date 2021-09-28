@@ -137,16 +137,16 @@
 <!--        app:layout_constraintTop_toTopOf="parent"-->
 <!--        app:layout_constraintVertical_bias="0.0" />-->
 
-    <fragment
-        android:id="@+id/place_autocomplete_fragment"
-        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-        android:layout_width="250dp"
-        android:layout_height="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sort_as"
-        tools:visibility="gone"
-        />
+<!--    <fragment-->
+<!--        android:id="@+id/place_autocomplete_fragment"-->
+<!--        android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+<!--        android:layout_width="250dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/sort_as"-->
+<!--        tools:visibility="gone"-->
+<!--        />-->
 
     <ImageView
         android:id="@+id/no_rides_img"
@@ -173,6 +173,29 @@
         app:layout_constraintTop_toBottomOf="@id/no_rides_img"
         tools:visibility="gone"
         />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/groups_drop_down"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:startIconDrawable="@drawable/ic_baseline_sort_24">
+
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteGroups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:inputType="none"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

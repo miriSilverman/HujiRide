@@ -59,8 +59,8 @@ class RidesList : Fragment() {
     private var ridesList: ArrayList<Ride> = arrayListOf()
     private var newList = ArrayList<Ride>()
     private var dbRidesArr = ArrayList<Ride>()
-    private var sortedAllocationDbRidesArr = ArrayList<Ride>()
-    private lateinit var autoCompleteFrag: AutocompleteSupportFragment
+//    private var sortedAllocationDbRidesArr = ArrayList<Ride>()
+//    private lateinit var autoCompleteFrag: AutocompleteSupportFragment
 
     private lateinit var groupsTIL: TextInputLayout
     private lateinit var groupsACTV: AutoCompleteTextView
@@ -102,33 +102,33 @@ class RidesList : Fragment() {
         filterACTV.setAdapter(filterArrayAdapter)
 
         // TODO FIX (MIRI)
-//        if (groupsList.isEmpty()){
-//
-//            GlobalScope.launch(Dispatchers.IO) {
-//                val groupsListAsNums = app.db.getGroupsOfClient(clientId)
-//                withContext(Dispatchers.Main) {
-//                    for (g in groupsListAsNums) {
-//                        val groupsName = getGroupsName(g)
-//                        if (groupsName != null) {
-//                            groupsList.add(groupsName)
-//                        }
-//                    }
-//                    groupsList.add(NOT_FROM_GROUP)
-//                    val groupsArrayAdapter =
-//                        ArrayAdapter(requireContext(), R.layout.sort_item, groupsList)
-//                    groupsACTV.setAdapter(groupsArrayAdapter)
-//
-//                    val curGroup = vm.pressedGroup.value?.name
-//                    if (curGroup != null) {
-//                        val curGroupName = getGroupsName(curGroup)
-//                        groupsACTV.hint = curGroupName
-//                    }else{
-//                        groupsACTV.hint = NOT_FROM_GROUP
-//                    }
-//                }
-//            }
-//
-//        }
+        if (groupsList.isEmpty()){
+
+            GlobalScope.launch(Dispatchers.IO) {
+                val groupsListAsNums = app.db.getGroupsOfClient(clientId)
+                withContext(Dispatchers.Main) {
+                    for (g in groupsListAsNums) {
+                        val groupsName = getGroupsName(g)
+                        if (groupsName != null) {
+                            groupsList.add(groupsName)
+                        }
+                    }
+                    groupsList.add(NOT_FROM_GROUP)
+                    val groupsArrayAdapter =
+                        ArrayAdapter(requireContext(), R.layout.sort_item, groupsList)
+                    groupsACTV.setAdapter(groupsArrayAdapter)
+
+                    val curGroup = vm.pressedGroup.value?.name
+                    if (curGroup != null) {
+                        val curGroupName = getGroupsName(curGroup)
+                        groupsACTV.hint = curGroupName
+                    }else{
+                        groupsACTV.hint = NOT_FROM_GROUP
+                    }
+                }
+            }
+
+        }
 
     }
 
@@ -155,9 +155,9 @@ class RidesList : Fragment() {
 
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
-        if (vm.srcOrDest != "") {
-            autoCompleteFrag.setText(vm.srcOrDest)
-        }
+//        if (vm.srcOrDest != "") {
+//            autoCompleteFrag.setText(vm.srcOrDest)
+//        }
         ridesRecycler.addItemDecoration(DividerItemDecoration(ridesRecycler.context, DividerItemDecoration.VERTICAL))
         ridesRecycler.adapter = adapter
         ridesRecycler.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
@@ -184,11 +184,7 @@ class RidesList : Fragment() {
 
         filterACTV.setOnItemClickListener{ parent, _, pos, _ ->
 
-            when (filterACTV.text.toString()) {
-                "source to Huji" -> filterToHuji(true)
-                "Huji to destination" -> filterToHuji(false)
-                "all" -> filterAll()
-            }
+            filterSwitchCase()
 
             adapter.setRidesList(ridesList)
             adapter.notifyDataSetChanged()
@@ -200,21 +196,38 @@ class RidesList : Fragment() {
 
 
         setAdaptersList()
-        //TODO FIX THIS (MIRI!)
-//        groupsACTV.setOnItemClickListener {  parent, _, pos, _ ->
-//            val groupsName = parent.getItemAtPosition(pos).toString()
-//            if (groupsName != NOT_FROM_GROUP){
-//                val groupsId = getIdOfGroup(groupsName)
-//                vm.pressedGroup.value = SearchGroupItem(groupsId, true)
-//
-//            }else{
-//                vm.pressedGroup.value = SearchGroupItem(null, true)
-//            }
-//
-//            setAdaptersList()
-//        }
+
+        groupsACTV.setOnItemClickListener {  parent, _, pos, _ ->
+            val groupsName = parent.getItemAtPosition(pos).toString()
+            if (groupsName != NOT_FROM_GROUP){
+                val groupsId = getIdOfGroup(groupsName)
+                vm.pressedGroup.value = SearchGroupItem(groupsId, true)
+
+            }else{
+                vm.pressedGroup.value = SearchGroupItem(null, true)
+            }
+
+            setAdaptersList()
+
+
+        }
 
         return aView
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun sortAndFilter(){
+        filterSwitchCase()
+        adapter.setRidesList(ridesList)
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun filterSwitchCase() {
+        when (filterACTV.text.toString()) {
+            "source to Huji" -> filterToHuji(true)
+            "Huji to destination" -> filterToHuji(false)
+            "all" -> filterAll()
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -228,9 +241,9 @@ class RidesList : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
 
-            if (vm.latLng != null) {
-                sortedAllocationDbRidesArr = app.db.sortRidesAccordingToALocation(vm.latLng!!)
-            }
+//            if (vm.latLng != null) {
+//                sortedAllocationDbRidesArr = app.db.sortRidesAccordingToALocation(vm.latLng!!)
+//            }
 
             dbRidesArr = app.db.getRidesListOfGroup(groupsName)
             newList.clear()
@@ -241,12 +254,14 @@ class RidesList : Fragment() {
             adapter.setRidesList(ridesList)
 
             withContext(Dispatchers.Main) {
-                adapter.notifyDataSetChanged()
+//                adapter.notifyDataSetChanged()
                 if (adapter.itemCount == 0) {
                     noNearRidesCase()
                 } else {
                     thereAreRidesCase()
                 }
+                sortAndFilter()
+
             }
 
         }
@@ -254,88 +269,14 @@ class RidesList : Fragment() {
 
     }
 
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun applyBtnOnPressed() {
-        sortingSwitchCase()
-
-        if (sortACTV.text.toString() != "src and dest"){
-            filteringSwitchCase()
-        }
-
-    }
 
     private fun sortingSwitchCase() {
         when (sortACTV.text.toString()) {
             "no sorting" -> noSorting()
             "time" -> sortAccordingToTime()
-            "src and dest" -> sortAccordingToAlloc()
+//            "src and dest" -> sortAccordingToAlloc()
             "lexicographic order" -> sortAccordingToLexicographic()
         }
-    }
-
-    private fun setDestinationSorting() {
-        autoCompleteFrag.requireView().visibility = View.VISIBLE
-        autoCompletePlaces(autoCompleteFrag)
-//        settingPressed()
-//        val dialog = SetDestinationDialog()
-//
-//        dialog.show(activity?.supportFragmentManager!!, "dest dialog")
-    }
-
-
-
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
-    private fun insertDestDialog() {
-
-        var dialog: AlertDialog? = null
-        val builder = AlertDialog.Builder(activity)
-
-        val view = layoutInflater.inflate(R.layout.set_direction_dialog, null)
-
-        builder.setPositiveButton("Got it") { _, _ ->
-        }
-
-
-        builder.setView(view)
-        dialog = builder.create()
-        dialog.show()
-
-    }
-
-
-    private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
-        // places search bar
-        Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
-//        val placesClient = Places.createClient(requireActivity())
-
-        // Specify the types of place data to return.
-        autocompleteFragment
-            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
-            .setCountry("IL")
-            .setHint("חפש מוצא...") // TODO translated version?
-
-        val tag = "SEARCH"
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
-                Log.i(tag, "Place: ${place.name}, ${place.id}, ${place.latLng}")
-                vm.srcOrDest = place.name.toString()
-                if (place.latLng != null) {
-                    vm.latLng = place.latLng!!
-                }
-
-            }
-
-
-
-            override fun onError(status: Status) {
-                // TODO: Handle the error.
-                Log.i(tag, "An error occurred: $status")
-            }
-        })
-
     }
 
 
@@ -359,46 +300,6 @@ class RidesList : Fragment() {
 
     private fun sortAccordingToLexicographic() {
         ridesList.sortBy { selectorLexicographic(it) }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun sortAccordingToAlloc() {
-        if (vm.latLng == null) {
-            insertDestDialog()
-//            agreeToTermsDialog()
-
-        } else {
-
-            GlobalScope.launch(Dispatchers.IO) {
-                if (vm.latLng != null) {
-                    sortedAllocationDbRidesArr.clear()
-                    sortedAllocationDbRidesArr.addAll(app.db.sortRidesAccordingToALocation(vm.latLng!!))
-                }
-
-                withContext(Dispatchers.Main) {
-                    ridesList.clear()
-                    ridesList.addAll(sortedAllocationDbRidesArr)
-
-                    filteringSwitchCase()
-
-                }
-
-            }
-        }
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    private fun filteringSwitchCase() {
-        when (filterACTV.text.toString()) {
-            "source to Huji" -> filterToHuji(true)
-            "Huji to destination" -> filterToHuji(false)
-            "all" -> filterAll()
-        }
-
-
-
-        adapter.setRidesList(newList)
-        adapter.notifyDataSetChanged()
     }
 
 
@@ -432,12 +333,12 @@ class RidesList : Fragment() {
             progressBar = aView.findViewById(R.id.rides_progress_bar)
             ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
 //            applyBtn = aView.findViewById(R.id.apply_btn)
-            autoCompleteFrag =
-                childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
-                        as AutocompleteSupportFragment
+//            autoCompleteFrag =
+//                childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
+//                        as AutocompleteSupportFragment
 
-//            groupsTIL = aView.findViewById(R.id.groups_drop_down)
-//            groupsACTV = aView.findViewById(R.id.autoCompleteGroups)
+            groupsTIL = aView.findViewById(R.id.groups_drop_down)
+            groupsACTV = aView.findViewById(R.id.autoCompleteGroups)
         }
 
         private fun setVisibility(
@@ -457,7 +358,7 @@ class RidesList : Fragment() {
             sortTIL.visibility = secondDirection
             filterTIL.visibility = secondDirection
 //            applyBtn.visibility = secondDirection
-            autoCompleteFrag.requireView().visibility = View.INVISIBLE
+//            autoCompleteFrag.requireView().visibility = View.INVISIBLE
 //        switchDirectionBtn.visibility = secondDirection
 //        srcDestImg.visibility = secondDirection
 
@@ -504,7 +405,121 @@ class RidesList : Fragment() {
 //
 //    }
 
+//    private fun setDestinationSorting() {
+//        autoCompleteFrag.requireView().visibility = View.VISIBLE
+//        autoCompletePlaces(autoCompleteFrag)
+////        settingPressed()
+////        val dialog = SetDestinationDialog()
+////
+////        dialog.show(activity?.supportFragmentManager!!, "dest dialog")
+//    }
 
+
+
+//    @SuppressLint("UseSwitchCompatOrMaterialCode")
+//    private fun insertDestDialog() {
+//
+//        var dialog: AlertDialog? = null
+//        val builder = AlertDialog.Builder(activity)
+//
+//        val view = layoutInflater.inflate(R.layout.set_direction_dialog, null)
+//
+//        builder.setPositiveButton("Got it") { _, _ ->
+//        }
+//
+//
+//        builder.setView(view)
+//        dialog = builder.create()
+//        dialog.show()
+//
+//    }
+
+
+//    private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
+//        // places search bar
+//        Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
+////        val placesClient = Places.createClient(requireActivity())
+//
+//        // Specify the types of place data to return.
+//        autocompleteFragment
+//            .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
+//            .setCountry("IL")
+//            .setHint("חפש מוצא...") // TODO translated version?
+//
+//        val tag = "SEARCH"
+//        // Set up a PlaceSelectionListener to handle the response.
+//        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+//            override fun onPlaceSelected(place: Place) {
+//                // TODO: Get info about the selected place.
+//                Log.i(tag, "Place: ${place.name}, ${place.id}, ${place.latLng}")
+//                vm.srcOrDest = place.name.toString()
+//                if (place.latLng != null) {
+//                    vm.latLng = place.latLng!!
+//                }
+//
+//            }
+//
+//
+//
+//            override fun onError(status: Status) {
+//                // TODO: Handle the error.
+//                Log.i(tag, "An error occurred: $status")
+//            }
+//        })
+//
+//    }
+
+
+//    @SuppressLint("NotifyDataSetChanged")
+//    private fun sortAccordingToAlloc() {
+//        if (vm.latLng == null) {
+//            insertDestDialog()
+////            agreeToTermsDialog()
+//
+//        } else {
+//
+//            GlobalScope.launch(Dispatchers.IO) {
+//                if (vm.latLng != null) {
+//                    sortedAllocationDbRidesArr.clear()
+//                    sortedAllocationDbRidesArr.addAll(app.db.sortRidesAccordingToALocation(vm.latLng!!))
+//                }
+//
+//                withContext(Dispatchers.Main) {
+//                    ridesList.clear()
+//                    ridesList.addAll(sortedAllocationDbRidesArr)
+//
+//                    filteringSwitchCase()
+//
+//                }
+//
+//            }
+//        }
+//    }
+
+//    @SuppressLint("NotifyDataSetChanged")
+//    private fun filteringSwitchCase() {
+//        when (filterACTV.text.toString()) {
+//            "source to Huji" -> filterToHuji(true)
+//            "Huji to destination" -> filterToHuji(false)
+//            "all" -> filterAll()
+//        }
+//
+//
+//
+//        adapter.setRidesList(newList)
+//        adapter.notifyDataSetChanged()
+//    }
+
+
+//    @SuppressLint("NotifyDataSetChanged")
+//    private fun applyBtnOnPressed() {
+//        sortingSwitchCase()
+//
+//        if (sortACTV.text.toString() != "src and dest"){
+//            filteringSwitchCase()
+//        }
+//
+//    }
 
     }
 
