@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/comments"
+    style="@style/MainAppStyle"
+    android:textStyle="normal"
+    android:textSize="14sp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@tools:sample/lorem[6]"
+    android:textAlignment="textStart"
+    android:textColor="#333"
+    android:drawableTint="#666"
+    android:drawableLeft="@drawable/ic_baseline_arrow_right_24"
+    />

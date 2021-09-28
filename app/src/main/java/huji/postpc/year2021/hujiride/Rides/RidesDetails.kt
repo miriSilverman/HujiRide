@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import huji.postpc.year2021.hujiride.HujiRideApplication
@@ -30,15 +28,12 @@ class RidesDetails : Fragment() {
 
     private lateinit var aView: View
 
-    private lateinit var backToRidesBtn: Button
-    private lateinit var backToGroupsBtn: Button
     private lateinit var contactDriverBtn: Button
     private lateinit var shareRideBtn: Button
 
     private lateinit var srcTV: TextView
     private lateinit var destTV: TextView
     private lateinit var timeTV: TextView
-    private lateinit var commentsTV: TextView
     private lateinit var app: HujiRideApplication
     private lateinit var vm: RidesViewModel
 
@@ -50,15 +45,12 @@ class RidesDetails : Fragment() {
     }
 
     private fun findViews() {
-        backToRidesBtn = aView.findViewById(R.id.back_to_closest_rides)
-        backToGroupsBtn = aView.findViewById(R.id.back_to_groups)
         contactDriverBtn = aView.findViewById(R.id.contact_driver_btn)
         shareRideBtn = aView.findViewById(R.id.share_ride_btn)
 
         srcTV = aView.findViewById(R.id.source)
         destTV = aView.findViewById(R.id.destination)
         timeTV = aView.findViewById(R.id.time)
-        commentsTV = aView.findViewById(R.id.comments)
     }
 
     private fun deleteRide() {
@@ -113,11 +105,6 @@ class RidesDetails : Fragment() {
         }
 
 
-        backToRidesBtn.setOnClickListener {
-            vm.fromDashboard = false
-            Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_ridesList)
-        }
-
         contactDriverBtn.setOnClickListener {
             if (vm.fromDashboard) {
                 deleteRideAlert()
@@ -126,10 +113,6 @@ class RidesDetails : Fragment() {
             }
         }
 
-
-        backToGroupsBtn.setOnClickListener {
-            Navigation.findNavController(aView).navigate(R.id.action_ridesDetails_to_groups_home)
-        }
 
 
         val ride = vm.pressedRide.value
@@ -144,22 +127,20 @@ class RidesDetails : Fragment() {
                 dest = ride.destName
             }
 
-            srcTV.text = src
-            destTV.text = dest
+            srcTV.text = getString(R.string.ride_details_source, src)
+            destTV.text = getString(R.string.ride_details_dest, dest)
             val stamp = ride.timeStamp
             val dt = stamp.toDate()
             val datFrm = SimpleDateFormat("dd/MM/yyyy ")
             val timeFrm = SimpleDateFormat("HH:mm")
-            timeTV.text = "${timeFrm.format(dt)}  at  ${datFrm.format(dt)}"
+//            timeTV.text = "${timeFrm.format(dt)}  at  ${datFrm.format(dt)}"
+            timeTV.text = getString(R.string.ride_details_time, dt)
 
+            val comments = ride.comments.filterNot { s -> s == "" }
 
-            var comments = ""
-            for (s in ride.comments) {
-                comments += "\n" + s
-            }
-            if (comments != "") {
-                commentsTV.text = comments
-            }
+            val commentsListView = aView.findViewById<ListView>(R.id.comments_listview)
+            val commentsAdapter = ArrayAdapter<String>(requireContext(), R.layout.comment_layout_of_listview, comments)
+            commentsListView.adapter = commentsAdapter
 
 
             shareRideBtn.setOnClickListener {
@@ -167,8 +148,10 @@ class RidesDetails : Fragment() {
                 intent.type = "text/plain"
                 val body = "Sharing a ride with you"
                 var commentMsg = ""
-                if (comments != "") {
-                    commentMsg = "Please be aware of the following things:$comments"
+                if (comments.isNotEmpty()) {
+                    val commentsBullets = comments.reduce { acc, s -> "$acc\n• $s" }
+                    commentMsg = "Please be aware of the following things:\n$commentsBullets"
+
                 }
                 val sub = "Hi!\nYou might be interested in this ride:\n\n" +
                         "Its going to be at ${timeFrm.format(dt)}  at  ${datFrm.format(dt)}\n\n" +

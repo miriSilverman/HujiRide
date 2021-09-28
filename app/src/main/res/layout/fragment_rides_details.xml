@@ -1,202 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#3F51B5"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    tools:context=".Rides.RidesDetails">
 
-    >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ImageView
+        android:id="@+id/imageView2"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/notebook"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/MainAppStyle.Details.Title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        tools:context=".Rides.RidesDetails">
+        android:layout_marginTop="30dp"
+        android:text="@string/ridesDetailsTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/source"
+        style="@style/MainAppStyle.Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        tools:text="@tools:sample/lorem"/>
+
+    <TextView
+        android:id="@+id/destination"
+        style="@style/MainAppStyle.Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/source"
+        tools:text="@tools:sample/lorem"
+        />
+
+    <TextView
+        android:id="@+id/time"
+        style="@style/MainAppStyle.Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/destination"
+        tools:text="@tools:sample/lorem"
+        android:drawableLeft="@drawable/ic_time"
+        android:drawablePadding="10dp"
+        />
+
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/time"-->
+<!--        >-->
+<!--        -->
+<!--    </ScrollView>-->
+
+    <TextView
+        android:id="@+id/comments_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/MainAppStyle.Header"
+        android:background="#0000"
+        android:text="Comments:"
+        android:textSize="18dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/time"
+        />
+
+    <ListView
+        android:id="@+id/comments_listview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comments_header"
+        app:layout_constraintBottom_toTopOf="@id/contact_driver_btn"
+        android:paddingHorizontal="12dp"
+        android:divider="@null"
+        >
+
+    </ListView>
+
+    <Button
+        android:id="@+id/contact_driver_btn"
+        style="@style/MainAppStyle.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/ic_baseline_directions_car_24"
+        android:singleLine="true"
+        android:text="@string/contact_driver"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintEnd_toStartOf="@id/share_ride_btn"
+        />
 
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/notebook" />
+    <Button
+        android:id="@+id/share_ride_btn"
+        style="@style/MainAppStyle.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_baseline_share_24"
+        android:text="SHARE"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/contact_driver_btn"
+        app:layout_constraintBottom_toBottomOf="@id/contact_driver_btn"
+        />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="58dp"
-            android:fontFamily="@font/annie_use_your_telescope"
-            android:text="@string/ridesDetailsTitle"
-            android:textAlignment="center"
-            android:textSize="50sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.532"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/annie_use_your_telescope"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/title" />
-
-        <TextView
-            android:id="@+id/destination"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/annie_use_your_telescope"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/source" />
-
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/annie_use_your_telescope"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/destination" />
-
-        <TextView
-            android:id="@+id/comments"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/annie_use_your_telescope"
-            android:text=""
-            android:textAlignment="center"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time" />
-
-
-        <!--Button
-            android:id="@+id/contact_driver_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
-            android:text="@string/contactTheDriverBtnText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comments" -->
-
-        <Button
-            android:id="@+id/contact_driver_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="100dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="100dp"
-            android:backgroundTint="#27A9E1"
-            android:drawableLeft="@drawable/ic_baseline_directions_car_24"
-            android:drawablePadding="2dip"
-            android:gravity="center"
-            android:paddingLeft="30dip"
-            android:paddingRight="26dip"
-            android:singleLine="true"
-            android:text="@string/contact_driver"
-            android:textSize="13sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comments" />
-
-        <Button
-            android:id="@+id/back_to_groups"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="76dp"
-            android:layout_marginTop="96dp"
-            android:text="@string/backToGroupsBtnText"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_driver_btn" />
-
-        <Button
-            android:id="@+id/back_to_closest_rides"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="60dp"
-            android:text="@string/goToRidesListBtnText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/contact_driver_btn" />
-
-        <ImageView
-            android:id="@+id/just_for_padding"
-            android:layout_width="15dp"
-            android:layout_height="12dp"
-            android:layout_marginTop="150dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/back_to_closest_rides"
-            app:srcCompat="@drawable/ic_baseline_linear_scale_24" />
-
-
-        <Button
-            android:id="@+id/share_ride_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="136dp"
-            android:layout_marginEnd="136dp"
-            android:layout_marginBottom="48dp"
-            android:backgroundTint="#27A9E1"
-            android:drawableLeft="@drawable/ic_baseline_share_24"
-            android:drawablePadding="2dip"
-            android:gravity="center"
-
-            android:singleLine="true"
-            android:text="SHARE"
-            android:textSize="13sp"
-            app:layout_constraintBottom_toTopOf="@+id/back_to_groups"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.625"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <!--Button
-            android:id="@+id/share_ride_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="45dp"
-            android:layout_marginEnd="22dp"
-            android:layout_marginBottom="22dp"
-            android:text="Share Ride"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.361"
-            app:layout_constraintStart_toStartOf="parent"
-
-            app:layout_constraintTop_toBottomOf="@+id/comments"
-            app:layout_constraintVertical_bias="0.383" -->
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

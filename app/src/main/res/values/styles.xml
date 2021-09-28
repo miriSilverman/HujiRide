@@ -35,6 +35,18 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="MainAppStyle.Details">
+        <item name="fontFamily">@font/annie_use_your_telescope</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="MainAppStyle.Details.Title">
+        <item name="android:textSize">50sp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
     <style name="OnboardingStyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/onb_colorPrimary</item>
         <item name="fontFamily">@font/catamaran</item>

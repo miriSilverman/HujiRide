@@ -2,7 +2,6 @@ package huji.postpc.year2021.hujiride
 
 import android.app.AlertDialog
 import android.content.DialogInterface
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -27,41 +26,31 @@ import kotlinx.coroutines.withContext
 class DriversDetails : Fragment() {
     private lateinit var aView: View
     private lateinit var progressBar: ProgressBar
-    private lateinit var backToRidesBtn: Button
-    private lateinit var backToGroupsBtn: Button
     private lateinit var addToMyRidesBtn: Button
+    private lateinit var deleteFromMyRidesBtn: Button
 
-    private lateinit var driverFirstName: TextView
-    private lateinit var driverLastName: TextView
+    private lateinit var driverFullName: TextView
     private lateinit var driverPhone: TextView
     private lateinit var vm: RidesViewModel
     private lateinit var app: HujiRideApplication
 
     private fun findViews() {
         progressBar = aView.findViewById(R.id.drivers_progress_bar)
-        backToRidesBtn = aView.findViewById(R.id.back_to_closest_rides)
-        backToGroupsBtn = aView.findViewById(R.id.back_to_groups)
         addToMyRidesBtn = aView.findViewById(R.id.add_to_my_rides)
+        deleteFromMyRidesBtn = aView.findViewById(R.id.delete_from_my_rides)
 
-        driverFirstName = aView.findViewById(R.id.first_name)
-        driverLastName = aView.findViewById(R.id.last_name)
+        driverFullName = aView.findViewById(R.id.full_name)
         driverPhone = aView.findViewById(R.id.phone_num)
     }
 
     private fun setVisibility(oneDirection: Int, secondDirection: Int, btnState: Boolean) {
         progressBar.visibility = oneDirection
 
-        backToGroupsBtn.isEnabled = btnState
-        backToRidesBtn.isEnabled = btnState
         addToMyRidesBtn.isEnabled = btnState
 
-        driverFirstName.visibility = secondDirection
-        driverLastName.visibility = secondDirection
+        driverFullName.visibility = secondDirection
         driverPhone.visibility = secondDirection
-
-
     }
-
 
 
     override fun onCreateView(
@@ -74,14 +63,6 @@ class DriversDetails : Fragment() {
         setVisibility(View.VISIBLE, View.INVISIBLE, false)
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
-        backToRidesBtn.setOnClickListener {
-            Navigation.findNavController(aView).navigate(R.id.action_driversDetails_to_ridesList)
-        }
-
-        backToGroupsBtn.setOnClickListener {
-            Navigation.findNavController(aView).navigate(R.id.action_driversDetails_to_groups_home)
-        }
-
         decideAddOrDeleteBtn()
 
 
@@ -90,12 +71,10 @@ class DriversDetails : Fragment() {
 
             GlobalScope.launch(Dispatchers.IO) {
                 val driver = app.db.findClient(ride.driverID)
-                println("##### $driver")
                 withContext(Dispatchers.Main) {
                     setVisibility(View.INVISIBLE, View.VISIBLE, true)
                     if (driver != null) {
-                        driverFirstName.text = driver.firstName
-                        driverLastName.text = driver.lastName
+                        driverFullName.text = getString(R.string.driver_details_fullName, driver.firstName, driver.lastName)
                         driverPhone.text = driver.phoneNumber
 
                     }
@@ -110,29 +89,18 @@ class DriversDetails : Fragment() {
     }
 
     private fun decideAddOrDeleteBtn() {
-        if (vm.fromMyRides) {
-            addToMyRidesBtn.text = "delete from my rides"
-            addToMyRidesBtn.setBackgroundColor(Color.RED)
-
-        } else {
-            addToMyRidesBtn.text = "Add to my rides"
-            addToMyRidesBtn.setBackgroundColor(Color.GREEN)
+        addToMyRidesBtn.apply {
+            setOnClickListener { addToRides() }
+            visibility = if (vm.fromMyRides) View.GONE else View.VISIBLE
         }
-
-        addToMyRidesBtn.setOnClickListener {
-            if (!vm.fromMyRides){
-                addToRides()
-            }else{
-                deleteRides()
-            }
-
+        deleteFromMyRidesBtn.apply {
+            setOnClickListener { deleteRides() }
+            visibility = if (vm.fromMyRides) View.VISIBLE else View.GONE
         }
-
     }
 
 
-
-    private fun addToRides(){
+    private fun addToRides() {
         GlobalScope.launch(Dispatchers.IO) {
             vm.pressedRide.value?.let { it1 ->
                 app.db.addRideToClientsRides(
@@ -150,9 +118,7 @@ class DriversDetails : Fragment() {
     }
 
 
-    private fun deleteRides(){
-
-
+    private fun deleteRides() {
         AlertDialog.Builder(activity)
             .setTitle(R.string.deleteRideDialogTitle)
             .setMessage(R.string.deleteRideDialogTxt)

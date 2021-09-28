@@ -85,5 +85,11 @@
         <item>I have parked far</item>
     </string-array>
 
+    <string name="ride_details_source">From: %1$s</string>
+    <string name="ride_details_dest">To: %1$s</string>
+    <string name="ride_details_time">%1$tH:%1$tM at %1$te/%1$tm/%1$ty</string>
+
+    <string name="driver_details_fullName">%1$s %2$s</string>
+
 
 </resources>

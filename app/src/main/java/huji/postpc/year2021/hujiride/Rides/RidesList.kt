@@ -101,34 +101,34 @@ class RidesList : Fragment() {
         val filterArrayAdapter = ArrayAdapter(requireContext(), R.layout.sort_item, filteredItems)
         filterACTV.setAdapter(filterArrayAdapter)
 
-
-        if (groupsList.isEmpty()){
-
-            GlobalScope.launch(Dispatchers.IO) {
-                val groupsListAsNums = app.db.getGroupsOfClient(clientId)
-                withContext(Dispatchers.Main) {
-                    for (g in groupsListAsNums) {
-                        val groupsName = getGroupsName(g)
-                        if (groupsName != null) {
-                            groupsList.add(groupsName)
-                        }
-                    }
-                    groupsList.add(NOT_FROM_GROUP)
-                    val groupsArrayAdapter =
-                        ArrayAdapter(requireContext(), R.layout.sort_item, groupsList)
-                    groupsACTV.setAdapter(groupsArrayAdapter)
-
-                    val curGroup = vm.pressedGroup.value?.name
-                    if (curGroup != null) {
-                        val curGroupName = getGroupsName(curGroup)
-                        groupsACTV.hint = curGroupName
-                    }else{
-                        groupsACTV.hint = NOT_FROM_GROUP
-                    }
-                }
-            }
-
-        }
+        // TODO FIX (MIRI)
+//        if (groupsList.isEmpty()){
+//
+//            GlobalScope.launch(Dispatchers.IO) {
+//                val groupsListAsNums = app.db.getGroupsOfClient(clientId)
+//                withContext(Dispatchers.Main) {
+//                    for (g in groupsListAsNums) {
+//                        val groupsName = getGroupsName(g)
+//                        if (groupsName != null) {
+//                            groupsList.add(groupsName)
+//                        }
+//                    }
+//                    groupsList.add(NOT_FROM_GROUP)
+//                    val groupsArrayAdapter =
+//                        ArrayAdapter(requireContext(), R.layout.sort_item, groupsList)
+//                    groupsACTV.setAdapter(groupsArrayAdapter)
+//
+//                    val curGroup = vm.pressedGroup.value?.name
+//                    if (curGroup != null) {
+//                        val curGroupName = getGroupsName(curGroup)
+//                        groupsACTV.hint = curGroupName
+//                    }else{
+//                        groupsACTV.hint = NOT_FROM_GROUP
+//                    }
+//                }
+//            }
+//
+//        }
 
     }
 
@@ -182,19 +182,19 @@ class RidesList : Fragment() {
 
 
         setAdaptersList()
-
-        groupsACTV.setOnItemClickListener {  parent, _, pos, _ ->
-            val groupsName = parent.getItemAtPosition(pos).toString()
-            if (groupsName != NOT_FROM_GROUP){
-                val groupsId = getIdOfGroup(groupsName)
-                vm.pressedGroup.value = SearchGroupItem(groupsId, true)
-
-            }else{
-                vm.pressedGroup.value = SearchGroupItem(null, true)
-            }
-
-            setAdaptersList()
-        }
+        //TODO FIX THIS (MIRI!)
+//        groupsACTV.setOnItemClickListener {  parent, _, pos, _ ->
+//            val groupsName = parent.getItemAtPosition(pos).toString()
+//            if (groupsName != NOT_FROM_GROUP){
+//                val groupsId = getIdOfGroup(groupsName)
+//                vm.pressedGroup.value = SearchGroupItem(groupsId, true)
+//
+//            }else{
+//                vm.pressedGroup.value = SearchGroupItem(null, true)
+//            }
+//
+//            setAdaptersList()
+//        }
 
         return aView
     }
@@ -411,8 +411,8 @@ class RidesList : Fragment() {
                 childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
                         as AutocompleteSupportFragment
 
-            groupsTIL = aView.findViewById(R.id.groups_drop_down)
-            groupsACTV = aView.findViewById(R.id.autoCompleteGroups)
+//            groupsTIL = aView.findViewById(R.id.groups_drop_down)
+//            groupsACTV = aView.findViewById(R.id.autoCompleteGroups)
         }
 
         private fun setVisibility(
