@@ -158,7 +158,7 @@ class RidesDetails : Fragment() {
                         "From $src to ${dest}\n\n" +
                         "${commentMsg}\n\n" +
                         "You are welcome to download the HujiRides in the following link\n" +
-                        " http://play.google.com" //todo: change to real link
+                        " https://play.google.com/store/apps/details?id=huji.postpc.year2021.hujiride"
                 intent.putExtra(Intent.EXTRA_TEXT, body)
                 intent.putExtra(Intent.EXTRA_TEXT, sub)
                 startActivity(Intent.createChooser(intent, "Share using"))

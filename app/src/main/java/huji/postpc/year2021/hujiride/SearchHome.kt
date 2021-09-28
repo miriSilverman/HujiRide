@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.gms.common.api.Status
@@ -29,7 +30,10 @@ class SearchHome : Fragment() {
     private var toHuji: Boolean = true
 
     private lateinit var srcET: AutocompleteSupportFragment
+    private lateinit var srcETEditText: EditText
     private lateinit var destET: AutocompleteSupportFragment
+    private lateinit var destETEditText: EditText
+
     private lateinit var destTextView: TextView
     private lateinit var srcTextView: TextView
 
@@ -56,9 +60,7 @@ class SearchHome : Fragment() {
         vm.fromMyRides = false
         vm.fromDashboard = false
 
-
         findViews(view)
-
 
         autoCompletePlaces(srcET)
         autoCompletePlaces(destET)
@@ -115,7 +117,7 @@ class SearchHome : Fragment() {
 
             override fun onError(status: Status) {
                 // TODO: Handle the error.
-                Log.i(TAG, "An error occurred: $status")
+                Log.e(TAG, "An error occurred: $status")
             }
         })
     }
@@ -125,6 +127,11 @@ class SearchHome : Fragment() {
                 as AutocompleteSupportFragment
         destET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_dest)
                 as AutocompleteSupportFragment
+        srcETEditText = srcET.requireView()
+            .findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+
+        destETEditText = destET.requireView()
+            .findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
 
         srcDestImg = view.findViewById(R.id.srcDestImg)
         switchDirectionBtn = view.findViewById(R.id.switchDirectionBtn)
@@ -154,12 +161,22 @@ class SearchHome : Fragment() {
 
 
     private fun setDirection() {
-        if (toHuji) {
-            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.to_huji, destTextView, srcTextView)
-        } else {
-            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.to_home, srcTextView, destTextView)
+        //TODO MIRI PLEASE DO IT
+        srcETEditText.isEnabled = toHuji
+        destETEditText.isEnabled = !toHuji
+        srcDestImg.setImageResource(if (toHuji) R.drawable.to_huji else R.drawable.to_home)
+
+        if(toHuji) {
+            destETEditText.setText("HUJI")
+            destETEditText.isActivated = false
         }
+//        if (toHuji) {
+//            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.to_huji, destTextView, srcTextView)
+//        } else {
+//            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.to_home, srcTextView, destTextView)
+//        }
         vm.toHuji = toHuji
+
     }
 
 
@@ -167,11 +184,11 @@ class SearchHome : Fragment() {
     private fun designSwitchDirection(img:ImageView, constWay: AutocompleteSupportFragment,
                                       notConstWay: AutocompleteSupportFragment, resOfImg: Int,
                                       tvVisible: TextView, tvInvisible: TextView) {
-        img.setImageResource(resOfImg)
-        notConstWay.view?.visibility = View.VISIBLE
-        constWay.view?.visibility = View.INVISIBLE
-        tvVisible.visibility = View.VISIBLE
-        tvInvisible.visibility = View.INVISIBLE
+//        img.setImageResource(resOfImg)
+//        notConstWay.view?.visibility = View.VISIBLE
+//        constWay.view?.visibility = View.INVISIBLE
+//        tvVisible.visibility = View.VISIBLE
+//        tvInvisible.visibility = View.INVISIBLE
 
         if (vm.srcOrDest != "") {
             notConstWay.setText(vm.srcOrDest)
