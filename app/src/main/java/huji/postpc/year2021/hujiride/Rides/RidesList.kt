@@ -54,7 +54,7 @@ class RidesList : Fragment() {
     private lateinit var app: HujiRideApplication
     private lateinit var progressBar: ProgressBar
     private lateinit var addRideBtn: FloatingActionButton
-    private lateinit var applyBtn: ImageButton
+//    private lateinit var applyBtn: ImageButton
     private lateinit var ridesRecycler: RecyclerView
     private var ridesList: ArrayList<Ride> = arrayListOf()
     private var newList = ArrayList<Ride>()
@@ -152,6 +152,7 @@ class RidesList : Fragment() {
 
         adapter = RidesAdapter()
 
+
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
 
         if (vm.srcOrDest != "") {
@@ -169,16 +170,33 @@ class RidesList : Fragment() {
 
         sortACTV.setOnItemClickListener { parent, _, pos, _ ->
 
-            if (parent.getItemAtPosition(pos).toString() == "src and dest") {
-                setDestinationSorting()
-            }else{
-                autoCompleteFrag.requireView().visibility = View.INVISIBLE
-            }
+            sortingSwitchCase()
+            adapter.setRidesList(ridesList)
+            adapter.notifyDataSetChanged()
+
+//            if (parent.getItemAtPosition(pos).toString() == "src and dest") {
+//                setDestinationSorting()
+//            }else{
+//                autoCompleteFrag.requireView().visibility = View.INVISIBLE
+//            }
         }
 
-        applyBtn.setOnClickListener {
-            applyBtnOnPressed()
+
+        filterACTV.setOnItemClickListener{ parent, _, pos, _ ->
+
+            when (filterACTV.text.toString()) {
+                "source to Huji" -> filterToHuji(true)
+                "Huji to destination" -> filterToHuji(false)
+                "all" -> filterAll()
+            }
+
+            adapter.setRidesList(ridesList)
+            adapter.notifyDataSetChanged()
         }
+
+//        applyBtn.setOnClickListener {
+//            applyBtnOnPressed()
+//        }
 
 
         setAdaptersList()
@@ -215,6 +233,8 @@ class RidesList : Fragment() {
             }
 
             dbRidesArr = app.db.getRidesListOfGroup(groupsName)
+            newList.clear()
+            newList.addAll(dbRidesArr)
 
             ridesList.clear()
             ridesList.addAll(dbRidesArr)
@@ -237,17 +257,21 @@ class RidesList : Fragment() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun applyBtnOnPressed() {
+        sortingSwitchCase()
+
+        if (sortACTV.text.toString() != "src and dest"){
+            filteringSwitchCase()
+        }
+
+    }
+
+    private fun sortingSwitchCase() {
         when (sortACTV.text.toString()) {
             "no sorting" -> noSorting()
             "time" -> sortAccordingToTime()
             "src and dest" -> sortAccordingToAlloc()
             "lexicographic order" -> sortAccordingToLexicographic()
         }
-
-        if (sortACTV.text.toString() != "src and dest"){
-            filteringSwitchCase()
-        }
-
     }
 
     private fun setDestinationSorting() {
@@ -324,19 +348,16 @@ class RidesList : Fragment() {
     }
 
     private fun noSorting() {
-        ridesList.clear()
-        ridesList.addAll(dbRidesArr)
+//        ridesList.clear()
+//        ridesList.addAll(dbRidesArr)
     }
 
     private fun sortAccordingToTime() {
-        ridesList.clear()
-        ridesList.addAll(dbRidesArr)
+
         ridesList.sortBy { selectorTime(it) }
     }
 
     private fun sortAccordingToLexicographic() {
-        ridesList.clear()
-        ridesList.addAll(dbRidesArr)
         ridesList.sortBy { selectorLexicographic(it) }
     }
 
@@ -382,17 +403,21 @@ class RidesList : Fragment() {
 
 
     private fun filterToHuji(condition: Boolean) {
-            newList.clear()
-            for (r in ridesList) {
+            ridesList.clear()
+            for (r in dbRidesArr) {
                 if (r.isDestinationHuji == condition) {
-                    newList.add(r)
+                    ridesList.add(r)
                 }
             }
+        sortingSwitchCase()
         }
 
         private fun filterAll() {
-            newList.clear()
-            newList.addAll(ridesList)
+            ridesList.clear()
+            ridesList.addAll(dbRidesArr)
+            sortingSwitchCase()
+
+
         }
 
 
@@ -406,7 +431,7 @@ class RidesList : Fragment() {
             filterTIL = aView.findViewById(R.id.filter)
             progressBar = aView.findViewById(R.id.rides_progress_bar)
             ridesRecycler = aView.findViewById(R.id.rides_list_recyclerView)
-            applyBtn = aView.findViewById(R.id.apply_btn)
+//            applyBtn = aView.findViewById(R.id.apply_btn)
             autoCompleteFrag =
                 childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment)
                         as AutocompleteSupportFragment
@@ -431,7 +456,7 @@ class RidesList : Fragment() {
             ridesRecycler.visibility = secondDirection
             sortTIL.visibility = secondDirection
             filterTIL.visibility = secondDirection
-            applyBtn.visibility = secondDirection
+//            applyBtn.visibility = secondDirection
             autoCompleteFrag.requireView().visibility = View.INVISIBLE
 //        switchDirectionBtn.visibility = secondDirection
 //        srcDestImg.visibility = secondDirection

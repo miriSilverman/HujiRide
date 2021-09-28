@@ -123,19 +123,19 @@
         />
 
 
-    <ImageButton
-        android:id="@+id/apply_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="112dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/new_v"
-        app:layout_constraintBottom_toTopOf="@+id/rides_list_recyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.925"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+<!--    <ImageButton-->
+<!--        android:id="@+id/apply_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="112dp"-->
+<!--        android:backgroundTint="@color/white"-->
+<!--        android:src="@drawable/new_v"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/rides_list_recyclerView"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.925"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
 
     <fragment
         android:id="@+id/place_autocomplete_fragment"
