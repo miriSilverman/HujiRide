@@ -1,11 +1,14 @@
 package huji.postpc.year2021.hujiride.Onboarding
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import huji.postpc.year2021.hujiride.HujiRideApplication
 import huji.postpc.year2021.hujiride.R
 
@@ -37,6 +40,15 @@ class log_2 : BaseOnbaordingFragment(R.layout.fragment_log_2, R.id.action_log_2_
         idNumberView.setText(viewModel.idNumber)
 
         setLastEditTextToNextPage(idNumberView)
+
+        view.findViewById<ImageView>(R.id.id_info).setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Why Do we Need your ID?")
+                .setMessage("We need it to confirm that you are a real student with your student card in the next stage.\nDon't worry! We don't save your ID anywhere in our databases!")
+                .setPositiveButton("OK!") { dialog, _ -> dialog.dismiss()}
+                .create()
+                .show()
+        }
 
         return view
     }

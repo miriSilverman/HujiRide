@@ -15,7 +15,9 @@
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:drawableLeft="@drawable/ic_baseline_phone_24"
+        />
 
     <EditText
         android:id="@+id/id_number_edittext"
@@ -26,7 +28,20 @@
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/phone_number_edittext" />
+        app:layout_constraintTop_toBottomOf="@+id/phone_number_edittext"
+        android:drawableLeft="@drawable/ic_baseline_person_24"
+        />
+
+    <ImageView
+        android:id="@+id/id_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_info_24"
+        android:tooltipText="TEST"
+        app:layout_constraintRight_toRightOf="@id/id_number_edittext"
+        app:layout_constraintTop_toTopOf="@id/id_number_edittext"
+        app:layout_constraintBottom_toBottomOf="@id/id_number_edittext"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
