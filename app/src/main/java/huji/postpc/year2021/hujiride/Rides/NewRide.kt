@@ -1,19 +1,15 @@
-package huji.postpc.year2021.hujiride
+package huji.postpc.year2021.hujiride.Rides
 
 import android.app.*
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
-import huji.postpc.year2021.hujiride.Rides.RidesViewModel
 import huji.postpc.year2021.hujiride.database.Ride
 
 import java.util.*
@@ -21,6 +17,7 @@ import android.graphics.drawable.ColorDrawable
 import android.util.Log
 import android.widget.EditText
 import android.widget.CheckBox
+import androidx.cardview.widget.CardView
 import com.firebase.geofire.GeoFireUtils
 import com.firebase.geofire.GeoLocation
 import com.google.android.gms.common.api.Status
@@ -31,6 +28,9 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.Timestamp
+import huji.postpc.year2021.hujiride.Groups.GroupsPickerDialog
+import huji.postpc.year2021.hujiride.HujiRideApplication
+import huji.postpc.year2021.hujiride.R
 import huji.postpc.year2021.hujiride.SearchGroups.SearchGroupItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -51,16 +51,20 @@ class NewRide : Fragment() {
     private lateinit var commentsTextView: TextView
     private var timeHour: Int = 0
     private var timeMinutes: Int = 0
+
     private lateinit var srcET: AutocompleteSupportFragment
+    private lateinit var srcETEditText: EditText
+    private lateinit var srcETSearchBtn: View
     private lateinit var destET: AutocompleteSupportFragment
-    private lateinit var destTextView: TextView
-    private lateinit var srcTextView: TextView
+    private lateinit var destETEditText: EditText
+    private lateinit var destETSearchBtn: View
+
     private var timeFormat = ""
     private var srcOrDestStr = ""
     private var latLng: LatLng = LatLng(0.0, 0.0)
 
-    private lateinit var groupsTIL: TextInputLayout
-    private lateinit var groupsACTV: AutoCompleteTextView
+    private lateinit var groupsCardView: CardView
+    private lateinit var groupsTextView: TextView
 
 
     private lateinit var comments: ArrayList<String>
@@ -80,7 +84,6 @@ class NewRide : Fragment() {
     private lateinit var clientId: String
     private var groupsList: ArrayList<String> = arrayListOf()
 
-    private final val NOT_FROM_GROUP = "not from a group"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +110,6 @@ class NewRide : Fragment() {
         super.onResume()
 
         if (groupsList.isEmpty()){
-
             GlobalScope.launch(Dispatchers.IO) {
                 val groupsListAsNums = app.db.getGroupsOfClient(clientId)
                 withContext(Dispatchers.Main) {
@@ -117,17 +119,13 @@ class NewRide : Fragment() {
                             groupsList.add(groupsName)
                         }
                     }
-                    groupsList.add(NOT_FROM_GROUP)
-                    val groupsArrayAdapter =
-                        ArrayAdapter(requireContext(), R.layout.sort_item, groupsList)
-                    groupsACTV.setAdapter(groupsArrayAdapter)
-
+                    groupsList.add(GroupsPickerDialog.NOT_FROM_GROUP)
                     val curGroup = vm.pressedGroup.value?.name
                     if (curGroup != null) {
                         val curGroupName = getGroupsName(curGroup)
-                        groupsACTV.hint = curGroupName
+                        groupsTextView.text = curGroupName
                     }else{
-                        groupsACTV.hint = NOT_FROM_GROUP
+                        groupsTextView.text = GroupsPickerDialog.NOT_FROM_GROUP
                     }
                 }
             }
@@ -153,13 +151,10 @@ class NewRide : Fragment() {
         }
 
         initDate()
-
         findViews()
-
 
         autoCompletePlaces(srcET)
         autoCompletePlaces(destET)
-
         setSrcOrDest()
 
         comments = ArrayList()
@@ -173,6 +168,15 @@ class NewRide : Fragment() {
             timeDialog()
         }
 
+        vm.pressedGroup.observe(viewLifecycleOwner) {
+            groupsTextView.setText(getGroupsName(it.name?:"")?:GroupsPickerDialog.NOT_FROM_GROUP)
+        }
+
+        groupsCardView.setOnClickListener {
+            GroupsPickerDialog(groupsList, vm.pressedGroup.value!!.name?:"") { sel ->
+                vm.pressedGroup.value = SearchGroupItem(sel, true)
+            }.show(parentFragmentManager, "Group Select")
+        }
 
         dateListener =
             DatePickerDialog.OnDateSetListener { _: DatePicker, aYear: Int, aMonth: Int, dayOfMonth: Int ->
@@ -255,17 +259,12 @@ class NewRide : Fragment() {
 
 
     private fun onPressedAddNewRide() {
-
-
         if (validateAllFields()) {
-
-
             val newRide: Ride = createNewRide(app)
 
-
-            val group = groupsACTV.text.toString()
+            val group = groupsTextView.text.toString()
             if (group != "") {
-                if (group == NOT_FROM_GROUP) {
+                if (group == GroupsPickerDialog.NOT_FROM_GROUP) {
                     vm.pressedGroup.value = SearchGroupItem(null, false)
                 } else {
                     val groupId = getIdOfGroup(group)
@@ -273,10 +272,6 @@ class NewRide : Fragment() {
                 }
             }
             val pressedGroup = vm.pressedGroup
-
-
-
-
 
             GlobalScope.launch(Dispatchers.IO) {
                 app.db.addRide(
@@ -287,14 +282,9 @@ class NewRide : Fragment() {
                     vm.srcOrDest = ""
                     Toast.makeText(activity, "Ride was added successfully", Toast.LENGTH_SHORT)
                         .show()
-
                     Navigation.findNavController(aView).navigate(R.id.action_newRide2_to_dashboard)
-
                 }
-
             }
-
-
         }
     }
 
@@ -324,18 +314,37 @@ class NewRide : Fragment() {
     private fun findViews() {
         srcET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_src)
                 as AutocompleteSupportFragment
+
+        srcET.requireView().apply {
+            srcETEditText =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+            srcETSearchBtn =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
+            findViewById<View>(com.google.android.libraries.places.R.id.places_autocomplete_clear_button).alpha =
+                0F
+
+        }
+
         destET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_dest)
                 as AutocompleteSupportFragment
+        destET.requireView().apply {
+            destETEditText =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+            destETSearchBtn =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
+            findViewById<View>(com.google.android.libraries.places.R.id.places_autocomplete_clear_button).alpha = 0F
+        }
+
+        srcDestImg = aView.findViewById(R.id.srcDestImg)
+        switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
 
         commentsTextView = aView.findViewById(R.id.comments_edit_btn)
         timerTextView = aView.findViewById(R.id.time_edit_btn)
         srcDestImg = aView.findViewById(R.id.srcDestImg)
         dateTextView = aView.findViewById(R.id.date_edit_btn)
         switchDirectionBtn = aView.findViewById(R.id.switchDirectionBtn)
-        srcTextView = aView.findViewById(R.id.src_huji)
-        destTextView = aView.findViewById(R.id.dest_huji)
-        groupsTIL = aView.findViewById(R.id.groups_drop_down)
-        groupsACTV = aView.findViewById(R.id.autoCompleteGroups)
+        groupsCardView = aView.findViewById(R.id.groups_cardview)
+        groupsTextView = aView.findViewById(R.id.group_name_textview)
     }
 
     private fun createNewRide(app: HujiRideApplication): Ride {
@@ -505,43 +514,65 @@ class NewRide : Fragment() {
     }
 
 
-    private fun designSwitchDirection(
-        img: ImageView, constWay: AutocompleteSupportFragment,
-        notConstWay: AutocompleteSupportFragment, resOfImg: Int,
-        tvVisible: TextView, tvInvisible: TextView
-    ) {
-        img.setImageResource(resOfImg)
-        notConstWay.view?.visibility = View.VISIBLE
-        constWay.view?.visibility = View.INVISIBLE
-        tvVisible.visibility = View.VISIBLE
-        tvInvisible.visibility = View.INVISIBLE
+//    private fun designSwitchDirection(
+//        img: ImageView, constWay: AutocompleteSupportFragment,
+//        notConstWay: AutocompleteSupportFragment, resOfImg: Int,
+//        tvVisible: TextView, tvInvisible: TextView
+//    ) {
+//        img.setImageResource(resOfImg)
+//        notConstWay.view?.visibility = View.VISIBLE
+//        constWay.view?.visibility = View.INVISIBLE
+//        tvVisible.visibility = View.VISIBLE
+//        tvInvisible.visibility = View.INVISIBLE
+//
+//        if (srcOrDestStr != "") {
+//            notConstWay.setText(vm.srcOrDest)
+//        }
+//    }
 
-        if (srcOrDestStr != "") {
-            notConstWay.setText(vm.srcOrDest)
-        }
-    }
+
+
+//    private fun setDirection() {
+//        if (toHuji) {
+//            designSwitchDirection(
+//                srcDestImg,
+//                destET,
+//                srcET,
+//                R.drawable.to_huji,
+//                destTextView,
+//                srcTextView
+//            )
+//        } else {
+//            designSwitchDirection(
+//                srcDestImg,
+//                srcET,
+//                destET,
+//                R.drawable.to_home,
+//                srcTextView,
+//                destTextView
+//            )
+//        }
+//        vm.toHuji = toHuji
+//    }
 
     private fun setDirection() {
+        srcETEditText.isEnabled = toHuji
+        srcETSearchBtn.isEnabled = toHuji
+
+        destETEditText.isEnabled = !toHuji
+        destETSearchBtn.isEnabled = !toHuji
+
+        srcDestImg.setImageResource(if (toHuji) R.drawable.to_huji else R.drawable.to_home)
+
         if (toHuji) {
-            designSwitchDirection(
-                srcDestImg,
-                destET,
-                srcET,
-                R.drawable.to_huji,
-                destTextView,
-                srcTextView
-            )
+            destET.setText("HUJI")
+            srcET.setText(vm.srcOrDest)
         } else {
-            designSwitchDirection(
-                srcDestImg,
-                srcET,
-                destET,
-                R.drawable.to_home,
-                srcTextView,
-                destTextView
-            )
+            destET.setText(vm.srcOrDest)
+            srcET.setText("HUJI")
         }
         vm.toHuji = toHuji
+
     }
 
 
@@ -565,11 +596,7 @@ class NewRide : Fragment() {
     }
 
     private fun setDetails() {
-        if (toHuji) {
-            syncVmAndET()
-        } else {
-            syncVmAndET()
-        }
+        syncVmAndET()
         toHuji = !toHuji
         vm.toHuji = toHuji
     }

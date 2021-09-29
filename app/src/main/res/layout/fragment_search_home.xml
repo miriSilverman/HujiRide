@@ -78,34 +78,6 @@
         app:srcCompat="@drawable/to_huji" />
 
 
-    <TextView
-        android:id="@+id/src_huji"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="136dp"
-        android:fontFamily="@font/fredoka_one"
-        android:text="From:  HUJI"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.306"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/srcDestImg" />
-
-    <TextView
-        android:id="@+id/dest_huji"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:fontFamily="@font/fredoka_one"
-        android:text="To:  HUJI"
-        android:textAlignment="center"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.258"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/src_huji" />
-
     <Button
         android:id="@+id/driver_btn"
         style="@style/MainAppStyle.Button"

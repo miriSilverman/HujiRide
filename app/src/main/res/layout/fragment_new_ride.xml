@@ -1,277 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#27A9E1"
-
-    >
+    tools:context=".Rides.NewRide">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/map_new" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/MainAppStyle.Header"
         android:layout_height="wrap_content"
-        tools:context=".NewRide">
+        android:text="Create New Ride"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/done_btn"
+        app:layout_constraintTop_toBottomOf="@id/dest_cardview">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:scaleType="fitXY"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            app:srcCompat="@drawable/map_new" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create New Ride"
-            android:background="#D2E1E1"
-            android:fontFamily="@font/fredoka_one"
-            android:textAlignment="center"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/groups_cardview"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="60dp"
+                android:layout_marginTop="25dp"
+                app:endIconDrawable="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dest_cardview">
+
+                <TextView
+                    android:id="@+id/group_name_textview"
+                    style="@style/MainAppStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="7dp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/ic_baseline_group_24"
+                    android:drawablePadding="10dp"
+                    android:inputType="none"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="GroupName"
+                    android:textAlignment="textStart" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/time_edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="#D2E1E1"
+                android:drawableStart="@drawable/ic_time"
+                android:drawablePadding="16dp"
+                android:fontFamily="@font/fredoka_one"
+                android:hint="Select Time"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAlignment="center"
+                android:textSize="32sp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dest_cardview" />
+
+            <TextView
+                android:id="@+id/date_edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="#D2E1E1"
+                android:drawableStart="@drawable/ic_baseline_calendar_today_24"
+                android:drawablePadding="16dp"
+                android:fontFamily="@font/fredoka_one"
+                android:hint="Select Date"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAlignment="center"
+                android:textSize="32sp"
+                android:textStyle="normal"
+                app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />
+
+            <TextView
+                android:id="@+id/comments_edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:background="#D2E1E1"
+                android:drawableStart="@drawable/ic_add"
+                android:drawablePadding="16dp"
+                android:fontFamily="@font/fredoka_one"
+                android:hint="Add Comments"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAlignment="center"
+                android:textSize="32sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/date_edit_btn" />
+        </LinearLayout>
+
+    </ScrollView>
 
 
-        <!--        <EditText-->
-<!--            android:id="@+id/source_edit_text"-->
-<!--            android:layout_width="328dp"-->
-<!--            android:layout_height="48dp"-->
-<!--            android:layout_marginTop="44dp"-->
-<!--            android:background="#89B0D6"-->
-<!--            android:paddingStart="20dp"-->
-<!--            android:hint="@string/insertSourceHint"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/switchDirectionBtn" />-->
+    <ImageView
+        android:id="@+id/done_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/circle"
+        android:src="@drawable/ic_baseline_done_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-<!--        <EditText-->
-<!--            android:id="@+id/dest_edit_text"-->
-<!--            android:layout_width="328dp"-->
-<!--            android:layout_height="48dp"-->
-<!--            android:layout_marginTop="44dp"-->
-<!--            android:paddingStart="20dp"-->
-<!--            android:background="#89B0D6"-->
-<!--            android:hint="@string/insertDestHint"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/source_edit_text" />-->
 
 
-        <TextView
-            android:id="@+id/time_edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="#D2E1E1"
-            android:drawableStart="@drawable/ic_time"
-            android:drawablePadding="16dp"
-            android:fontFamily="@font/fredoka_one"
-            android:hint="Select Time"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textAlignment="center"
-            android:textSize="32sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/place_autocomplete_fragment_dest" />
 
-        <TextView
-            android:id="@+id/comments_edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="#D2E1E1"
-            android:drawableStart="@drawable/ic_add"
-            android:drawablePadding="16dp"
-            android:fontFamily="@font/fredoka_one"
-            android:hint="Add Comments"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textAlignment="center"
-            android:textSize="32sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/date_edit_btn" />
+    <ImageButton
+        android:id="@+id/switchDirectionBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="7dp"
+        android:background="@null"
+        android:backgroundTint="#00FFFFFF"
+        android:elevation="10dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_baseline_swap_vert_24"
+        app:layout_constraintBottom_toBottomOf="@id/src_cardview"
+        app:layout_constraintRight_toRightOf="@id/src_cardview"
+        app:layout_constraintTop_toTopOf="@id/src_cardview"
+        app:tint="@color/black"
 
+        />
 
-        <ImageView
-            android:id="@+id/done_btn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="96dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="96dp"
-            android:background="@drawable/circle"
-            android:src="@drawable/ic_baseline_done_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/comments_edit_btn"
-            app:layout_constraintVertical_bias="0.185" />
-
-        <ImageView
-            android:id="@+id/just_for_padding"
-            android:layout_width="15dp"
-            android:layout_height="12dp"
-            android:layout_marginTop="150dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/done_btn"
-            app:srcCompat="@drawable/ic_baseline_linear_scale_24" />
-
-
-        <ImageView
-            android:id="@+id/srcDestImg"
-            android:layout_width="170dp"
-            android:layout_height="85dp"
-            android:layout_marginTop="28dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            app:srcCompat="@drawable/to_huji" />
-
-
-        <!--Button
-            android:id="@+id/switchDirectionBtn"
-            android:layout_width="125dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="28dp"
-            android:text="switch direction"
-            android:textSize="8sp"
-            app:layout_constraintBottom_toTopOf="@+id/src_huji"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/srcDestImg" -->
-
-
-        <ImageButton
-            android:id="@+id/switchDirectionBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_baseline_swap_vert_24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imageView3"
-            app:layout_constraintHorizontal_bias="0.866"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.272" />
-
-        <TextView
-            android:id="@+id/src_huji"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="116dp"
-            android:fontFamily="@font/fredoka_one"
-            android:text="From:  HUJI"
-            android:textAlignment="center"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.341"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/srcDestImg" />
-
-        <TextView
-            android:id="@+id/dest_huji"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="36dp"
-            android:fontFamily="@font/fredoka_one"
-            android:text="To:  HUJI"
-            android:textAlignment="center"
-            android:textSize="34sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.258"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/src_huji" />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/src_cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/srcDestImg">
 
         <fragment
             android:id="@+id/place_autocomplete_fragment_src"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="250dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="176dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.26"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/dest_cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="60dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/src_cardview">
 
         <fragment
             android:id="@+id/place_autocomplete_fragment_dest"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-            android:layout_width="250dp"
-            android:layout_height="48dp"
-            android:layout_marginTop="44dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.26"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/place_autocomplete_fragment_src" />
-
-        <TextView
-            android:id="@+id/date_edit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="#D2E1E1"
-            android:drawableStart="@drawable/ic_baseline_calendar_today_24"
-            android:drawablePadding="16dp"
-            android:fontFamily="@font/fredoka_one"
-            android:hint="Select Date"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textAlignment="center"
-            android:textSize="32sp"
-            android:textStyle="normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/time_edit_btn" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/groups_drop_down"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="100dp"
+            android:layout_height="40dp" />
+    </androidx.cardview.widget.CardView>
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:startIconDrawable="@drawable/ic_baseline_sort_24">
-
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteGroups"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:inputType="none"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
+    <ImageView
+        android:id="@+id/srcDestImg"
+        android:layout_width="170dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:srcCompat="@drawable/to_huji" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

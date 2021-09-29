@@ -70,7 +70,7 @@
     </fragment>
     <fragment
         android:id="@+id/newRide2"
-        android:name="huji.postpc.year2021.hujiride.NewRide"
+        android:name="huji.postpc.year2021.hujiride.Rides.NewRide"
         android:label="fragment_new_ride"
         tools:layout="@layout/fragment_new_ride" >
         <action

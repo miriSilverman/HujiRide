@@ -59,14 +59,15 @@
     <string name="filterAll">all</string>
 
     <string-array name="sorting_list">
-        <item>time</item>
-        <item>lexicographic order</item>
+        <item>Descending Time</item>
+        <item>Ascending Time</item>
+        <item>Lexicographic</item>
     </string-array>
 
     <string-array name="filtering_list">
-        <item>all</item>
-        <item>source to Huji</item>
-        <item>Huji to destination</item>
+        <item>All</item>
+        <item>Source to Huji</item>
+        <item>Huji to Destination</item>
     </string-array>
 
     <string-array name="stops_list">
@@ -79,7 +80,7 @@
         <item>No smoking</item>
         <item>Only vaccinated</item>
         <item>Only Women</item>
-        <item>Be on time, I wont wait</item>
+        <item>Be on time, I won\'t wait</item>
         <item>I have parked far</item>
     </string-array>
 

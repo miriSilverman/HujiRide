@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.google.android.gms.common.api.Status
@@ -31,11 +30,10 @@ class SearchHome : Fragment() {
 
     private lateinit var srcET: AutocompleteSupportFragment
     private lateinit var srcETEditText: EditText
+    private lateinit var srcETSearchBtn: View
     private lateinit var destET: AutocompleteSupportFragment
     private lateinit var destETEditText: EditText
-
-    private lateinit var destTextView: TextView
-    private lateinit var srcTextView: TextView
+    private lateinit var destETSearchBtn: View
 
     private lateinit var vm: RidesViewModel
     private var srcOrDestStr = ""
@@ -52,7 +50,7 @@ class SearchHome : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view =  inflater.inflate(R.layout.fragment_search_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_search_home, container, false)
         vm = ViewModelProvider(requireActivity()).get(RidesViewModel::class.java)
         vm.latLng = null
         vm.srcOrDest = ""
@@ -91,7 +89,6 @@ class SearchHome : Fragment() {
     }
 
 
-
     private fun autoCompletePlaces(autocompleteFragment: AutocompleteSupportFragment) {
         // places search bar
         Places.initialize(requireActivity(), "AIzaSyDTcekEAFGq-VG0MCPTNsYSwt9dKI8rIZA")
@@ -101,7 +98,7 @@ class SearchHome : Fragment() {
         autocompleteFragment
             .setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG))
             .setCountry("IL")
-            .setHint("חפש מוצא...") // TODO translated version?
+            .setHint("Search a Place...") // TODO translated version?
 
         val TAG = "SEARCH"
         // Set up a PlaceSelectionListener to handle the response.
@@ -110,7 +107,7 @@ class SearchHome : Fragment() {
                 // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: ${place.name}, ${place.id}, ${place.latLng}")
                 srcOrDestStr = place.name.toString()
-                if (place.latLng != null){
+                if (place.latLng != null) {
                     latLng = place.latLng!!
                 }
             }
@@ -125,28 +122,36 @@ class SearchHome : Fragment() {
     private fun findViews(view: View) {
         srcET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_src)
                 as AutocompleteSupportFragment
+
+        srcET.requireView().apply {
+            srcETEditText =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+            srcETSearchBtn =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
+            findViewById<View>(com.google.android.libraries.places.R.id.places_autocomplete_clear_button).alpha =
+                0F
+
+        }
+
         destET = childFragmentManager.findFragmentById(R.id.place_autocomplete_fragment_dest)
                 as AutocompleteSupportFragment
-        srcETEditText = srcET.requireView()
-            .findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+        destET.requireView().apply {
+            destETEditText =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+            destETSearchBtn =
+                findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_button)
+            findViewById<View>(com.google.android.libraries.places.R.id.places_autocomplete_clear_button).alpha =
+                0F
 
-        destETEditText = destET.requireView()
-            .findViewById(com.google.android.libraries.places.R.id.places_autocomplete_search_input)
+        }
 
         srcDestImg = view.findViewById(R.id.srcDestImg)
         switchDirectionBtn = view.findViewById(R.id.switchDirectionBtn)
-        srcTextView = view.findViewById(R.id.src_huji)
-        destTextView = view.findViewById(R.id.dest_huji)
     }
 
 
-    private fun setDetails(){
-        if (toHuji){
-            syncVmAndET()
-        }else{
-            syncVmAndET()
-
-        }
+    private fun setDetails() {
+        syncVmAndET()
     }
 
     private fun syncVmAndET() {
@@ -159,45 +164,23 @@ class SearchHome : Fragment() {
     }
 
 
-
     private fun setDirection() {
-        //TODO MIRI PLEASE DO IT
         srcETEditText.isEnabled = toHuji
+        srcETSearchBtn.isEnabled = toHuji
+
         destETEditText.isEnabled = !toHuji
+        destETSearchBtn.isEnabled = !toHuji
+
         srcDestImg.setImageResource(if (toHuji) R.drawable.to_huji else R.drawable.to_home)
 
-        if(toHuji) {
-            destETEditText.setText("HUJI")
-            destETEditText.isActivated = false
+        if (toHuji) {
+            destET.setText("HUJI")
+            srcET.setText(vm.srcOrDest)
+        } else {
+            destET.setText(vm.srcOrDest)
+            srcET.setText("HUJI")
         }
-//        if (toHuji) {
-//            designSwitchDirection(srcDestImg, destET, srcET, R.drawable.to_huji, destTextView, srcTextView)
-//        } else {
-//            designSwitchDirection(srcDestImg, srcET, destET, R.drawable.to_home, srcTextView, destTextView)
-//        }
         vm.toHuji = toHuji
 
     }
-
-
-
-    private fun designSwitchDirection(img:ImageView, constWay: AutocompleteSupportFragment,
-                                      notConstWay: AutocompleteSupportFragment, resOfImg: Int,
-                                      tvVisible: TextView, tvInvisible: TextView) {
-//        img.setImageResource(resOfImg)
-//        notConstWay.view?.visibility = View.VISIBLE
-//        constWay.view?.visibility = View.INVISIBLE
-//        tvVisible.visibility = View.VISIBLE
-//        tvInvisible.visibility = View.INVISIBLE
-
-        if (vm.srcOrDest != "") {
-            notConstWay.setText(vm.srcOrDest)
-        }
-    }
-
-
-
-
-
-
 }
