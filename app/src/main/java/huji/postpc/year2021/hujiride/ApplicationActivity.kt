@@ -259,7 +259,8 @@ class ApplicationActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         val intent = Intent(Intent.ACTION_SEND)
         intent.setType("text/plain")
         val body = "Download this app"
-        val sub = "http://play.google.com" //todo: change to real link
+        val sub = "You are welcome to download the HujiRides in the following link\n" +
+                " https://play.google.com/store/apps/details?id=huji.postpc.year2021.hujiride"
         intent.putExtra(Intent.EXTRA_TEXT, body)
         intent.putExtra(Intent.EXTRA_TEXT, sub)
         startActivity(Intent.createChooser(intent, "Share using"))
